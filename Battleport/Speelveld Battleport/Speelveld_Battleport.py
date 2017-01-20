@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import*
 game_background = pygame.image.load('game_background.bmp')
-menu_background = pygame.image.load('menu_background.bmp')
+#menu_background = pygame.image.load('menu_background.bmp')
 #boot2 = pygame.image.load('boot2.bmp')
 #boot3 = pygame.image.load('boot3.bmp')
 #boot4 = pygame.image.load('boot4.bmp')
