@@ -131,17 +131,17 @@ class Menu:
         self.helpbutton = None
     def buttons(self):
         # startbutton
-        self.startbutton = button("Start The Game!", 950, 150, 300, 70, grey, white, "start")
+        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
         # loadbutton
-        loadbutton = button("Load A Game!", 950, 250, 300, 70, grey, white, "load")
+        loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
         # highscoresbutton
         self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
         # optionsbutton
         self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
         # helpbutton
-        self.helpbutton = button("!!!HELP!!!", 950, 550, 300, 70, grey, white, "help")
+        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
         # exitbutton
-        self.exitbutton = button("Exit The Game", 950, 650, 300, 70, grey, white, "exit")
+        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
     def texts(self):
         text("Main Menu", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
