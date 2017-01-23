@@ -255,7 +255,7 @@ class Battleport:
         self.ship1rood = Ship(2, 79, 65, "rood", 180)
         self.ship2rood = Ship(3, 144, 65, "rood", 180)
         self.ship3rood = Ship(3, 209, 65, "rood", 180)
-        self.ship4rood = Ship(4, 274, 65, "rood", 270)
+        self.ship4rood = Ship(4, 274, 65, "rood", 180)
         self.ship1groen = Ship(2, 79, 640, "groen", 0)
         self.ship2groen = Ship(3, 144, 609, "groen", 0)
         self.ship3groen = Ship(3, 209, 609, "groen", 0)
