@@ -5,6 +5,10 @@ menu_background = pygame.image.load('menu_background.bmp')
 options_background = pygame.image.load('options_background.bmp')
 highscores_background = pygame.image.load('highscores_background.bmp')
 help_background = pygame.image.load('help_background.bmp')
+menu_header = pygame.transform.scale(pygame.image.load('header_mainmenu.bmp'),(400,120))
+highscore_header = pygame.transform.scale(pygame.image.load('header_highscore.bmp'),(400,120))
+options_header = pygame.transform.scale(pygame.image.load('header_options.bmp'),(400,120))
+help_header = pygame.transform.scale(pygame.image.load('header_help.bmp'),(400,120))
 #boot2 = pygame.image.load('boot2.bmp')
 #boot3 = pygame.image.load('boot3.bmp')
 #boot4 = pygame.image.load('boot4.bmp')
@@ -63,6 +67,7 @@ class Help1:
         screen.blit(help_background, (0,0))
         self.buttons()
         self.texts()
+        screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Help2:
     def __init__(self):
@@ -71,6 +76,7 @@ class Help2:
     def buttons(self):
         # returnbutton
         self.returnbutton = button("Back to game", 50, 650, 400, 50, grey, white, "return")
+        self.returnbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "return")
         self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
         self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
         self.cardbutton = button("Instructions",50, 400,400,50,grey,white,None)
@@ -81,6 +87,7 @@ class Help2:
         screen.blit(help_background, (0,0))
         self.buttons()
         self.texts()
+        screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Highscores:
     def __init__(self):
@@ -96,6 +103,7 @@ class Highscores:
         screen.blit(highscores_background, (0,0))
         self.buttons()
         self.texts()
+        screen.blit(highscore_header, (50,50))
         pygame.display.flip()
 class Options:
     def __init__(self):
@@ -111,6 +119,7 @@ class Options:
         screen.blit(options_background, (0,0))
         self.buttons()
         self.texts()
+        screen.blit(options_header, (50,50))
         pygame.display.flip()
 class Menu:
     def __init__(self):
@@ -140,6 +149,7 @@ class Menu:
         screen.blit(menu_background, (0,0))
         self.buttons()
         self.texts()
+        screen.blit(menu_header, (50,50))
         pygame.display.flip()
 class Battleport:
     def __init__(self):
