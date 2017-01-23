@@ -53,6 +53,9 @@ class Help1:
     def buttons(self):
         # returnbutton
         self.returnbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
+        self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
+        self.cardbutton = button("Instructions",50, 400,400,50,grey,white,None)
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
@@ -68,6 +71,9 @@ class Help2:
     def buttons(self):
         # returnbutton
         self.returnbutton = button("Back to game", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
+        self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
+        self.cardbutton = button("Instructions",50, 400,400,50,grey,white,None)
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
