@@ -1,14 +1,12 @@
 import pygame
 from pygame.locals import*
-
 pygame.init()
-
+import pygame.gfxdraw
 #sounds
 click = pygame.mixer.Sound("click.ogg")
 pygame.mixer.music.load("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
-
-#backgrounds
+#pictures
 game_background = pygame.image.load('game_background.bmp')
 menu_background = pygame.image.load('menu_background.bmp')
 options_background = pygame.image.load('options_background.bmp')
@@ -61,6 +59,7 @@ background_blue = (25,25,112)
 white = (255,255,255)
 black = (0,0,0)
 grey = (200,200,200)
+invisible = (255, 255, 255)
 screen = pygame.display.set_mode((w, h))
 def block(x, y, w, h, color):
     pygame.draw.rect(screen, color, [x, y, w, h])
@@ -91,6 +90,12 @@ def text(msg, font, x, y, w, h, color):
      textSurf, textRect = text_object(msg, font, color)
      textRect.center = ((x + (w/2)), (y + (h/2)))
      screen.blit(textSurf, textRect)
+class Coordinate:
+    def __init__(self, x, y):
+        self.X = x
+        self.Y = y
+        self.Px = 48 + (self.X * 32)
+        self.Py = 64 + (self.Y * 32)
 class Help1:
     def __init__(self):
         self.type = "help1"
@@ -195,82 +200,110 @@ class Menu:
 class Ship:
     def __init__(self, length, x, y, color, rotation):
         self.Length = length
-        self.X = x
-        self.Y = y
+        self.Width = 32
+        self.Height = self.Length * 32
+        self.Coordinate = Coordinate(x, y)
+        if self.Length == 2:
+            self.Movement = 3
+        elif self.Length == 3:
+            self.Movement = 2
+        else:
+            self.Movement = 1
         self.Color = color
         self.Rotation = rotation
+        self.selectbutton = None
+        self.selected = 0
+    def clickpicture(self):
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if (self.Coordinate.Px + self.Width > mouse[0] > self.Coordinate.Px) and (self.Coordinate.Py + self.Height > mouse[1] > self.Coordinate.Py):
+            if click[0] == 1:
+                self.selected = 1
+            else:
+                self.selected = 0
+    def buttons(self):
+        if self.Length == 2:
+            self.selectbutton = button("", self.Coordinate.Px, self.Coordinate.Py, 32, 64, invisible, invisible, "select")
+        elif self.Length == 3:
+            self.selectbutton = button("", self.Coordinate.Px, self.Coordinate.Py, 32, 96, invisible, invisible, "select")
+        else:
+            self.selectbutton = button("", self.Coordinate.Px, self.Coordinate.Py, 32, 128, invisible, invisible, "select")
+    def move(self):
+        if turn == self.Color:
+            self.Steps = self.Movement
+
     def draw(self):
         if self.Length == 2:
             if self.Color == "rood":
                 if self.Rotation == 0:
-                    screen.blit(boot2rood, (self.X, self.Y))
+                    screen.blit(boot2rood, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot2rood90, (self.X,self.Y))
+                    screen.blit(boot2rood90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot2rood180, (self.X,self.Y))
+                    screen.blit(boot2rood180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot2rood270, (self.X,self.Y))
+                    screen.blit(boot2rood270, (self.Coordinate.Px, self.Coordinate.Py))
             else:
                 if self.Rotation == 0:
-                    screen.blit(boot2groen, (self.X, self.Y))
+                    screen.blit(boot2groen, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot2groen90, (self.X,self.Y))
+                    screen.blit(boot2groen90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot2groen180, (self.X,self.Y))
+                    screen.blit(boot2groen180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot2groen270, (self.X,self.Y))
+                    screen.blit(boot2groen270, (self.Coordinate.Px, self.Coordinate.Py))
         elif self.Length == 3:
             if self.Color == "rood":
                 if self.Rotation == 0:
-                    screen.blit(boot3rood, (self.X, self.Y))
+                    screen.blit(boot3rood, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot3rood90, (self.X,self.Y))
+                    screen.blit(boot3rood90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot3rood180, (self.X,self.Y))
+                    screen.blit(boot3rood180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot3rood270, (self.X,self.Y))
+                    screen.blit(boot3rood270, (self.Coordinate.Px, self.Coordinate.Py))
             else:
                 if self.Rotation == 0:
-                    screen.blit(boot3groen, (self.X, self.Y))
+                    screen.blit(boot3groen, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot3groen90, (self.X,self.Y))
+                    screen.blit(boot3groen90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot3groen180, (self.X,self.Y))
+                    screen.blit(boot3groen180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot3groen270, (self.X,self.Y))
+                    screen.blit(boot3groen270, (self.Coordinate.Px, self.Coordinate.Py))
         else:
             if self.Color == "rood":
                 if self.Rotation == 0:
-                    screen.blit(boot4rood, (self.X, self.Y))
+                    screen.blit(boot4rood, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot4rood90, (self.X,self.Y))
+                    screen.blit(boot4rood90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot4rood180, (self.X,self.Y))
+                    screen.blit(boot4rood180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot4rood270, (self.X,self.Y))
+                    screen.blit(boot4rood270, (self.Coordinate.Px, self.Coordinate.Py))
             else:
                 if self.Rotation == 0:
-                    screen.blit(boot4groen, (self.X, self.Y))
+                    screen.blit(boot4groen, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot4groen90, (self.X,self.Y))
+                    screen.blit(boot4groen90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot4groen180, (self.X,self.Y))
+                    screen.blit(boot4groen180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot4groen270, (self.X,self.Y))
+                    screen.blit(boot4groen270, (self.Coordinate.Px, self.Coordinate.Py))
 class Battleport:
     def __init__(self):
         screen.fill(background_blue)
         self.type = "battleport"
         self.quitbutton = None
         self.helpbutton = None
-        self.ship1rood = Ship(2, 79, 65, "rood", 180)
-        self.ship2rood = Ship(3, 144, 65, "rood", 180)
-        self.ship3rood = Ship(3, 209, 65, "rood", 180)
-        self.ship4rood = Ship(4, 274, 65, "rood", 180)
-        self.ship1groen = Ship(2, 79, 640, "groen", 0)
-        self.ship2groen = Ship(3, 144, 609, "groen", 0)
-        self.ship3groen = Ship(3, 209, 609, "groen", 0)
-        self.ship4groen = Ship(4, 274, 576, "groen", 0)
+        self.ship1rood = Ship(2, 1, 0, "rood", 180)
+        self.ship2rood = Ship(3, 4, 0, "rood", 180)
+        self.ship3rood = Ship(3, 12, 0, "rood", 180)
+        self.ship4rood = Ship(4, 18, 0, "rood", 180)
+        self.ship1groen = Ship(2, 11, 18, "groen", 0)
+        self.ship2groen = Ship(3, 6, 17, "groen", 0)
+        self.ship3groen = Ship(3, 2, 17, "groen", 0)
+        self.ship4groen = Ship(4, 18, 16, "groen", 0)
     def buttons(self): 
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
@@ -278,13 +311,18 @@ class Battleport:
         self.savebutton = button("||", 1190, 26, 80, 80, grey, white)
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
-    #def texts(self):
-        
     def draw(self):
         screen.fill((background_blue))
         screen.blit(game_background, (0,0))
         self.buttons()
-        #self.texts()
+        self.ship1rood.clickpicture()
+        self.ship2rood.clickpicture()
+        self.ship3rood.clickpicture()
+        self.ship4rood.clickpicture()
+        self.ship1groen.clickpicture()
+        self.ship2groen.clickpicture()
+        self.ship3groen.clickpicture()
+        self.ship4groen.clickpicture()
         self.ship1rood.draw()
         self.ship2rood.draw()
         self.ship3rood.draw()
