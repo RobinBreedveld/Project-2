@@ -2,6 +2,38 @@ import pygame
 from pygame.locals import*
 pygame.init()
 import pygame.gfxdraw
+import psycopg2
+
+#database
+def interact_with_database(command):
+    # Connect and set up cursor
+    connection = psycopg2.connect("dbname=Battleport user=postgres password=0613100657")
+    cursor = connection.cursor()
+    
+    # Execute the command
+    cursor.execute(command)
+    connection.commit()
+
+    # Save results
+    results = None
+    try:
+        results = cursor.fetchall()
+    except psycopg2.ProgrammingError:
+        # Nothing to fetch
+        pass
+
+    # Close connection
+    cursor.close()
+    connection.close()
+    
+    return results
+
+
+
+def download_scores():
+    return interact_with_database("SELECT * FROM highscore")
+
+
 #sounds
 click = pygame.mixer.Sound("click.ogg")
 pygame.mixer.music.load("sea.ogg")
@@ -167,6 +199,8 @@ class Highscores:
     def __init__(self):
         self.type = "highscores"
         self.quitbutton = None
+        self.highscore = download_scores()
+        self.font = pygame.font.Font(None, 100)
     def buttons(self):
         #quitbutton
         self.quitbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "quit")
@@ -178,6 +212,10 @@ class Highscores:
         self.buttons()
         self.texts()
         screen.blit(highscore_header, (50,50))
+        self.score_text = self.font.render((str(self.highscore)),
+                                                   1, (255, 255, 255))
+        screen.blit(self.score_text, (400, 300))
+
         pygame.display.flip()
 class Options:
     def __init__(self):
