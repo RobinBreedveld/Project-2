@@ -6,7 +6,7 @@ pygame.init()
 #sounds
 click = pygame.mixer.Sound("click.ogg")
 pygame.mixer.music.load("sea.ogg")
-
+mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
 
 #backgrounds
 game_background = pygame.image.load('game_background.bmp')
@@ -297,9 +297,11 @@ class Battleport:
 running = Menu()
 while not(process_events()):
     if running.type == "menu":
+        mainmenu_music.play(-1)
         if running.startbutton == "start":
             pygame.mixer.Sound.play(click)
             pygame.mixer.music.play(-1)
+            mainmenu_music.stop()
             running = Battleport()
         elif running.exitbutton == "exit":
             pygame.mixer.Sound.play(click)
