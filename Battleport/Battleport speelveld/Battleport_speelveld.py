@@ -1,5 +1,14 @@
 import pygame
 from pygame.locals import*
+
+pygame.init()
+
+#sounds
+click = pygame.mixer.Sound("click.ogg")
+pygame.mixer.music.load("sea.ogg")
+
+
+#backgrounds
 game_background = pygame.image.load('game_background.bmp')
 menu_background = pygame.image.load('menu_background.bmp')
 options_background = pygame.image.load('options_background.bmp')
@@ -289,31 +298,44 @@ running = Menu()
 while not(process_events()):
     if running.type == "menu":
         if running.startbutton == "start":
+            pygame.mixer.Sound.play(click)
+            pygame.mixer.music.play(-1)
             running = Battleport()
         elif running.exitbutton == "exit":
+            pygame.mixer.Sound.play(click)
             pygame.quit()
             quit()
         elif running.optionsbutton == "options":
+            pygame.mixer.Sound.play(click)
             running = Options()
         elif running.highscoresbutton == "highscores":
+            pygame.mixer.Sound.play(click)
             running = Highscores()
         elif running.helpbutton == "help":
+            pygame.mixer.Sound.play(click)
             running = Help1()
     elif running.type == "battleport":
         if running.quitbutton == "quit":
+            pygame.mixer.Sound.play(click)
+            pygame.mixer.music.stop()
             running = Menu()
         elif running.helpbutton == "help":
+            pygame.mixer.Sound.play(click)
             running = Help2()
     elif running.type == "options":
         if running.quitbutton == "quit":
+            pygame.mixer.Sound.play(click)
             running = Menu()
     elif running.type == "highscores":
         if running.quitbutton == "quit":
+            pygame.mixer.Sound.play(click)
             running = Menu()
     elif running.type == "help1":
         if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
             running = Menu()
     elif running.type == "help2":
         if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
             running = Battleport()
     running.draw()
