@@ -13,6 +13,8 @@ options_background = pygame.image.load('options_background.bmp')
 highscores_background = pygame.image.load('highscores_background.bmp')
 help_background = pygame.image.load('help_background.bmp')
 logo1 = pygame.image.load('logo1.bmp')
+tekst1 = pygame.image.load('tekst1.png')
+tekst2 = pygame.image.load('tekst2.png')
 menu_header = pygame.transform.scale(pygame.image.load('header_mainmenu.bmp'),(400,120))
 highscore_header = pygame.transform.scale(pygame.image.load('header_highscore.bmp'),(400,120))
 options_header = pygame.transform.scale(pygame.image.load('header_options.bmp'),(400,120))
@@ -106,11 +108,14 @@ class Help1:
         self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
         self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
         self.cardbutton = button("Cards",50, 400,400,50,grey,white,None)
+        self.prevbutton = button("<",1200, 650,50,50,grey,white,None)
+        self.nextbutton = button(">",1251, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
+        screen.blit(tekst1, (500,80))
         self.buttons()
         self.texts()
         screen.blit(help_header, (50,50))
@@ -125,11 +130,35 @@ class Help2:
         self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
         self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
         self.cardbutton = button("Cards",50, 400,400,50,grey,white,None)
+        self.prevbutton = button("<",1200, 650,400,50,grey,white,None)
+        self.nextbutton = button(">",1251, 650,50,50,grey,white,None)
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+class Helpr1:
+    def __init__(self):
+        self.type = "helpr1"
+        self.returnbutton = None
+    def buttons(self):
+        # returnbutton
+        self.returnbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
+        self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 400,400,50,grey,white,None)
+        self.prevbutton = button("<",1200, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1251, 650,50,50,grey,white,None)
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(tekst2, (500,80))
         self.buttons()
         self.texts()
         screen.blit(help_header, (50,50))
@@ -374,8 +403,15 @@ while not(process_events()):
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
             running = Menu()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Helpr1()
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
             running = Battleport()
+    elif running.type == "helpr1":
+        if running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Help1()
     running.draw()
