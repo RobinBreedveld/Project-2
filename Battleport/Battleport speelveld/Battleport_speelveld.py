@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=<zelf invullen>")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=<wachtwoord hier>")
     cursor = connection.cursor()
     
     # Execute the command
@@ -152,6 +152,9 @@ class Coordinate:
         self.X = x
         self.Y = y
         self.Px = 48 + (self.X * 32)
+        self.Py = 64 + (self.Y * 32)
+    def Update(self):
+        self.px = 48 + (self.X * 32)
         self.Py = 64 + (self.Y * 32)
 class Help1:
     def __init__(self):
@@ -399,10 +402,7 @@ class Battleport:
         self.savebutton = button("||", 1190, 26, 80, 80, grey, white)
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
-    def draw(self):
-        screen.fill((background_blue))
-        screen.blit(game_background, (0,0))
-        self.buttons()
+    def update(self):
         self.ship1rood.clickpicture()
         self.ship2rood.clickpicture()
         self.ship3rood.clickpicture()
@@ -416,9 +416,112 @@ class Battleport:
             self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
             self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
             self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, True)
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship1rood.Active = False
+            if self.move_up_button == "up":
+                self.ship1rood.Coordinate.Y -= 1
+            if self.move_down_button == "down":
+                self.ship1rood.Coordinate.Y += 1
+        if self.ship2rood.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
             self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
             self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
             self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship2rood.Active = False
+            if self.move_up_button == "up":
+                self.ship2rood.Coordinate.Y -= 1
+        if self.ship3rood.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship3rood.Active = False
+            if self.move_up_button == "up":
+                self.ship3rood.Coordinate.Y -= 1
+        if self.ship4rood.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship4rood.Active = False
+            if self.move_up_button == "up":
+                self.ship4rood.Coordinate.Y -= 1
+        if self.ship1groen.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, True)
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship1groen.Active = False
+            if self.move_up_button == "up":
+                self.ship1groen.Coordinate.Y -= 1
+        if self.ship2groen.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship2groen.Active = False
+            if self.move_up_button == "up":
+                self.ship2groen.Coordinate.Y -= 1
+        if self.ship3groen.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button:
+                self.ship3groen.Active = False
+            if self.move_up_button == "up":
+                self.ship3groen.Coordinate.Y -= 1
+        if self.ship4groen.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
+            if self.cancel_button == "cancel":
+                self.ship4groen.Active = False
+            if self.move_up_button == "up":
+                self.ship4groen.Coordinate.Y -= 1
+        self.ship1rood.Coordinate.Update()
+        self.ship2rood.Coordinate.Update()
+        self.ship3rood.Coordinate.Update()
+        self.ship4rood.Coordinate.Update()
+        self.ship1groen.Coordinate.Update()
+        self.ship2groen.Coordinate.Update()
+        self.ship3groen.Coordinate.Update()
+        self.ship4groen.Coordinate.Update()
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(game_background, (0,0))
+        self.buttons()
+        self.update()
         self.ship1rood.draw()
         self.ship2rood.draw()
         self.ship3rood.draw()
