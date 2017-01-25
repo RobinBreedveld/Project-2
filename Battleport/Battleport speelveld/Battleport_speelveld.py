@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import*
 pygame.init()
 import pygame.gfxdraw
-#import psycopg2
+import psycopg2
 
 #database
 def interact_with_database(command):
@@ -38,6 +38,8 @@ def download_scores():
 click = pygame.mixer.Sound("click.ogg")
 pygame.mixer.music.load("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
+
+mainmenu_music.play(-1)
 #pictures
 game_background = pygame.image.load('game_background.bmp')
 menu_background = pygame.image.load('menu_background.bmp')
@@ -95,6 +97,9 @@ black = (0,0,0)
 grey = (200,200,200)
 invisible = (255, 255, 255)
 screen = pygame.display.set_mode((w, h))
+
+
+
 def block(x, y, w, h, color):
     pygame.draw.rect(screen, color, [x, y, w, h])
 def process_events():
@@ -403,10 +408,9 @@ class Battleport:
 running = Menu()
 while not(process_events()):
     if running.type == "menu":
-        #mainmenu_music.play(-1)
         if running.startbutton == "start":
             pygame.mixer.Sound.play(click)
-            #pygame.mixer.music.play(-1)
+            pygame.mixer.music.play(-1)
             mainmenu_music.stop()
             running = Battleport()
         elif running.exitbutton == "exit":
@@ -424,6 +428,7 @@ while not(process_events()):
             running = Help1()
     elif running.type == "battleport":
         if running.quitbutton == "quit":
+            mainmenu_music.play(-1)
             pygame.mixer.Sound.play(click)
             pygame.mixer.music.stop()
             running = Menu()
