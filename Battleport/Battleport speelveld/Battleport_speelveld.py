@@ -154,7 +154,7 @@ class Coordinate:
         self.Px = 48 + (self.X * 32)
         self.Py = 64 + (self.Y * 32)
     def Update(self):
-        self.px = 48 + (self.X * 32)
+        self.Px = 48 + (self.X * 32)
         self.Py = 64 + (self.Y * 32)
 class Help1:
     def __init__(self):
@@ -395,6 +395,7 @@ class Battleport:
         self.ship2groen = Ship(3, 6, 17, "groen", 0, "groen2")
         self.ship3groen = Ship(3, 2, 17, "groen", 0, "groen3")
         self.ship4groen = Ship(4, 18, 16, "groen", 0, "groen4")
+        self.move_up_button_pressed = False
     def buttons(self): 
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
@@ -412,7 +413,7 @@ class Battleport:
         self.ship3groen.clickpicture()
         self.ship4groen.clickpicture()
         if self.ship1rood.Active:
-            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
             self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
             self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
@@ -421,10 +422,18 @@ class Battleport:
             self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
             if self.cancel_button:
                 self.ship1rood.Active = False
-            if self.move_up_button == "up":
+            if self.move_up_button:
+                self.move_up_button_pressed = True
+                self.move_up_button = False
+            elif self.move_up_button_pressed:
                 self.ship1rood.Coordinate.Y -= 1
+                self.move_up_button_pressed = False
             if self.move_down_button == "down":
                 self.ship1rood.Coordinate.Y += 1
+            if self.move_left_button == "left":
+                self.ship1rood.Coordinate.X -= 1
+            if self.move_right_button == "right":
+                self.ship1rood.Coordinate.X += 1
         if self.ship2rood.Active:
             self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
             self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
