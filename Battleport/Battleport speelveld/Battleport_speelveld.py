@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import*
 pygame.init()
 import pygame.gfxdraw
-import psycopg2
+#import psycopg2
 
 #database
 def interact_with_database(command):
@@ -136,8 +136,8 @@ class Help1:
         self.returnbutton = None
     def buttons(self):
         # returnbutton
-        self.returnbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "return")
-        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
         self.cardbutton = button("Cards",50, 400,400,50,grey,white,None)
         self.prevbutton = button("<",1200, 650,50,50,grey,white,None)
@@ -158,17 +158,18 @@ class Help2:
         self.returnbutton = None
     def buttons(self):
         # returnbutton
-        self.returnbutton = button("Back to game", 50, 650, 400, 50, grey, white, "return")
-        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
         self.cardbutton = button("Cards",50, 400,400,50,grey,white,None)
-        self.prevbutton = button("<",1200, 650,400,50,grey,white,None)
-        self.nextbutton = button(">",1251, 650,50,50,grey,white,None)
+        self.prevbutton = button("<",1200, 650,50,50,grey,white,None)
+        self.nextbutton = button(">",1251, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
+        screen.blit(tekst1, (500,80))
         self.buttons()
         self.texts()
         screen.blit(help_header, (50,50))
@@ -179,8 +180,8 @@ class Helpr1:
         self.returnbutton = None
     def buttons(self):
         # returnbutton
-        self.returnbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "return")
-        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,None)
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 200,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50, 300,400,50,grey,white,None)
         self.cardbutton = button("Cards",50, 400,400,50,grey,white,None)
         self.prevbutton = button("<",1200, 650,50,50,grey,white,"help")
@@ -402,10 +403,10 @@ class Battleport:
 running = Menu()
 while not(process_events()):
     if running.type == "menu":
-        mainmenu_music.play(-1)
+        #mainmenu_music.play(-1)
         if running.startbutton == "start":
             pygame.mixer.Sound.play(click)
-            pygame.mixer.music.play(-1)
+            #pygame.mixer.music.play(-1)
             mainmenu_music.stop()
             running = Battleport()
         elif running.exitbutton == "exit":
@@ -429,6 +430,7 @@ while not(process_events()):
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help2()
+
     elif running.type == "options":
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
@@ -444,12 +446,22 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Helpr1()
+        elif running.rulesbutton == "rules1":
+            #pygame.mixer.Sound.play(click)
+            running = Help1()
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
             running = Battleport()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Helpr1()
+
     elif running.type == "helpr1":
         if running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Help1()
+        elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help1()
     running.draw()
