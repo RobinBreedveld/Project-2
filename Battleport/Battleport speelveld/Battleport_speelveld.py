@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=Battleport user=postgres password=0613100657")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=<zelf invullen>")
     cursor = connection.cursor()
     
     # Execute the command
@@ -38,7 +38,6 @@ def download_scores():
 click = pygame.mixer.Sound("click.ogg")
 pygame.mixer.music.load("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
-
 mainmenu_music.play(-1)
 #pictures
 game_background = pygame.image.load('game_background.bmp')
@@ -53,6 +52,18 @@ menu_header = pygame.transform.scale(pygame.image.load('header_mainmenu.bmp'),(4
 highscore_header = pygame.transform.scale(pygame.image.load('header_highscore.bmp'),(400,120))
 options_header = pygame.transform.scale(pygame.image.load('header_options.bmp'),(400,120))
 help_header = pygame.transform.scale(pygame.image.load('header_help.bmp'),(400,120))
+rotateLeftActive = pygame.image.load('draai_links_active.png')
+rotateRightActive = pygame.image.load('draai_rechts_active.png')
+rotateLeftInactive = pygame.image.load('draai_links_inactive.png')
+rotateRightInactive = pygame.image.load('draai_rechts_inactive.png')
+pijlDownActive = pygame.image.load('pijl_down_active.png')
+pijlDownInactive = pygame.image.load('pijl_down_inactive.png')
+pijlUpActive = pygame.transform.rotate(pijlDownActive, 180)
+pijlUpInactive = pygame.transform.rotate(pijlDownInactive, 180)
+pijlLeftActive = pygame.transform.rotate(pijlDownActive, 270)
+pijlLeftInactive = pygame.transform.rotate(pijlDownInactive, 270)
+pijlRightActive = pygame.transform.rotate(pijlDownActive, 90)
+pijlRightInactive = pygame.transform.rotate(pijlDownInactive, 90)
 #boot2
   #groen
 boot2groen = pygame.image.load('boot2groen.png')
@@ -97,9 +108,6 @@ black = (0,0,0)
 grey = (200,200,200)
 invisible = (255, 255, 255)
 screen = pygame.display.set_mode((w, h))
-
-
-
 def block(x, y, w, h, color):
     pygame.draw.rect(screen, color, [x, y, w, h])
 def process_events():
@@ -108,7 +116,7 @@ def process_events():
             pygame.quit()
             quit()
     return False
-def button(msg, x, y, w, h, color_active, color_inactive, action=None):
+def button(msg, x, y, w, h, color_active, color_inactive, action=None, font="freesansbold.ttf"):
      mouse = pygame.mouse.get_pos()
      click = pygame.mouse.get_pressed()
      if (x + w > mouse[0] > x) and (y + h > mouse[1] > y):
@@ -117,10 +125,20 @@ def button(msg, x, y, w, h, color_active, color_inactive, action=None):
             return action
      else:
          block(x, y, w, h, color_inactive)
-     smallText = pygame.font.Font("freesansbold.ttf", 30)
+     smallText = pygame.font.Font(font, 30)
      textSurf, textRect = text_object(msg, smallText, black)
      textRect.center = ((x + (w/2)), (y + (h/2)))
      screen.blit(textSurf, textRect)
+def clickable_picture(x, y, w, h, picture_active, picture_inactive, action = None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    if (x + w > mouse[0] > x) and (y + h > mouse[1] > y):
+        screen.blit(picture_active, (x, y))
+        if click[0] == 1:
+            return action
+    else:
+        screen.blit(picture_inactive, (x, y))
+    
 def text_object(text, font, color):
     textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
@@ -271,7 +289,8 @@ class Menu:
         screen.blit(menu_header, (50,50))
         pygame.display.flip()
 class Ship:
-    def __init__(self, length, x, y, color, rotation):
+    def __init__(self, length, x, y, color, rotation, name):
+        self.Name = name
         self.Length = length
         self.Width = 32
         self.Height = self.Length * 32
@@ -286,6 +305,7 @@ class Ship:
         self.Rotation = rotation
         self.selectbutton = None
         self.selected = 0
+        self.Active = False
     def clickpicture(self):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -294,13 +314,8 @@ class Ship:
                 self.selected = 1
             else:
                 self.selected = 0
-    def buttons(self):
-        if self.Length == 2:
-            self.selectbutton = button("", self.Coordinate.Px, self.Coordinate.Py, 32, 64, invisible, invisible, "select")
-        elif self.Length == 3:
-            self.selectbutton = button("", self.Coordinate.Px, self.Coordinate.Py, 32, 96, invisible, invisible, "select")
-        else:
-            self.selectbutton = button("", self.Coordinate.Px, self.Coordinate.Py, 32, 128, invisible, invisible, "select")
+        if self.selected == 1:
+            self.Active = True
     def move(self):
         if turn == self.Color:
             self.Steps = self.Movement
@@ -369,14 +384,14 @@ class Battleport:
         self.type = "battleport"
         self.quitbutton = None
         self.helpbutton = None
-        self.ship1rood = Ship(2, 1, 0, "rood", 180)
-        self.ship2rood = Ship(3, 4, 0, "rood", 180)
-        self.ship3rood = Ship(3, 12, 0, "rood", 180)
-        self.ship4rood = Ship(4, 18, 0, "rood", 180)
-        self.ship1groen = Ship(2, 11, 18, "groen", 0)
-        self.ship2groen = Ship(3, 6, 17, "groen", 0)
-        self.ship3groen = Ship(3, 2, 17, "groen", 0)
-        self.ship4groen = Ship(4, 18, 16, "groen", 0)
+        self.ship1rood = Ship(2, 1, 0, "rood", 180, "rood1")
+        self.ship2rood = Ship(3, 4, 0, "rood", 180, "rood2")
+        self.ship3rood = Ship(3, 12, 0, "rood", 180, "rood3")
+        self.ship4rood = Ship(4, 18, 0, "rood", 180, "rood4")
+        self.ship1groen = Ship(2, 11, 18, "groen", 0, "groen1")
+        self.ship2groen = Ship(3, 6, 17, "groen", 0, "groen2")
+        self.ship3groen = Ship(3, 2, 17, "groen", 0, "groen3")
+        self.ship4groen = Ship(4, 18, 16, "groen", 0, "groen4")
     def buttons(self): 
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
@@ -396,6 +411,14 @@ class Battleport:
         self.ship2groen.clickpicture()
         self.ship3groen.clickpicture()
         self.ship4groen.clickpicture()
+        if self.ship1rood.Active:
+            self.move_up_button = clickable_picture(799, 60, 50, 50, pijlUpActive, pijlUpInactive, "up",)
+            self.move_down_button = clickable_picture(799, 180, 50, 50, pijlDownActive, pijlDownInactive, "down")
+            self.move_left_button = clickable_picture(739, 120, 50, 50, pijlLeftActive, pijlLeftInactive, "left")
+            self.move_right_button = clickable_picture(859, 120, 50, 50, pijlRightActive, pijlRightInactive, "right")
+            self.cancel_button = button("X", 799, 120, 50, 50, grey, white, "cancel")
+            self.rotate_left_button = clickable_picture(739, 60, 50, 50, rotateLeftActive, rotateLeftInactive, "rotate_left")
+            self.rotate_left_button = clickable_picture(859, 60, 50, 50, rotateRightActive, rotateRightInactive, "rotate_right")
         self.ship1rood.draw()
         self.ship2rood.draw()
         self.ship3rood.draw()
@@ -428,7 +451,6 @@ while not(process_events()):
             running = Help1()
     elif running.type == "battleport":
         if running.quitbutton == "quit":
-            mainmenu_music.play(-1)
             pygame.mixer.Sound.play(click)
             pygame.mixer.music.stop()
             running = Menu()
