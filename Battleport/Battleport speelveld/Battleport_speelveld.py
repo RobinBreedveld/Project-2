@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=4a2992c3")
     cursor = connection.cursor()
     
     # Execute the command
@@ -150,6 +150,7 @@ def text(msg, font, x, y, w, h, color):
      textSurf, textRect = text_object(msg, font, color)
      textRect.center = ((x + (w/2)), (y + (h/2)))
      screen.blit(textSurf, textRect)
+#Grid setup
 class Coordinate:
     def __init__(self, x, y):
         self.X = x
@@ -159,6 +160,8 @@ class Coordinate:
     def Update(self):
         self.Px = 48 + (self.X * 32)
         self.Py = 64 + (self.Y * 32)
+
+#Help menu vanaf hoofdmenu
 class Help1:
     def __init__(self):
         self.type = "help1"
@@ -392,6 +395,7 @@ class Help2x1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Highscore page
 class Highscores:
     def __init__(self):
         self.type = "highscores"
@@ -414,6 +418,7 @@ class Highscores:
         screen.blit(self.score_text, (400, 300))
 
         pygame.display.flip()
+#Options page
 class Options:
     def __init__(self):
         self.type = "options"
@@ -430,6 +435,7 @@ class Options:
         self.texts()
         screen.blit(options_header, (50,50))
         pygame.display.flip()
+#Menu page
 class Menu:
     def __init__(self):
         self.type = "menu"
@@ -461,6 +467,7 @@ class Menu:
         self.texts()
         screen.blit(menu_header, (50,50))
         pygame.display.flip()
+#Ships
 class Ship:
     def __init__(self, length, x, y, color, rotation, name):
         self.Name = name
@@ -551,6 +558,7 @@ class Ship:
                     screen.blit(boot4groen180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
                     screen.blit(boot4groen270, (self.Coordinate.Px, self.Coordinate.Py))
+#Game page
 class Battleport:
     def __init__(self):
         screen.fill(background_blue)
