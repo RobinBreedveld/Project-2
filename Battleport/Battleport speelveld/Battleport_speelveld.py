@@ -36,7 +36,7 @@ def download_scores():
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
-pygame.mixer.music.load("sea.wav")
+pygame.mixer.music.load("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
 mainmenu_music.play(-1)
 #pictures
