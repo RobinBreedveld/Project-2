@@ -36,7 +36,7 @@ def download_scores():
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
-pygame.mixer.music.load("sea.ogg")
+pygame.mixer.music.load("sea.wav")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
 mainmenu_music.play(-1)
 #pictures
@@ -67,6 +67,50 @@ pijlLeftActive = pygame.transform.rotate(pijlDownActive, 270)
 pijlLeftInactive = pygame.transform.rotate(pijlDownInactive, 270)
 pijlRightActive = pygame.transform.rotate(pijlDownActive, 90)
 pijlRightInactive = pygame.transform.rotate(pijlDownInactive, 90)
+
+o1 = pygame.image.load('o1.png')
+o2 = pygame.image.load('o2.png')
+o3 = pygame.image.load('o3.png')
+o4 = pygame.image.load('o4.png')
+o5 = pygame.image.load('o5.png')
+d1 = pygame.image.load('d1.png')
+d2 = pygame.image.load('d2.png')
+d3 = pygame.image.load('d3.png')
+d4 = pygame.image.load('d4.png')
+u1 = pygame.image.load('u1.png')
+u2 = pygame.image.load('u2.png')
+u3 = pygame.image.load('u3.png')
+u4 = pygame.image.load('u4.png')
+u5 = pygame.image.load('u5.png')
+s1 = pygame.image.load('s1.png')
+s2 = pygame.image.load('s2.png')
+s3 = pygame.image.load('s3.png')
+s4 = pygame.image.load('s4.png')
+s5 = pygame.image.load('s5.png')
+s6 = pygame.image.load('s6.png')
+
+o1 = pygame.transform.scale(o1,(250,345))
+o2 = pygame.transform.scale(o2,(250,345))
+o3 = pygame.transform.scale(o3,(250,345)) 
+o4 = pygame.transform.scale(o4,(250,345))
+o5 = pygame.transform.scale(o5,(250,345))
+d1 = pygame.transform.scale(d1,(250,345))
+d2 = pygame.transform.scale(d2,(250,345))
+d3 = pygame.transform.scale(d3,(250,345))
+d4 = pygame.transform.scale(d4,(250,345))
+u1 = pygame.transform.scale(u1,(250,345))
+u2 = pygame.transform.scale(u2,(250,345))
+u3 = pygame.transform.scale(u3,(250,345))
+u4 = pygame.transform.scale(u4,(250,345))
+u5 = pygame.transform.scale(u5,(250,345))
+s1 = pygame.transform.scale(s1,(250,345))
+s2 = pygame.transform.scale(s2,(250,435))
+s3 = pygame.transform.scale(s3,(250,345))
+s4 = pygame.transform.scale(s4,(250,345))
+s5 = pygame.transform.scale(s5,(250,345))
+s6 = pygame.transform.scale(s6,(250,345))
+
+
 #boot2
   #groen
 boot2groen = pygame.image.load('boot2groen.png')
@@ -169,7 +213,7 @@ class Help1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,None)
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -192,7 +236,7 @@ class Helpr1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -215,7 +259,7 @@ class Helpi1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -238,7 +282,7 @@ class Helpi2:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -261,7 +305,7 @@ class Helpx1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -286,7 +330,7 @@ class Help2:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,None)
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -309,7 +353,7 @@ class Help2r1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -332,7 +376,7 @@ class Help2i1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -356,7 +400,7 @@ class Help2i2:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -379,7 +423,7 @@ class Help2x1:
         self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
-        self.cardbutton = button("Cards",50, 460,400,50,grey,white,None)
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
@@ -392,6 +436,225 @@ class Help2x1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
+class Cards1:
+    def __init__ (self):
+        self.type = "cards1"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(o1, (500,50))
+        screen.blit(o2, (750,50))
+        screen.blit(o3, (1000,50))
+        screen.blit(o4, (500,395))
+        screen.blit(o5, (750,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+class Cards2:
+    def __init__ (self):
+        self.type = "cards2"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(d1, (500,50))
+        screen.blit(d2, (750,50))
+        screen.blit(d3, (1000,50))
+        screen.blit(d4, (500,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+class Cards3:
+    def __init__ (self):
+        self.type = "cards3"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(u1, (500,50))
+        screen.blit(u2, (750,50))
+        screen.blit(u3, (1000,50))
+        screen.blit(u4, (500,395))
+        screen.blit(u5, (750,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+class Cards4:
+    def __init__ (self):
+        self.type = "cards4"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(s1, (500,50))
+        screen.blit(s2, (750,50))
+        screen.blit(s3, (1000,50))
+        screen.blit(s4, (500,395))
+        screen.blit(s5, (750,395))
+        screen.blit(s6, (1000,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+#--------------------------------------- hep menu to game
+
+class Cards1g:
+    def __init__ (self):
+        self.type = "cards1g"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(o1, (500,50))
+        screen.blit(o2, (750,50))
+        screen.blit(o3, (1000,50))
+        screen.blit(o4, (500,395))
+        screen.blit(o5, (750,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+class Cards2g:
+    def __init__ (self):
+        self.type = "cards2g"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(d1, (500,50))
+        screen.blit(d2, (750,50))
+        screen.blit(d3, (1000,50))
+        screen.blit(d4, (500,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+class Cards3g:
+    def __init__ (self):
+        self.type = "cards3g"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(u1, (500,50))
+        screen.blit(u2, (750,50))
+        screen.blit(u3, (1000,50))
+        screen.blit(u4, (500,395))
+        screen.blit(u5, (750,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+class Cards4g:
+    def __init__ (self):
+        self.type = "cards4g"
+        self.returnbutton = None
+    def buttons(self):
+        self.returnbutton = button("Back", 50, 650, 400, 50, grey, white, "return")
+        self.rulesbutton = button("Rules",50, 220,400,50,grey,white,"rules1")
+        self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
+        self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
+        self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+    def texts(self):
+        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(help_background, (0,0))
+        screen.blit(s1, (500,50))
+        screen.blit(s2, (750,50))
+        screen.blit(s3, (1000,50))
+        screen.blit(s4, (500,395))
+        screen.blit(s5, (750,395))
+        screen.blit(s6, (1000,395))
+        self.buttons()
+        self.texts()
+        screen.blit(help_header, (50,50))
+        pygame.display.flip()
+
+    
 class Highscores:
     def __init__(self):
         self.type = "highscores"
@@ -1162,6 +1425,7 @@ while not(process_events()):
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
             pygame.mixer.music.stop()
+            mainmenu_music.play(-1)
             running = Menu()
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
@@ -1175,6 +1439,7 @@ while not(process_events()):
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
             running = Menu()
+
     elif running.type == "help1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1191,6 +1456,10 @@ while not(process_events()):
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
             running = Helpx1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+
     elif running.type == "helpr1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1207,6 +1476,9 @@ while not(process_events()):
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
             running = Helpx1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
     elif running.type == "helpi1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1242,6 +1514,9 @@ while not(process_events()):
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
     elif running.type == "helpi2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1258,6 +1533,11 @@ while not(process_events()):
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
             running = Helpx1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+
+
     elif running.type == "helpx1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1271,6 +1551,9 @@ while not(process_events()):
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
             running = Helpx1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
 
     elif running.type == "help2":
         if running.returnbutton == "return":
@@ -1285,6 +1568,9 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Help2r1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1g()
     elif running.type == "help2r1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1301,6 +1587,10 @@ while not(process_events()):
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
             running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+
     elif running.type == "help2i1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1323,6 +1613,10 @@ while not(process_events()):
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+
     elif running.type == "help2i2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -1338,6 +1632,10 @@ while not(process_events()):
             running = Help2i1()
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+
             running = Help2x1()
     elif running.type == "help2x1":
         if running.returnbutton == "return":
@@ -1352,4 +1650,182 @@ while not(process_events()):
         elif running.extrabutton == "extra":
             pygame.mixer.Sound.play(click)
             running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+    #cards menu (offensive) cards1
+    elif running.type == "cards1":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Menu()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Cards2()
+    #cards menu (defensive) cards2
+    elif running.type == "cards2":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Menu()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Cards3()
+        elif running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+    elif running.type == "cards3":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Menu()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Cards4()
+        elif running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Cards2()
+
+    elif running.type == "cards4":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Menu()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1()
+        elif running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Cards3()
+
+    #cards menu (in game)
+    elif running.type == "cards1g":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Battleport()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1g":
+            pygame.mixer.Sound.play(click)
+            running = Cards1g()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Cards2g()
+    #cards menu (in game)
+    elif running.type == "cards2g":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Battleport()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1g()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Cards3g()
+        elif running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Cards1g()
+
+            # cards menu (in game)
+    elif running.type == "cards3g":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Battleport()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1g()
+        elif running.nextbutton == "next":
+            pygame.mixer.Sound.play(click)
+            running = Cards4g()
+        elif running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Cards2g()
+        #cards menu in game
+    elif running.type == "cards4g":
+        if running.returnbutton == "return":
+            pygame.mixer.Sound.play(click)
+            running = Battleport()
+        elif running.rulesbutton == "rules1":
+            pygame.mixer.Sound.play(click)
+            running = Help2()
+        elif running.instructionbutton == "instructions1":
+            pygame.mixer.Sound.play(click)
+            running = Help2i1()
+        elif running.extrabutton == "extra":
+            pygame.mixer.Sound.play(click)
+            running = Help2x1()
+        elif running.cardbutton == "cards1":
+            pygame.mixer.Sound.play(click)
+            running = Cards1g()
+        elif running.prevbutton == "help":
+            pygame.mixer.Sound.play(click)
+            running = Cards3g()
+
+
     running.draw()
