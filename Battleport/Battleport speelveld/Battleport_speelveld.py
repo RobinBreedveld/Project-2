@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=<wachtwoord hier>")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
     cursor = connection.cursor()
     
     # Execute the command
@@ -194,6 +194,21 @@ def text(msg, font, x, y, w, h, color):
      textSurf, textRect = text_object(msg, font, color)
      textRect.center = ((x + (w/2)), (y + (h/2)))
      screen.blit(textSurf, textRect)
+def collision(pos):
+    if running.Turn == "rood":
+        if running.ship1groen.Stance == "normal" or running.ship1groen.Stance == "attack":
+            ship1groencollision = (pos.X == running.ship1groen.Coordinate.X and pos.Y == running.ship1groen.Coordinate.Y) or (pos.X == running.ship1groen.Coordinate.X and pos.Y == (running.ship1groen.Coordinate.Y + 1))
+        #elif running.ship1groen.Stance == "defend":
+        if running.ship2groen.Stance == "normal" or running.ship2groen.Stance == "attack":
+            ship2groencollision = (pos.X == running.ship2groen.Coordinate.X and pos.Y == running.ship2groen.Coordinate.Y) or (pos.X == running.ship2groen.Coordinate.X and pos.Y == (running.ship2groen.Coordinate.Y + 1)) or (pos.X == running.ship2groen.Coordinate.X and pos.Y == (running.ship2groen.Coordinate.Y + 2))
+        #elif running.ship1groen.Stance == "defend":
+        if running.ship3groen.Stance == "normal" or running.ship3groen.Stance == "attack":
+            ship3groencollision = (pos.X == running.ship3groen.Coordinate.X and pos.Y == running.ship3groen.Coordinate.Y) or (pos.X == running.ship3groen.Coordinate.X and pos.Y == (running.ship3groen.Coordinate.Y + 1)) or (pos.X == running.ship3groen.Coordinate.X and pos.Y == (running.ship3groen.Coordinate.Y + 2))
+        #elif running.ship1groen.Stance == "defend":
+        if running.ship3groen.Stance == "normal" or running.ship3groen.Stance == "attack":
+            ship4groencollision = (pos.X == running.ship4groen.Coordinate.X and pos.Y == running.ship4groen.Coordinate.Y) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 1)) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 2)) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 3))
+        collision = ship1groencollision or ship2groencollision or ship3groencollision or ship4groencollision
+        return collision
 class Coordinate:
     def __init__(self, x, y):
         self.X = x
@@ -743,7 +758,7 @@ class Ship:
         self.Steps = 0
         self.Stance = "normal"
         self.Range = self.Length
-        #rechterkant
+        #linkerkant
         self.pos1 = Coordinate((x - 4), y)
         self.pos2 = Coordinate((x - 3), y)
         self.pos3 = Coordinate((x - 2), y)
@@ -760,7 +775,7 @@ class Ship:
         self.pos14 = Coordinate((x - 3), y + 3)
         self.pos15 = Coordinate((x - 2), y + 3)
         self.pos16 = Coordinate((x - 1), y + 3)
-        #linkerkant
+        #rechterkant
         self.pos17 = Coordinate((x + 4), y)
         self.pos18 = Coordinate((x + 3), y)
         self.pos19 = Coordinate((x + 2), y)
@@ -938,13 +953,34 @@ class Ship:
             self.pos39.Update()
             self.pos40.Update()
             if self.Length > 3:
-                screen.blit(range_indicator, (self.pos1.Px, self.pos1.Py))
-                screen.blit(range_indicator, (self.pos5.Px, self.pos5.Py))
-                screen.blit(range_indicator, (self.pos17.Px, self.pos17.Py))
-                screen.blit(range_indicator, (self.pos21.Px, self.pos21.Py))
-                screen.blit(range_indicator, (self.pos9.Px, self.pos9.Py))
-                screen.blit(range_indicator, (self.pos25.Px, self.pos25.Py))
-                screen.blit(range_indicator, (self.pos13.Px, self.pos13.Py))
+                if collision(self.pos1):
+                    clickable_picture(self.pos1.Px, self.pos1.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos1.Px, self.pos1.Py))
+                if collision(self.pos5):
+                    clickable_picture(self.pos5.Px, self.pos5.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos5.Px, self.pos5.Py))
+                if collision(self.pos17):
+                    clickable_picture(self.pos17.Px, self.pos17.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos17.Px, self.pos17.Py))
+                if collision(self.pos21):
+                    clickable_picture(self.pos1.Px, self.pos1.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos21.Px, self.pos21.Py))
+                if collision(self.pos9):
+                    clickable_picture(self.pos9.Px, self.pos9.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos9.Px, self.pos9.Py))
+                if collision(self.pos25):
+                    clickable_picture(self.pos25.Px, self.pos25.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos25.Px, self.pos25.Py))
+                if collision(self.pos13):
+                    clickable_picture(self.pos13.Px, self.pos13.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:   
+                    screen.blit(range_indicator, (self.pos13.Px, self.pos13.Py))
                 screen.blit(range_indicator, (self.pos29.Px, self.pos29.Py))
                 screen.blit(range_indicator, (self.pos36.Px, self.pos36.Py))
                 screen.blit(range_indicator, (self.pos40.Px, self.pos40.Py))
@@ -1049,6 +1085,7 @@ class Battleport:
         self.type = "battleport"
         self.quitbutton = None
         self.helpbutton = None
+        self.nextturnbutton = False
         self.ship1rood = Ship(2, 1, 0, "rood", 180, "rood1")
         self.ship2rood = Ship(3, 4, 0, "rood", 180, "rood2")
         self.ship3rood = Ship(3, 12, 0, "rood", 180, "rood3")
@@ -1072,15 +1109,19 @@ class Battleport:
         self.savebutton = button("||", 1190, 26, 80, 80, grey, white)
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
+        # nextturnbutton
+        self.nextturnbutton = button("Next turn", 1200, 210, 121, 60, grey, white, True, "freesansbold.ttf", 20)
     def update(self):
-        self.ship1rood.clickpicture()
-        self.ship2rood.clickpicture()
-        self.ship3rood.clickpicture()
-        self.ship4rood.clickpicture()
-        self.ship1groen.clickpicture()
-        self.ship2groen.clickpicture()
-        self.ship3groen.clickpicture()
-        self.ship4groen.clickpicture()
+        if self.Turn == "rood":
+            self.ship1rood.clickpicture()
+            self.ship2rood.clickpicture()
+            self.ship3rood.clickpicture()
+            self.ship4rood.clickpicture()
+        elif self.Turn == "groen":
+            self.ship1groen.clickpicture()
+            self.ship2groen.clickpicture()
+            self.ship3groen.clickpicture()
+            self.ship4groen.clickpicture()
         if self.ship1rood.Active:
             self.ship1rood.move()
             screen.blit(ship_stats,(889, 58))
@@ -1689,6 +1730,11 @@ class Battleport:
                 self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+        if self.nextturnbutton:
+            if self.Turn == "rood":
+                self.Turn == "groen"
+            elif self.Turn == "groen":
+                self.Turn == "rood"
         self.ship1rood.Coordinate.Update()
         self.ship2rood.Coordinate.Update()
         self.ship3rood.Coordinate.Update()
