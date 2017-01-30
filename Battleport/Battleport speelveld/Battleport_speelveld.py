@@ -1412,20 +1412,30 @@ class Ship:
                 elif self.Rotation == 270:
                     screen.blit(boot4groen270, (self.Coordinate.Px, self.Coordinate.Py))
 class Battleport:
-    def __init__(self):
+    def __init__(self, load=False):
         screen.fill(background_blue)
         self.type = "battleport"
         self.quitbutton = None
         self.helpbutton = None
         self.nextturnbutton = False
-        self.ship1rood = Ship(2, 1, 0, "rood", 180, "rood1")
-        self.ship2rood = Ship(3, 4, 0, "rood", 180, "rood2")
-        self.ship3rood = Ship(3, 12, 0, "rood", 180, "rood3")
-        self.ship4rood = Ship(4, 15, 5, "rood", 180, "rood4")
-        self.ship1groen = Ship(2, 11, 18, "groen", 0, "groen1")
-        self.ship2groen = Ship(3, 6, 17, "groen", 0, "groen2")
-        self.ship3groen = Ship(3, 2, 17, "groen", 0, "groen3")
-        self.ship4groen = Ship(4, 18, 16, "groen", 0, "groen4")
+        if load:
+            self.ship1rood = ship1rood
+            self.ship2rood = ship2rood
+            self.ship3rood = ship3rood
+            self.ship4rood = ship4rood
+            self.ship1groen = ship1groen
+            self.ship2groen = ship2groen
+            self.ship3groen = ship3groen
+            self.ship4groen = ship4groen
+        else:
+            self.ship1rood = Ship(2, 1, 0, "rood", 180, "rood1")
+            self.ship2rood = Ship(3, 4, 0, "rood", 180, "rood2")
+            self.ship3rood = Ship(3, 12, 0, "rood", 180, "rood3")
+            self.ship4rood = Ship(4, 15, 5, "rood", 180, "rood4")
+            self.ship1groen = Ship(2, 11, 18, "groen", 0, "groen1")
+            self.ship2groen = Ship(3, 6, 17, "groen", 0, "groen2")
+            self.ship3groen = Ship(3, 2, 17, "groen", 0, "groen3")
+            self.ship4groen = Ship(4, 18, 16, "groen", 0, "groen4")
         self.move_up_button_pressed = False
         self.move_down_button_pressed = False
         self.move_left_button_pressed = False
@@ -2119,6 +2129,7 @@ while not(process_events()):
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help1()
+
     elif running.type == "battleport":
         if running.quitbutton == "quit":
             ingamemusic.stop()
@@ -2127,6 +2138,14 @@ while not(process_events()):
             running = Menu()
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
+            ship1rood = running.ship1rood
+            ship2rood = running.ship2rood
+            ship3rood = running.ship3rood
+            ship4rood = running.ship4rood
+            ship1groen = running.ship1groen
+            ship2groen = running.ship2groen
+            ship3groen = running.ship3groen
+            ship4groen = running.ship4groen
             running = Help2()
 
     elif running.type == "options":
@@ -2254,7 +2273,7 @@ while not(process_events()):
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.instructionbutton == "instructions1":
             pygame.mixer.Sound.play(click)
             running = Help2i1()
@@ -2270,7 +2289,7 @@ while not(process_events()):
     elif running.type == "help2r1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2289,7 +2308,7 @@ while not(process_events()):
     elif running.type == "help2i1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2314,7 +2333,7 @@ while not(process_events()):
     elif running.type == "help2i2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help2i1()
@@ -2333,7 +2352,7 @@ while not(process_events()):
     elif running.type == "help2x1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
