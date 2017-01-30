@@ -112,6 +112,9 @@ s4 = pygame.transform.scale(s4,(250,345))
 s5 = pygame.transform.scale(s5,(250,345))
 s6 = pygame.transform.scale(s6,(250,345))
 
+mines3x3 = pygame.image.load('mines3x3.png')
+mines3x3 = pygame.transform.scale(mines3x3,(95,95))
+
 #boot2
   #groen
 boot2groen = pygame.image.load('boot2groen.png')
@@ -1756,6 +1759,12 @@ class Battleport:
         self.ship2groen.draw()
         self.ship3groen.draw()
         self.ship4groen.draw()
+        screen.blit(mines3x3,(80,352))
+        screen.blit(mines3x3,(272,352))
+        screen.blit(mines3x3,(464,352))
+        screen.blit(mines3x3,(176,320))
+        screen.blit(mines3x3,(368,320))
+        screen.blit(mines3x3,(560,320))
         pygame.display.flip()
 running = Menu()
 while not(process_events()):
