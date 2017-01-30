@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=<wachtwoord hier>")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=0613100657")
     cursor = connection.cursor()
     
     # Execute the command
@@ -30,15 +30,20 @@ def interact_with_database(command):
 
 
 
+def upload_score(wins,name,losses,ratio):
+    interact_with_database("UPDATE highscore SET wins = {} WHERE name = '{}'"
+.format(name, wins,losses,ratio))
+        
 def download_scores():
     return interact_with_database("SELECT * FROM highscore")
 
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
-pygame.mixer.music.load("sea.ogg")
+ingamemusic = pygame.mixer.Sound("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
 mainmenu_music.play(-1)
+save_load= pygame.mixer.Sound("save_load.ogg")
 #pictures
 game_background = pygame.image.load('game_background.bmp')
 menu_background = pygame.image.load('menu_background.bmp')
@@ -711,11 +716,12 @@ class Menu:
         self.optionsbutton = None
         self.highscoresbutton = None
         self.helpbutton = None
+        self.loadbutton = None
     def buttons(self):
         # startbutton
         self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
         # loadbutton
-        loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
+        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
         # highscoresbutton
         self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
         # optionsbutton
@@ -2094,13 +2100,16 @@ while not(process_events()):
     if running.type == "menu":
         if running.startbutton == "start":
             pygame.mixer.Sound.play(click)
-            pygame.mixer.music.play(-1)
+            ingamemusic.play(-1)
             mainmenu_music.stop()
             running = Battleport()
         elif running.exitbutton == "exit":
             pygame.mixer.Sound.play(click)
             pygame.quit()
             quit()
+        elif running.loadbutton == "load":
+            upload_score("Ogie",2,0,1)
+            save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
             running = Options()
@@ -2112,8 +2121,9 @@ while not(process_events()):
             running = Help1()
     elif running.type == "battleport":
         if running.quitbutton == "quit":
-            pygame.mixer.Sound.play(click)
-            pygame.mixer.music.stop()
+            ingamemusic.stop()
+            mainmenu_music.play(-1)
+            pygame.mixer.Sound.play(click)        
             running = Menu()
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
