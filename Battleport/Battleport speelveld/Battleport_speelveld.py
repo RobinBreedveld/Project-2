@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=0613100657")
+    connection = psycopg2.connect("dbname=Battleport user=postgres password=rmb143BL")
     cursor = connection.cursor()
     
     # Execute the command
@@ -30,7 +30,7 @@ def interact_with_database(command):
 
 
 
-def upload_score(wins,name,losses,ratio):
+def upload_score(wins, name,losses,ratio):
     interact_with_database("UPDATE highscore SET wins = {} WHERE name = '{}'"
 .format(name, wins,losses,ratio))
         
@@ -2090,6 +2090,12 @@ class Battleport:
         screen.blit(game_background, (0,0))
         self.buttons()
         self.update()
+        screen.blit(mines3x3,(80,352))
+        screen.blit(mines3x3,(272,352))
+        screen.blit(mines3x3,(464,352))
+        screen.blit(mines3x3,(176,320))
+        screen.blit(mines3x3,(368,320))
+        screen.blit(mines3x3,(560,320))
         self.ship1rood.draw()
         self.ship2rood.draw()
         self.ship3rood.draw()
@@ -2098,12 +2104,6 @@ class Battleport:
         self.ship2groen.draw()
         self.ship3groen.draw()
         self.ship4groen.draw()
-        screen.blit(mines3x3,(80,352))
-        screen.blit(mines3x3,(272,352))
-        screen.blit(mines3x3,(464,352))
-        screen.blit(mines3x3,(176,320))
-        screen.blit(mines3x3,(368,320))
-        screen.blit(mines3x3,(560,320))
         pygame.display.flip()
 running = Menu()
 while not(process_events()):
@@ -2118,7 +2118,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            upload_score("Ogie",2,0,1)
+            upload_score('Robin',2,2,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
@@ -2269,7 +2269,6 @@ while not(process_events()):
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
             running = Cards1()
-
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2455,7 +2454,7 @@ while not(process_events()):
     elif running.type == "cards1g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2475,7 +2474,7 @@ while not(process_events()):
     elif running.type == "cards2g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2499,7 +2498,7 @@ while not(process_events()):
     elif running.type == "cards3g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2522,7 +2521,7 @@ while not(process_events()):
     elif running.type == "cards4g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport()
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
