@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=DionKlein98")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=<eigen wachtwoord>")
     cursor = connection.cursor()
     
     # Execute the command
@@ -28,12 +28,10 @@ def interact_with_database(command):
     
     return results
 
-
-
-def upload_score(wins, name,losses,ratio):
+def upload_score(wins,name,losses,ratio):
     interact_with_database("UPDATE highscore SET wins = {} WHERE name = '{}'"
 .format(name, wins,losses,ratio))
-        
+
 def download_scores():
     return interact_with_database("SELECT * FROM highscore")
 
@@ -66,16 +64,16 @@ rotateLeftInactive = pygame.image.load('draai_links_inactive.png')
 rotateRightInactive = pygame.image.load('draai_rechts_inactive.png')
 pijlDownActive = pygame.image.load('pijl_down_active.png')
 pijlDownInactive = pygame.image.load('pijl_down_inactive.png')
-attack_buttonActive = pygame.image.load('attack_button_greyed.bmp')
-attack_buttonInactive = pygame.image.load('attack_button.bmp')
-stopattack_buttonActive = pygame.image.load('Stopattack_button_greyed.bmp')
-stopattack_buttonInactive = pygame.image.load('Stopattack_button.bmp')
 pijlUpActive = pygame.transform.rotate(pijlDownActive, 180)
 pijlUpInactive = pygame.transform.rotate(pijlDownInactive, 180)
 pijlLeftActive = pygame.transform.rotate(pijlDownActive, 270)
 pijlLeftInactive = pygame.transform.rotate(pijlDownInactive, 270)
 pijlRightActive = pygame.transform.rotate(pijlDownActive, 90)
 pijlRightInactive = pygame.transform.rotate(pijlDownInactive, 90)
+attack_buttonActive = pygame.image.load('attack_button_greyed.bmp')
+attack_buttonInactive = pygame.image.load('attack_button.bmp')
+stopattack_buttonActive = pygame.image.load('Stopattack_button_greyed.bmp')
+stopattack_buttonInactive = pygame.image.load('Stopattack_button.bmp')
 range_indicator = pygame.image.load('range_indicator.png')
 attack_indicator = pygame.image.load('attack_indicator.png')
 ship_stats = pygame.image.load('ship_stats.bmp')
@@ -217,10 +215,65 @@ def collision(pos):
         if running.ship3groen.Stance == "normal" or running.ship3groen.Stance == "attack":
             ship3groencollision = (pos.X == running.ship3groen.Coordinate.X and pos.Y == running.ship3groen.Coordinate.Y) or (pos.X == running.ship3groen.Coordinate.X and pos.Y == (running.ship3groen.Coordinate.Y + 1)) or (pos.X == running.ship3groen.Coordinate.X and pos.Y == (running.ship3groen.Coordinate.Y + 2))
         #elif running.ship1groen.Stance == "defend":
-        if running.ship3groen.Stance == "normal" or running.ship3groen.Stance == "attack":
+        if running.ship4groen.Stance == "normal" or running.ship4groen.Stance == "attack":
             ship4groencollision = (pos.X == running.ship4groen.Coordinate.X and pos.Y == running.ship4groen.Coordinate.Y) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 1)) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 2)) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 3))
         collision = ship1groencollision or ship2groencollision or ship3groencollision or ship4groencollision
         return collision
+    if running.Turn == "groen":
+        if running.ship1rood.Stance == "normal" or running.ship1rood.Stance == "attack":
+            ship1roodcollision = (pos.X == running.ship1rood.Coordinate.X and pos.Y == running.ship1rood.Coordinate.Y) or (pos.X == running.ship1rood.Coordinate.X and pos.Y == (running.ship1rood.Coordinate.Y + 1))
+        #elif running.ship1rood.Stance == "defend":
+        if running.ship2rood.Stance == "normal" or running.ship2rood.Stance == "attack":
+            ship2roodcollision = (pos.X == running.ship2rood.Coordinate.X and pos.Y == running.ship2rood.Coordinate.Y) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 1)) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 2))
+        #elif running.ship2rood.Stance == "defend":
+        if running.ship3rood.Stance == "normal" or running.ship3groen.Stance == "attack":
+            ship3roodcollision = (pos.X == running.ship3rood.Coordinate.X and pos.Y == running.ship3rood.Coordinate.Y) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 1)) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 2))
+        #elif running.ship3rood.Stance == "defend":
+        if running.ship4rood.Stance == "normal" or running.ship4rood.Stance == "attack":
+            ship4roodcollision = (pos.X == running.ship4rood.Coordinate.X and pos.Y == running.ship4rood.Coordinate.Y) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 1)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 2)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 3))
+        collision = ship1groencollision or ship2groencollision or ship3groencollision or ship4groencollision
+        return collision
+def collisioncheck(pos):
+    if running.Turn == "rood":
+        if running.ship1groen.Stance == "normal" or running.ship1groen.Stance == "attack":
+            ship1groencollision = (pos.X == running.ship1groen.Coordinate.X and pos.Y == running.ship1groen.Coordinate.Y) or (pos.X == running.ship1groen.Coordinate.X and pos.Y == (running.ship1groen.Coordinate.Y + 1))
+        #elif running.ship1groen.Stance == "defend":
+        if running.ship2groen.Stance == "normal" or running.ship2groen.Stance == "attack":
+            ship2groencollision = (pos.X == running.ship2groen.Coordinate.X and pos.Y == running.ship2groen.Coordinate.Y) or (pos.X == running.ship2groen.Coordinate.X and pos.Y == (running.ship2groen.Coordinate.Y + 1)) or (pos.X == running.ship2groen.Coordinate.X and pos.Y == (running.ship2groen.Coordinate.Y + 2))
+        #elif running.ship1groen.Stance == "defend":
+        if running.ship3groen.Stance == "normal" or running.ship3groen.Stance == "attack":
+            ship3groencollision = (pos.X == running.ship3groen.Coordinate.X and pos.Y == running.ship3groen.Coordinate.Y) or (pos.X == running.ship3groen.Coordinate.X and pos.Y == (running.ship3groen.Coordinate.Y + 1)) or (pos.X == running.ship3groen.Coordinate.X and pos.Y == (running.ship3groen.Coordinate.Y + 2))
+        #elif running.ship1groen.Stance == "defend":
+        if running.ship4groen.Stance == "normal" or running.ship4groen.Stance == "attack":
+            ship4groencollision = (pos.X == running.ship4groen.Coordinate.X and pos.Y == running.ship4groen.Coordinate.Y) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 1)) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 2)) or (pos.X == running.ship4groen.Coordinate.X and pos.Y == (running.ship4groen.Coordinate.Y + 3))
+        if ship1groencollision:
+            return "ship1groen"
+        elif ship2groencollision:
+            return "ship2groen"
+        elif ship3groencollision:
+            return "ship3groen"
+        elif ship4groencollision:
+            return "ship4groen"
+    if running.Turn == "groen":
+        if running.ship1rood.Stance == "normal" or running.ship1rood.Stance == "attack":
+            ship1roodcollision = (pos.X == running.ship1rood.Coordinate.X and pos.Y == running.ship1rood.Coordinate.Y) or (pos.X == running.ship1rood.Coordinate.X and pos.Y == (running.ship1rood.Coordinate.Y + 1))
+        #elif running.ship1rood.Stance == "defend":
+        if running.ship2rood.Stance == "normal" or running.ship2rood.Stance == "attack":
+            ship2roodcollision = (pos.X == running.ship2rood.Coordinate.X and pos.Y == running.ship2rood.Coordinate.Y) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 1)) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 2))
+        #elif running.ship2rood.Stance == "defend":
+        if running.ship3rood.Stance == "normal" or running.ship3groen.Stance == "attack":
+            ship3roodcollision = (pos.X == running.ship3rood.Coordinate.X and pos.Y == running.ship3rood.Coordinate.Y) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 1)) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 2))
+        #elif running.ship3rood.Stance == "defend":
+        if running.ship4rood.Stance == "normal" or running.ship4rood.Stance == "attack":
+            ship4roodcollision = (pos.X == running.ship4rood.Coordinate.X and pos.Y == running.ship4rood.Coordinate.Y) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 1)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 2)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 3))
+        if ship1roodcollision:
+            return "ship1rood"
+        elif ship2roodcollision:
+            return "ship2rood"
+        elif ship3roodcollision:
+            return "ship3rood"
+        elif ship4roodcollision:
+            return "ship4rood"
 class Coordinate:
     def __init__(self, x, y):
         self.X = x
@@ -490,6 +543,7 @@ class Cards1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards2:
     def __init__ (self):
         self.type = "cards2"
@@ -515,6 +569,7 @@ class Cards2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards3:
     def __init__ (self):
         self.type = "cards3"
@@ -541,6 +596,7 @@ class Cards3:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards4:
     def __init__ (self):
         self.type = "cards4"
@@ -595,6 +651,7 @@ class Cards1g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards2g:
     def __init__ (self):
         self.type = "cards2g"
@@ -620,6 +677,7 @@ class Cards2g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards3g:
     def __init__ (self):
         self.type = "cards3g"
@@ -646,6 +704,7 @@ class Cards3g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards4g:
     def __init__ (self):
         self.type = "cards4g"
@@ -691,8 +750,7 @@ class Highscores:
         self.buttons()
         self.texts()
         screen.blit(highscore_header, (50,50))
-        self.score_text = self.font.render((str(self.highscore)),
-                                                   1, (255, 255, 255))
+        self.score_text = self.font.render((str(self.highscore)), 1, (255, 255, 255))
         screen.blit(self.score_text, (400, 300))
 
         pygame.display.flip()
@@ -711,6 +769,38 @@ class Options:
         self.buttons()
         self.texts()
         screen.blit(options_header, (50,50))
+        pygame.display.flip()
+    
+    def __init__(self):
+        self.type = "menu"
+        self.startbutton = None
+        self.exitbutton = None
+        self.optionsbutton = None
+        self.highscoresbutton = None
+        self.helpbutton = None
+        self.loadbutton = None
+    def buttons(self):
+        # startbutton
+        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
+        # loadbutton
+        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
+        # highscoresbutton
+        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
+        # optionsbutton
+        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
+        # helpbutton
+        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
+        # exitbutton
+        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
+    def texts(self):
+        text("Main Menu", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(menu_background, (0,0))
+        screen.blit(logo1,((w * 0.33),(h * 0.2)))
+        self.buttons()
+        self.texts()
+        screen.blit(menu_header, (50,50))
         pygame.display.flip()
 class Menu:
     def __init__(self):
@@ -766,7 +856,7 @@ class Ship:
         self.Stance = "normal"
         self.Range = self.Length
         self.Range_increase = 0
-        #rechterkant
+        #linkerkant
         self.pos1 = Coordinate((x - 4), y)
         self.pos2 = Coordinate((x - 3), y)
         self.pos3 = Coordinate((x - 2), y)
@@ -783,7 +873,7 @@ class Ship:
         self.pos14 = Coordinate((x - 3), y + 3)
         self.pos15 = Coordinate((x - 2), y + 3)
         self.pos16 = Coordinate((x - 1), y + 3)
-        #linkerkant
+        #rechterkant
         self.pos17 = Coordinate((x + 4), y)
         self.pos18 = Coordinate((x + 3), y)
         self.pos19 = Coordinate((x + 2), y)
@@ -810,51 +900,71 @@ class Ship:
         self.pos38 = Coordinate(x, y - self.Length - 1)
         self.pos39 = Coordinate(x, y - self.Length - 2)
         self.pos40 = Coordinate(x, y - self.Length - 3)
-		#Increased
-		#linkerkant
-        self.pos41 = Coordinate(x - 5, y)
-        self.pos42 = Coordinate(x - 6, y)
-        self.pos43 = Coordinate(x - 7, y)
-        self.pos44 = Coordinate(x - 8, y)
-        self.pos45 = Coordinate(x - 5, y + 1)
-        self.pos46 = Coordinate(x - 6, y + 1)
-        self.pos47 = Coordinate(x - 7, y + 1)
-        self.pos48 = Coordinate(x - 8, y + 1)
-        self.pos49 = Coordinate(x - 5, y + 2)
-        self.pos50 = Coordinate(x - 6, y + 2)
-        self.pos51 = Coordinate(x - 7, y + 2)
-        self.pos52 = Coordinate(x - 8, y + 2)
-        self.pos53 = Coordinate(x - 5, y + 3)
-        self.pos54 = Coordinate(x - 6, y + 3)
-        self.pos55 = Coordinate(x - 7, y + 3)
-        self.pos56 = Coordinate(x - 8, y + 3)
-		#rechterkant
-        self.pos57 = Coordinate((x + 5), y)
-        self.pos58 = Coordinate((x + 6), y)
-        self.pos59 = Coordinate((x + 7), y)
-        self.pos60 = Coordinate((x + 8), y)
-        self.pos61 = Coordinate((x + 5), y + 1)
-        self.pos62 = Coordinate((x + 6), y + 1)
-        self.pos63 = Coordinate((x + 7), y + 1)
-        self.pos64 = Coordinate((x + 8), y + 1)
-        self.pos65 = Coordinate((x + 5), y + 2)
-        self.pos66 = Coordinate((x + 6), y + 2)
-        self.pos67 = Coordinate((x + 7), y + 2)
-        self.pos68 = Coordinate((x + 8), y + 2)
-        self.pos69 = Coordinate((x + 5), y + 3)
-        self.pos70 = Coordinate((x + 6), y + 3)
-        self.pos71 = Coordinate((x + 7), y + 3)
-        self.pos72 = Coordinate((x + 8), y + 3)
-		#onderkant
-        self.pos73 = Coordinate(x, y + self.Length + 4)
-        self.pos74 = Coordinate(x, y + self.Length + 5)
-        self.pos75 = Coordinate(x, y + self.Length + 6)
-        self.pos76 = Coordinate(x, y + self.Length + 7)
-        #bovenkant
-        self.pos77 = Coordinate(x, y - self.Length - 4)
-        self.pos78 = Coordinate(x, y - self.Length - 5)
-        self.pos79 = Coordinate(x, y - self.Length - 6)
-        self.pos80 = Coordinate(x, y - self.Length - 7)
+
+        self.pos1a_pressed = False
+        self.pos2a_pressed = False
+        self.pos3a_pressed = False
+        self.pos4a_pressed = False
+        self.pos5a_pressed = False
+        self.pos6a_pressed = False
+        self.pos7a_pressed = False
+        self.pos8a_pressed = False
+        self.pos9a_pressed = False
+        self.pos10a_pressed = False
+        self.pos11a_pressed = False
+        self.pos12a_pressed = False
+        self.pos13a_pressed = False
+        self.pos14a_pressed = False
+        self.pos15a_pressed = False
+        self.pos16a_pressed = False
+        self.pos17a_pressed = False
+        self.pos18a_pressed = False
+        self.pos19a_pressed = False
+        self.pos20a_pressed = False
+        self.pos21a_pressed = False
+        self.pos22a_pressed = False
+        self.pos23a_pressed = False
+        self.pos24a_pressed = False
+        self.pos25a_pressed = False
+        self.pos26a_pressed = False
+        self.pos27a_pressed = False
+        self.pos28a_pressed = False
+        self.pos29a_pressed = False
+        self.pos30a_pressed = False
+        self.pos31a_pressed = False
+        self.pos32a_pressed = False
+        self.pos1a = False
+        self.pos2a = False
+        self.pos3a = False
+        self.pos4a = False
+        self.pos5a = False
+        self.pos6a = False
+        self.pos7a = False
+        self.pos8a = False
+        self.pos9a = False
+        self.pos10a = False
+        self.pos11a = False
+        self.pos12a = False
+        self.pos13a = False
+        self.pos14a = False
+        self.pos15a = False
+        self.pos16a = False
+        self.pos17a = False
+        self.pos18a = False
+        self.pos19a = False
+        self.pos20a = False
+        self.pos21a = False
+        self.pos22a = False
+        self.pos23a = False
+        self.pos24a = False
+        self.pos25a = False
+        self.pos26a = False
+        self.pos27a = False
+        self.pos28a = False
+        self.pos29a = False
+        self.pos30a = False
+        self.pos31a = False
+        self.pos32a = False
     def clickpicture(self):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -874,10 +984,9 @@ class Ship:
             self.Rotation = 0
         if self.Rotation == -90:
             self.Rotation = 270
-    def attack(self):
+    def prepare_attack(self):
         if self.Stance == "attack":
             self.Range = self.Length
-            self.Range = self.Range + self.Range_increase
             #linkerkant
             self.pos1.X = self.Coordinate.X - 4
             self.pos1.Y = self.Coordinate.Y
@@ -962,92 +1071,6 @@ class Ship:
             self.pos39.Y = self.Coordinate.Y - 3
             self.pos40.X = self.Coordinate.X
             self.pos40.Y = self.Coordinate.Y - 4
-			#Increased
-		    #linkerkant
-            self.pos41.X = self.Coordinate.X - 5
-            self.pos41.Y = self.Coordinate.Y
-            self.pos42.X = self.Coordinate.X - 6
-            self.pos42.Y = self.Coordinate.Y
-            self.pos43.X = self.Coordinate.X - 7
-            self.pos43.Y = self.Coordinate.Y
-            self.pos44.X = self.Coordinate.X - 8
-            self.pos44.Y = self.Coordinate.Y
-            self.pos45.X = self.Coordinate.X - 5
-            self.pos45.Y = self.Coordinate.Y + 1
-            self.pos46.X = self.Coordinate.X - 6
-            self.pos46.Y = self.Coordinate.Y + 1
-            self.pos47.X = self.Coordinate.X - 7
-            self.pos47.Y = self.Coordinate.Y + 1
-            self.pos48.X = self.Coordinate.X - 8
-            self.pos48.Y = self.Coordinate.Y + 1
-            self.pos49.X = self.Coordinate.X - 5
-            self.pos49.Y = self.Coordinate.Y + 2
-            self.pos50.X = self.Coordinate.X - 6
-            self.pos50.Y = self.Coordinate.Y + 2
-            self.pos51.X = self.Coordinate.X - 7
-            self.pos51.Y = self.Coordinate.Y + 2
-            self.pos52.X = self.Coordinate.X - 8
-            self.pos52.Y = self.Coordinate.Y + 2
-            self.pos53.X = self.Coordinate.X - 5
-            self.pos53.Y = self.Coordinate.Y + 3
-            self.pos54.X = self.Coordinate.X - 6
-            self.pos54.Y = self.Coordinate.Y + 3
-            self.pos55.X = self.Coordinate.X - 7
-            self.pos55.Y = self.Coordinate.Y + 3
-            self.pos56.X = self.Coordinate.X - 8
-            self.pos56.Y = self.Coordinate.Y + 3
-			#rechterkant
-            self.pos57.X = self.Coordinate.X + 5
-            self.pos57.Y = self.Coordinate.Y
-            self.pos58.X = self.Coordinate.X + 6
-            self.pos58.Y = self.Coordinate.Y
-            self.pos59.X = self.Coordinate.X + 7
-            self.pos59.Y = self.Coordinate.Y
-            self.pos60.X = self.Coordinate.X + 8
-            self.pos60.Y = self.Coordinate.Y
-            self.pos61.X = self.Coordinate.X + 5
-            self.pos61.Y = self.Coordinate.Y + 1
-            self.pos62.X = self.Coordinate.X + 6
-            self.pos62.Y = self.Coordinate.Y + 1
-            self.pos63.X = self.Coordinate.X + 7
-            self.pos63.Y = self.Coordinate.Y + 1
-            self.pos64.X = self.Coordinate.X + 8
-            self.pos64.Y = self.Coordinate.Y + 1
-            self.pos65.X = self.Coordinate.X + 5
-            self.pos65.Y = self.Coordinate.Y + 2
-            self.pos66.X = self.Coordinate.X + 6
-            self.pos66.Y = self.Coordinate.Y + 2
-            self.pos67.X = self.Coordinate.X + 7
-            self.pos67.Y = self.Coordinate.Y + 2
-            self.pos68.X = self.Coordinate.X + 8
-            self.pos68.Y = self.Coordinate.Y + 2
-            self.pos69.X = self.Coordinate.X + 5
-            self.pos69.Y = self.Coordinate.Y + 3
-            self.pos70.X = self.Coordinate.X + 6
-            self.pos70.Y = self.Coordinate.Y + 3
-            self.pos71.X = self.Coordinate.X + 7
-            self.pos71.Y = self.Coordinate.Y + 3
-            self.pos72.X = self.Coordinate.X + 8
-            self.pos72.Y = self.Coordinate.Y + 3
-            #onderkant
-            self.pos73.X = self.Coordinate.X
-            self.pos73.Y = self.Coordinate.Y + self.Length + 4
-            self.pos74.X = self.Coordinate.X
-            self.pos74.Y = self.Coordinate.Y + self.Length + 5
-            self.pos75.X = self.Coordinate.X
-            self.pos75.Y = self.Coordinate.Y + self.Length + 6
-            self.pos76.X = self.Coordinate.X
-            self.pos76.Y = self.Coordinate.Y + self.Length + 7
-            #bovenkant
-            self.pos77.X = self.Coordinate.X
-            self.pos77.Y = self.Coordinate.Y - 5
-            self.pos78.X = self.Coordinate.X
-            self.pos78.Y = self.Coordinate.Y - 6
-            self.pos79.X = self.Coordinate.X
-            self.pos79.Y = self.Coordinate.Y - 7
-            self.pos80.X = self.Coordinate.X
-            self.pos80.Y = self.Coordinate.Y - 8
-
             #linkerkant
             self.pos1.Update()
             self.pos2.Update()
@@ -1092,101 +1115,57 @@ class Ship:
             self.pos38.Update()
             self.pos39.Update()
             self.pos40.Update()
-			#increased
-			#linkerkant
-            self.pos41.Update()
-            self.pos42.Update()
-            self.pos43.Update()
-            self.pos44.Update()
-            self.pos45.Update()
-            self.pos46.Update()
-            self.pos47.Update()
-            self.pos48.Update()
-            self.pos49.Update()
-            self.pos50.Update()
-            self.pos51.Update()
-            self.pos52.Update()
-            self.pos53.Update()
-            self.pos54.Update()
-            self.pos55.Update()
-            self.pos56.Update()
-			#rechterkant
-            self.pos57.Update()
-            self.pos58.Update()
-            self.pos59.Update()
-            self.pos60.Update()
-            self.pos61.Update()
-            self.pos62.Update()
-            self.pos63.Update()
-            self.pos64.Update()
-            self.pos65.Update()
-            self.pos66.Update()
-            self.pos67.Update()
-            self.pos68.Update()
-            self.pos69.Update()
-            self.pos70.Update()
-            self.pos71.Update()
-            self.pos72.Update()
-            #onderkant
-            self.pos73.Update()
-            self.pos74.Update()
-            self.pos75.Update()
-            self.pos76.Update()
-            #bovenkant
-            self.pos77.Update()
-            self.pos78.Update()
-            self.pos79.Update()
-            self.pos80.Update()
-
+    def drawrange(self):
+        if self.Stance == "attack":
             if self.Length > 3:
                 #pos1
                 if collision(self.pos1):
-                    clickable_picture(self.pos1.Px, self.pos1.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos1a = clickable_picture(self.pos1.Px, self.pos1.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos1.Px, self.pos1.Py))
                 #pos5
                 if collision(self.pos5):
-                    clickable_picture(self.pos5.Px, self.pos5.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos5a = clickable_picture(self.pos5.Px, self.pos5.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos5.Px, self.pos5.Py))
                 #pos9
                 if collision(self.pos9):
-                    clickable_picture(self.pos9.Px, self.pos9.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos9a = clickable_picture(self.pos9.Px, self.pos9.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos9.Px, self.pos9.Py))
                 #pos13
                 if collision(self.pos13):
-                    clickable_picture(self.pos13.Px, self.pos13.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos13a = clickable_picture(self.pos13.Px, self.pos13.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos13.Px, self.pos13.Py))
                 #pos17
                 if collision(self.pos17):
-                    clickable_picture(self.pos17.Px, self.pos17.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos17a = clickable_picture(self.pos17.Px, self.pos17.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos17.Px, self.pos17.Py))
                 #pos21
                 if collision(self.pos21):
-                    clickable_picture(self.pos21.Px, self.pos21.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos21a = clickable_picture(self.pos21.Px, self.pos21.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos21.Px, self.pos21.Py))
                 #pos25              
                 if collision(self.pos25):
-                    clickable_picture(self.pos25.Px, self.pos25.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos25a = clickable_picture(self.pos25.Px, self.pos25.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos25.Px, self.pos25.Py))
                 #pos29
                 if collision(self.pos29):
-                    clickable_picture(self.pos29.Px, self.pos29.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos29a = clickable_picture(self.pos29.Px, self.pos29.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos29.Px, self.pos29.Py))
                 #pos36
                 if collision(self.pos36):
-                    clickable_picture(self.pos36.Px, self.pos36.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos36a = clickable_picture(self.pos36.Px, self.pos36.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos36.Px, self.pos36.Py))
                 #pos40
                 if collision(self.pos40):
-                    clickable_picture(self.pos40.Px, self.pos40.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos40a = clickable_picture(self.pos40.Px, self.pos40.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos40.Px, self.pos40.Py))
 
@@ -1194,53 +1173,53 @@ class Ship:
                 if self.Length > 3:
                     #pos14
                     if collision(self.pos14):
-                        clickable_picture(self.pos14.Px, self.pos14.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos14a = clickable_picture(self.pos14.Px, self.pos14.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos14.Px, self.pos14.Py))
                     #pos30
                     if collision(self.pos30):
-                        clickable_picture(self.pos30.Px, self.pos30.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos30a = clickable_picture(self.pos30.Px, self.pos30.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos30.Px, self.pos30.Py))
                     
                 #pos2
                 if collision(self.pos2):
-                    clickable_picture(self.pos2.Px, self.pos2.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos2a = clickable_picture(self.pos2.Px, self.pos2.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos2.Px, self.pos2.Py))
                 #pos6
                 if collision(self.pos6):
-                    clickable_picture(self.pos6.Px, self.pos6.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos6a = clickable_picture(self.pos6.Px, self.pos6.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos6.Px, self.pos6.Py))
                 #pos10
                 if collision(self.pos10):
-                    clickable_picture(self.pos10.Px, self.pos10.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos10a = clickable_picture(self.pos10.Px, self.pos10.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos10.Px, self.pos10.Py))
                 #pos18
                 if collision(self.pos18):
-                    clickable_picture(self.pos18.Px, self.pos18.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos18a = clickable_picture(self.pos18.Px, self.pos18.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos18.Px, self.pos18.Py))
                 #pos22
                 if collision(self.pos22):
-                    clickable_picture(self.pos22.Px, self.pos22.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos22a = clickable_picture(self.pos22.Px, self.pos22.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos22.Px, self.pos22.Py))
                 #pos26
                 if collision(self.pos26):
-                    clickable_picture(self.pos26.Px, self.pos26.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos26a = clickable_picture(self.pos26.Px, self.pos26.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos26.Px, self.pos26.Py))
                 #pos35
                 if collision(self.pos35):
-                    clickable_picture(self.pos35.Px, self.pos35.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos35a = clickable_picture(self.pos35.Px, self.pos35.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos35.Px, self.pos35.Py))
                 #pos39
                 if collision(self.pos39):
-                    clickable_picture(self.pos39.Px, self.pos39.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    pos39a = clickable_picture(self.pos39.Px, self.pos39.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos39.Px, self.pos39.Py))
 
@@ -1249,114 +1228,122 @@ class Ship:
                 if self.Length > 3:
                     #pos15
                     if collision(self.pos15):
-                        clickable_picture(self.pos15.Px, self.pos15.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos15a = clickable_picture(self.pos15.Px, self.pos15.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos15.Px, self.pos15.Py))
                     #pos16
                     if collision(self.pos16):
-                        clickable_picture(self.pos16.Px, self.pos16.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos16a = clickable_picture(self.pos16.Px, self.pos16.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos16.Px, self.pos16.Py))
                     #pos31
                     if collision(self.pos31):
-                        clickable_picture(self.pos31.Px, self.pos31.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos31a = clickable_picture(self.pos31.Px, self.pos31.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos31.Px, self.pos31.Py))
                     #pos32
                     if collision(self.pos32):
-                        clickable_picture(self.pos32.Px, self.pos32.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos32a = clickable_picture(self.pos32.Px, self.pos32.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos32.Px, self.pos32.Py))
-                    
-                    #screen.blit(range_indicator, (self.pos15.Px, self.pos15.Py))
-                    #screen.blit(range_indicator, (self.pos31.Px, self.pos31.Py))
-                    #screen.blit(range_indicator, (self.pos16.Px, self.pos16.Py))
-                    #screen.blit(range_indicator, (self.pos32.Px, self.pos32.Py))
                 if self.Length > 2:
                     #pos11
                     if collision(self.pos11):
-                        clickable_picture(self.pos11.Px, self.pos11.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos11a = clickable_picture(self.pos11.Px, self.pos11.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos11.Px, self.pos11.Py))
                     #pos12
                     if collision(self.pos12):
-                        clickable_picture(self.pos12.Px, self.pos12.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos12a = clickable_picture(self.pos12.Px, self.pos12.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos12.Px, self.pos12.Py))
                     #pos27
                     if collision(self.pos27):
-                        clickable_picture(self.pos27.Px, self.pos27.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos27a = clickable_picture(self.pos27.Px, self.pos27.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos27.Px, self.pos27.Py))
                     #pos28
                     if collision(self.pos28):
-                        clickable_picture(self.pos28.Px, self.pos28.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos28a = clickable_picture(self.pos28.Px, self.pos28.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos28.Px, self.pos28.Py))
 
                 #pos3
                     if collision(self.pos3):
-                        clickable_picture(self.pos3.Px, self.pos3.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos3a = clickable_picture(self.pos3.Px, self.pos3.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos3.Px, self.pos3.Py))
                 #pos4
                     if collision(self.pos4):
-                        clickable_picture(self.pos4.Px, self.pos4.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos4a = clickable_picture(self.pos4.Px, self.pos4.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos4.Px, self.pos4.Py))
                 #pos7
                     if collision(self.pos7):
-                        clickable_picture(self.pos7.Px, self.pos7.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos7a = clickable_picture(self.pos7.Px, self.pos7.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos7.Px, self.pos7.Py))
                 #pos8
                     if collision(self.pos8):
-                        clickable_picture(self.pos8.Px, self.pos8.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos8a = clickable_picture(self.pos8.Px, self.pos8.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos8.Px, self.pos8.Py))
                 #pos19
                     if collision(self.pos19):
-                        clickable_picture(self.pos19.Px, self.pos19.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos19a = clickable_picture(self.pos19.Px, self.pos19.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos19.Px, self.pos19.Py))
                 #pos20
                     if collision(self.pos20):
-                        clickable_picture(self.pos20.Px, self.pos20.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos20a = clickable_picture(self.pos20.Px, self.pos20.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos20.Px, self.pos20.Py))  
                 #pos23
                     if collision(self.pos23):
-                        clickable_picture(self.pos23.Px, self.pos23.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos23a = clickable_picture(self.pos23.Px, self.pos23.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos23.Px, self.pos23.Py))
                  #pos24
                     if collision(self.pos24):
-                        clickable_picture(self.pos24.Px, self.pos24.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos24a = clickable_picture(self.pos24.Px, self.pos24.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos24.Px, self.pos24.Py))  
                 #pos33
                     if collision(self.pos33):
-                        clickable_picture(self.pos33.Px, self.pos33.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos33a = clickable_picture(self.pos33.Px, self.pos33.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos33.Px, self.pos33.Py))
                 #pos34
                     if collision(self.pos34):
-                        clickable_picture(self.pos34.Px, self.pos34.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos34a = clickable_picture(self.pos34.Px, self.pos34.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos34.Px, self.pos34.Py))
                 #pos37
                     if collision(self.pos37):
-                        clickable_picture(self.pos37.Px, self.pos37.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos37a = clickable_picture(self.pos37.Px, self.pos37.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos37.Px, self.pos37.Py))       
                 #pos38
                     if collision(self.pos38):
-                        clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        pos38a = clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos38.Px, self.pos38.Py))    
-
         elif self.Stance == "defensive":
             self.Range = self.Length + 1
+    def attack(self):
+        print(self.pos1a)
+        if self.pos1a:
+            self.pos1a_pressed = True
+            self.pos1a = False
+        elif self.pos1a_pressed:
+            print(collisioncheck(self.pos1))
+            self.pos1a_pressed = False
+        if self.pos2a:
+            self.pos2a_pressed = True
+            self.pos2a = False
+        elif self.pos2a_pressed:
+            print(collissioncheck(self.pos2))
+            self.pos2a_pressed = False
     def draw(self):
         if self.Length == 2:
             if self.Color == "rood":
@@ -1447,6 +1434,7 @@ class Battleport:
         self.rotate_left_button_pressed = False
         self.rotate_right_button_pressed = False
         self.attack_button_pressed = False
+        self.nextturnbuttonpressed = False
         self.Turn = "rood"
     def buttons(self): 
         # helpbutton ingame
@@ -1481,6 +1469,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship1rood.Active = False
+                if self.ship1rood.Stance == "attack":
+                    self.ship1rood.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1540,10 +1530,12 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship1rood.Stance = "attack"
+                self.ship1rood.prepare_attack()
                 self.ship1rood.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship1rood.Stance = "normal"
         if self.ship2rood.Active:
             self.ship2rood.move()
             screen.blit(ship_stats,(889, 58))
@@ -1557,6 +1549,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2rood.Active = False
+                if self.ship2rood.Stance == "attack":
+                    self.ship2rood.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1616,10 +1610,12 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship2rood.Stance = "attack"
+                self.ship2rood.prepare_attack()
                 self.ship2rood.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship2rood.Stance = "normal"
         if self.ship3rood.Active:
             self.ship3rood.move()
             screen.blit(ship_stats,(889, 58))
@@ -1633,6 +1629,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3rood.Active = False
+                if self.ship3rood.Stance == "attack":
+                    self.ship3rood.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1692,10 +1690,12 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship3rood.Stance = "attack"
+                self.ship3rood.prepare_attack()
                 self.ship3rood.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship3rood.Stance = "normal"
         if self.ship4rood.Active:
             self.ship4rood.move()
             screen.blit(ship_stats,(889, 58))
@@ -1709,6 +1709,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship4rood.Active = False
+                if self.ship4rood.Stance == "attack":
+                    self.ship4rood.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1768,10 +1770,12 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship4rood.Stance = "attack"
+                self.ship4rood.prepare_attack()
                 self.ship4rood.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship4rood.Stance = "normal"
         if self.ship1groen.Active:
             self.ship1groen.move()
             screen.blit(ship_stats,(889, 58))
@@ -1785,6 +1789,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship1groen.Active = False
+                if self.ship1groen.Stance == "attack":
+                    self.ship1groen.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1844,10 +1850,11 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship1groen.Stance = "attack"
-                self.ship1groen.attack()
+                self.ship1groen.prepare_attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship1groen.Stance = "normal"
         if self.ship2groen.Active:
             self.ship2groen.move()
             screen.blit(ship_stats,(889, 58))
@@ -1861,6 +1868,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2groen.Active = False
+                if self.ship2groen.Stance == "attack":
+                    self.ship2groen.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1920,10 +1929,11 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship2groen.Stance = "attack"
-                self.ship2groen.attack()
+                self.ship2groen.prepare_attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship2groen.Stance = "normal"
         if self.ship3groen.Active:
             self.ship3groen.move()
             screen.blit(ship_stats,(889, 58))
@@ -1937,6 +1947,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3groen.Active = False
+                if self.ship3groen.Stance == "attack":
+                    self.ship3groen.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -1996,10 +2008,11 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship3groen.Stance = "attack"
-                self.ship3groen.attack()
+                self.ship3groen.prepare_attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship3groen.Stance = "normal"
         if self.ship4groen.Active:
             self.ship4groen.move()
             screen.blit(ship_stats,(889, 58))
@@ -2013,6 +2026,8 @@ class Battleport:
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button == "cancel":
                 self.ship4groen.Active = False
+                if self.ship4groen.Stance == "attack":
+                    self.ship4groen.Stance = "normal"
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -2072,15 +2087,28 @@ class Battleport:
                 self.attack_button = False
             elif self.attack_button_pressed:
                 self.ship4groen.Stance = "attack"
-                self.ship4groen.attack()
+                self.ship4groen.prepare_attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
+                    self.ship4groen.Stance = "normal"
         if self.nextturnbutton:
+            self.nextturnbuttonpressed = True
+            self.nextturnbutton = False
+        elif self.nextturnbuttonpressed:
+            self.nextturnbuttonpressed = False
             if self.Turn == "rood":
                 self.Turn == "groen"
-            elif self.Turn == "groen":
+                self.ship1rood.Active = False
+                self.ship2rood.Active = False
+                self.ship3rood.Active = False
+                self.ship4rood.Active = False
+            else:
                 self.Turn == "rood"
+                self.ship1groen.Active = False
+                self.ship2groen.Active = False
+                self.ship3groen.Active = False
+                self.ship4groen.Active = False
         self.ship1rood.Coordinate.Update()
         self.ship2rood.Coordinate.Update()
         self.ship3rood.Coordinate.Update()
@@ -2094,20 +2122,46 @@ class Battleport:
         screen.blit(game_background, (0,0))
         self.buttons()
         self.update()
-        screen.blit(mines3x3,(80,352))
-        screen.blit(mines3x3,(272,352))
-        screen.blit(mines3x3,(464,352))
-        screen.blit(mines3x3,(176,320))
-        screen.blit(mines3x3,(368,320))
-        screen.blit(mines3x3,(560,320))
-        self.ship1rood.draw()
-        self.ship2rood.draw()
-        self.ship3rood.draw()
-        self.ship4rood.draw()
-        self.ship1groen.draw()
-        self.ship2groen.draw()
-        self.ship3groen.draw()
-        self.ship4groen.draw()
+        if self.Turn == "groen":
+            self.ship1rood.draw()
+            self.ship2rood.draw()
+            self.ship3rood.draw()
+            self.ship4rood.draw()
+            self.ship1groen.draw()
+            self.ship2groen.draw()
+            self.ship3groen.draw()
+            self.ship4groen.draw()
+            if self.ship1groen.Stance == "attack":
+                self.ship1groen.drawrange()
+            if self.ship2groen.Stance == "attack":
+                self.ship2groen.drawrange()
+            if self.ship3groen.Stance == "attack":
+                self.ship3groen.drawrange()
+            if self.ship4groen.Stance == "attack":
+                self.ship4groen.drawrange()
+        else:
+            screen.blit(mines3x3,(80,352))
+            screen.blit(mines3x3,(272,352))
+            screen.blit(mines3x3,(464,352))
+            screen.blit(mines3x3,(176,320))
+            screen.blit(mines3x3,(368,320))
+            screen.blit(mines3x3,(560,320))
+            self.ship1groen.draw()
+            self.ship2groen.draw()
+            self.ship3groen.draw()
+            self.ship4groen.draw()
+            self.ship1rood.draw()
+            self.ship2rood.draw()
+            self.ship3rood.draw()
+            self.ship4rood.draw()
+            if self.ship1rood.Stance == "attack":
+                self.ship1rood.drawrange()
+            if self.ship2rood.Stance == "attack":
+                self.ship2rood.drawrange()
+            if self.ship3rood.Stance == "attack":
+                self.ship3rood.drawrange()
+            if self.ship4rood.Stance == "attack":
+                self.ship4rood.drawrange()
         pygame.display.flip()
 running = Menu()
 while not(process_events()):
@@ -2122,7 +2176,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            upload_score('Robin',2,2,1)
+            upload_score("Ogie",2,0,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
@@ -2133,12 +2187,11 @@ while not(process_events()):
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help1()
-
     elif running.type == "battleport":
         if running.quitbutton == "quit":
-            ingamemusic.stop()
+            pygame.mixer_music.stop()
             mainmenu_music.play(-1)
-            pygame.mixer.Sound.play(click)        
+            pygame.mixer.Sound.play(click)    
             running = Menu()
         elif running.helpbutton == "help":
             pygame.mixer.Sound.play(click)
@@ -2273,6 +2326,7 @@ while not(process_events()):
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
             running = Cards1()
+
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
