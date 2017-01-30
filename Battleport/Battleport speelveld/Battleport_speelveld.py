@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=Battleport user=postgres password=rmb143BL")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=DionKlein98")
     cursor = connection.cursor()
     
     # Execute the command
@@ -66,6 +66,10 @@ rotateLeftInactive = pygame.image.load('draai_links_inactive.png')
 rotateRightInactive = pygame.image.load('draai_rechts_inactive.png')
 pijlDownActive = pygame.image.load('pijl_down_active.png')
 pijlDownInactive = pygame.image.load('pijl_down_inactive.png')
+attack_buttonActive = pygame.image.load('attack_button_greyed.bmp')
+attack_buttonInactive = pygame.image.load('attack_button.bmp')
+stopattack_buttonActive = pygame.image.load('Stopattack_button_greyed.bmp')
+stopattack_buttonInactive = pygame.image.load('Stopattack_button.bmp')
 pijlUpActive = pygame.transform.rotate(pijlDownActive, 180)
 pijlUpInactive = pygame.transform.rotate(pijlDownInactive, 180)
 pijlLeftActive = pygame.transform.rotate(pijlDownActive, 270)
@@ -1474,7 +1478,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship1rood.Active = False
             if self.move_up_button:
@@ -1537,7 +1541,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship1rood.Stance = "attack"
                 self.ship1rood.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship2rood.Active:
@@ -1550,7 +1554,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2rood.Active = False
             if self.move_up_button:
@@ -1613,7 +1617,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship2rood.Stance = "attack"
                 self.ship2rood.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship3rood.Active:
@@ -1626,7 +1630,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3rood.Active = False
             if self.move_up_button:
@@ -1689,7 +1693,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship3rood.Stance = "attack"
                 self.ship3rood.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship4rood.Active:
@@ -1702,7 +1706,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship4rood.Active = False
             if self.move_up_button:
@@ -1765,7 +1769,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship4rood.Stance = "attack"
                 self.ship4rood.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship1groen.Active:
@@ -1778,7 +1782,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship1groen.Active = False
             if self.move_up_button:
@@ -1841,7 +1845,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship1groen.Stance = "attack"
                 self.ship1groen.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship2groen.Active:
@@ -1854,7 +1858,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2groen.Active = False
             if self.move_up_button:
@@ -1917,7 +1921,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship2groen.Stance = "attack"
                 self.ship2groen.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship3groen.Active:
@@ -1930,7 +1934,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3groen.Active = False
             if self.move_up_button:
@@ -1993,7 +1997,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship3groen.Stance = "attack"
                 self.ship3groen.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.ship4groen.Active:
@@ -2006,7 +2010,7 @@ class Battleport:
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
-            self.attack_button = button("Attack", 709, 180, 50, 50, grey, white, True, "freesansbold.ttf", 15)
+            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button == "cancel":
                 self.ship4groen.Active = False
             if self.move_up_button:
@@ -2069,7 +2073,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship4groen.Stance = "attack"
                 self.ship4groen.attack()
-                self.stop_attack_button = button("stop attack", 829, 180, 50, 50, grey, white, True, 'freesansbold.ttf', 15)
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
         if self.nextturnbutton:
