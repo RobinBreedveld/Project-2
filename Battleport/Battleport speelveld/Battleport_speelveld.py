@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=<eigen wachtwoord>")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
     cursor = connection.cursor()
     
     # Execute the command
@@ -187,13 +187,15 @@ def button(msg, x, y, w, h, color_active, color_inactive, action=None, font="fre
      textSurf, textRect = text_object(msg, smallText, black)
      textRect.center = ((x + (w/2)), (y + (h/2)))
      screen.blit(textSurf, textRect)
-def clickable_picture(x, y, w, h, picture_active, picture_inactive, action = None):
+def clickable_picture(x, y, w, h, picture_active, picture_inactive, action = True):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if (x + w > mouse[0] > x) and (y + h > mouse[1] > y):
         screen.blit(picture_active, (x, y))
         if click[0] == 1:
             return action
+        else:
+            return False
     else:
         screen.blit(picture_inactive, (x, y))
 def text_object(text, font, color):
@@ -856,6 +858,7 @@ class Ship:
         self.Stance = "normal"
         self.Range = self.Length
         self.Range_increase = 0
+        self.HP = self.Length
         #linkerkant
         self.pos1 = Coordinate((x - 4), y)
         self.pos2 = Coordinate((x - 3), y)
@@ -1120,52 +1123,52 @@ class Ship:
             if self.Length > 3:
                 #pos1
                 if collision(self.pos1):
-                    pos1a = clickable_picture(self.pos1.Px, self.pos1.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos1a = clickable_picture(self.pos1.Px, self.pos1.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos1.Px, self.pos1.Py))
                 #pos5
                 if collision(self.pos5):
-                    pos5a = clickable_picture(self.pos5.Px, self.pos5.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos5a = clickable_picture(self.pos5.Px, self.pos5.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos5.Px, self.pos5.Py))
                 #pos9
                 if collision(self.pos9):
-                    pos9a = clickable_picture(self.pos9.Px, self.pos9.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos9a = clickable_picture(self.pos9.Px, self.pos9.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos9.Px, self.pos9.Py))
                 #pos13
                 if collision(self.pos13):
-                    pos13a = clickable_picture(self.pos13.Px, self.pos13.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos13a = clickable_picture(self.pos13.Px, self.pos13.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos13.Px, self.pos13.Py))
                 #pos17
                 if collision(self.pos17):
-                    pos17a = clickable_picture(self.pos17.Px, self.pos17.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos17a = clickable_picture(self.pos17.Px, self.pos17.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos17.Px, self.pos17.Py))
                 #pos21
                 if collision(self.pos21):
-                    pos21a = clickable_picture(self.pos21.Px, self.pos21.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos21a = clickable_picture(self.pos21.Px, self.pos21.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos21.Px, self.pos21.Py))
                 #pos25              
                 if collision(self.pos25):
-                    pos25a = clickable_picture(self.pos25.Px, self.pos25.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos25a = clickable_picture(self.pos25.Px, self.pos25.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos25.Px, self.pos25.Py))
                 #pos29
                 if collision(self.pos29):
-                    pos29a = clickable_picture(self.pos29.Px, self.pos29.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos29a = clickable_picture(self.pos29.Px, self.pos29.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos29.Px, self.pos29.Py))
                 #pos36
                 if collision(self.pos36):
-                    pos36a = clickable_picture(self.pos36.Px, self.pos36.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos36a = clickable_picture(self.pos36.Px, self.pos36.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos36.Px, self.pos36.Py))
                 #pos40
                 if collision(self.pos40):
-                    pos40a = clickable_picture(self.pos40.Px, self.pos40.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos40a = clickable_picture(self.pos40.Px, self.pos40.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos40.Px, self.pos40.Py))
 
@@ -1173,53 +1176,53 @@ class Ship:
                 if self.Length > 3:
                     #pos14
                     if collision(self.pos14):
-                        pos14a = clickable_picture(self.pos14.Px, self.pos14.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos14a = clickable_picture(self.pos14.Px, self.pos14.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos14.Px, self.pos14.Py))
                     #pos30
                     if collision(self.pos30):
-                        pos30a = clickable_picture(self.pos30.Px, self.pos30.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos30a = clickable_picture(self.pos30.Px, self.pos30.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos30.Px, self.pos30.Py))
                     
                 #pos2
                 if collision(self.pos2):
-                    pos2a = clickable_picture(self.pos2.Px, self.pos2.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos2a = clickable_picture(self.pos2.Px, self.pos2.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos2.Px, self.pos2.Py))
                 #pos6
                 if collision(self.pos6):
-                    pos6a = clickable_picture(self.pos6.Px, self.pos6.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos6a = clickable_picture(self.pos6.Px, self.pos6.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos6.Px, self.pos6.Py))
                 #pos10
                 if collision(self.pos10):
-                    pos10a = clickable_picture(self.pos10.Px, self.pos10.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos10a = clickable_picture(self.pos10.Px, self.pos10.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos10.Px, self.pos10.Py))
                 #pos18
                 if collision(self.pos18):
-                    pos18a = clickable_picture(self.pos18.Px, self.pos18.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos18a = clickable_picture(self.pos18.Px, self.pos18.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos18.Px, self.pos18.Py))
                 #pos22
                 if collision(self.pos22):
-                    pos22a = clickable_picture(self.pos22.Px, self.pos22.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos22a = clickable_picture(self.pos22.Px, self.pos22.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos22.Px, self.pos22.Py))
                 #pos26
                 if collision(self.pos26):
-                    pos26a = clickable_picture(self.pos26.Px, self.pos26.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos26a = clickable_picture(self.pos26.Px, self.pos26.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos26.Px, self.pos26.Py))
                 #pos35
                 if collision(self.pos35):
-                    pos35a = clickable_picture(self.pos35.Px, self.pos35.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos35a = clickable_picture(self.pos35.Px, self.pos35.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos35.Px, self.pos35.Py))
                 #pos39
                 if collision(self.pos39):
-                    pos39a = clickable_picture(self.pos39.Px, self.pos39.Py, 32, 32, attack_indicator, attack_indicator, True)
+                    self.pos39a = clickable_picture(self.pos39.Px, self.pos39.Py, 32, 32, attack_indicator, attack_indicator, True)
                 else:
                     screen.blit(range_indicator, (self.pos39.Px, self.pos39.Py))
 
@@ -1228,110 +1231,109 @@ class Ship:
                 if self.Length > 3:
                     #pos15
                     if collision(self.pos15):
-                        pos15a = clickable_picture(self.pos15.Px, self.pos15.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos15a = clickable_picture(self.pos15.Px, self.pos15.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos15.Px, self.pos15.Py))
                     #pos16
                     if collision(self.pos16):
-                        pos16a = clickable_picture(self.pos16.Px, self.pos16.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos16a = clickable_picture(self.pos16.Px, self.pos16.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos16.Px, self.pos16.Py))
                     #pos31
                     if collision(self.pos31):
-                        pos31a = clickable_picture(self.pos31.Px, self.pos31.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos31a = clickable_picture(self.pos31.Px, self.pos31.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos31.Px, self.pos31.Py))
                     #pos32
                     if collision(self.pos32):
-                        pos32a = clickable_picture(self.pos32.Px, self.pos32.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos32a = clickable_picture(self.pos32.Px, self.pos32.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos32.Px, self.pos32.Py))
                 if self.Length > 2:
                     #pos11
                     if collision(self.pos11):
-                        pos11a = clickable_picture(self.pos11.Px, self.pos11.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos11a = clickable_picture(self.pos11.Px, self.pos11.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos11.Px, self.pos11.Py))
                     #pos12
                     if collision(self.pos12):
-                        pos12a = clickable_picture(self.pos12.Px, self.pos12.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos12a = clickable_picture(self.pos12.Px, self.pos12.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos12.Px, self.pos12.Py))
                     #pos27
                     if collision(self.pos27):
-                        pos27a = clickable_picture(self.pos27.Px, self.pos27.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos27a = clickable_picture(self.pos27.Px, self.pos27.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos27.Px, self.pos27.Py))
                     #pos28
                     if collision(self.pos28):
-                        pos28a = clickable_picture(self.pos28.Px, self.pos28.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos28a = clickable_picture(self.pos28.Px, self.pos28.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos28.Px, self.pos28.Py))
 
                 #pos3
                     if collision(self.pos3):
-                        pos3a = clickable_picture(self.pos3.Px, self.pos3.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos3a = clickable_picture(self.pos3.Px, self.pos3.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos3.Px, self.pos3.Py))
                 #pos4
                     if collision(self.pos4):
-                        pos4a = clickable_picture(self.pos4.Px, self.pos4.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos4a = clickable_picture(self.pos4.Px, self.pos4.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos4.Px, self.pos4.Py))
                 #pos7
                     if collision(self.pos7):
-                        pos7a = clickable_picture(self.pos7.Px, self.pos7.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos7a = clickable_picture(self.pos7.Px, self.pos7.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos7.Px, self.pos7.Py))
                 #pos8
                     if collision(self.pos8):
-                        pos8a = clickable_picture(self.pos8.Px, self.pos8.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos8a = clickable_picture(self.pos8.Px, self.pos8.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos8.Px, self.pos8.Py))
                 #pos19
                     if collision(self.pos19):
-                        pos19a = clickable_picture(self.pos19.Px, self.pos19.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos19a = clickable_picture(self.pos19.Px, self.pos19.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos19.Px, self.pos19.Py))
                 #pos20
                     if collision(self.pos20):
-                        pos20a = clickable_picture(self.pos20.Px, self.pos20.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos20a = clickable_picture(self.pos20.Px, self.pos20.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos20.Px, self.pos20.Py))  
                 #pos23
                     if collision(self.pos23):
-                        pos23a = clickable_picture(self.pos23.Px, self.pos23.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos23a = clickable_picture(self.pos23.Px, self.pos23.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos23.Px, self.pos23.Py))
                  #pos24
                     if collision(self.pos24):
-                        pos24a = clickable_picture(self.pos24.Px, self.pos24.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos24a = clickable_picture(self.pos24.Px, self.pos24.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos24.Px, self.pos24.Py))  
                 #pos33
                     if collision(self.pos33):
-                        pos33a = clickable_picture(self.pos33.Px, self.pos33.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos33a = clickable_picture(self.pos33.Px, self.pos33.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos33.Px, self.pos33.Py))
                 #pos34
                     if collision(self.pos34):
-                        pos34a = clickable_picture(self.pos34.Px, self.pos34.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos34a = clickable_picture(self.pos34.Px, self.pos34.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos34.Px, self.pos34.Py))
                 #pos37
                     if collision(self.pos37):
-                        pos37a = clickable_picture(self.pos37.Px, self.pos37.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos37a = clickable_picture(self.pos37.Px, self.pos37.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos37.Px, self.pos37.Py))       
                 #pos38
                     if collision(self.pos38):
-                        pos38a = clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
+                        self.pos38a = clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
-                        screen.blit(range_indicator, (self.pos38.Px, self.pos38.Py))    
+                        screen.blit(range_indicator, (self.pos38.Px, self.pos38.Py))
         elif self.Stance == "defensive":
             self.Range = self.Length + 1
     def attack(self):
-        print(self.pos1a)
         if self.pos1a:
             self.pos1a_pressed = True
             self.pos1a = False
@@ -1342,7 +1344,7 @@ class Ship:
             self.pos2a_pressed = True
             self.pos2a = False
         elif self.pos2a_pressed:
-            print(collissioncheck(self.pos2))
+            print(collisioncheck(self.pos2))
             self.pos2a_pressed = False
     def draw(self):
         if self.Length == 2:
