@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=<wachtwoord hier>")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=DionKlein98")
     cursor = connection.cursor()
     
     # Execute the command
@@ -372,16 +372,12 @@ class Helpi1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(instructions_pg1, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 #Helpmenu instructions pg2
@@ -396,15 +392,11 @@ class Helpi2:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
-        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(instructions_pg2, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 #Helpmenu extra instructions
@@ -418,16 +410,11 @@ class Helpx1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
-        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(instructions_pg3, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 
@@ -443,7 +430,6 @@ class Help2:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        #self.prevbutton = button("<",839, 650,50,50,grey,white,None)
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
@@ -464,15 +450,11 @@ class Help2r1:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
-        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(tekst2, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 #Helpmenu instructions pg1
@@ -488,14 +470,11 @@ class Help2i1:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(instructions_pg1, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 #Helpmenu instructions pg2
@@ -533,16 +512,11 @@ class Help2x1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
-        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(instructions_pg3, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 #Card pages
@@ -556,10 +530,7 @@ class Cards1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -569,7 +540,6 @@ class Cards1:
         screen.blit(o4, (500,395))
         screen.blit(o5, (750,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Cards2:
@@ -584,8 +554,6 @@ class Cards2:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -594,7 +562,6 @@ class Cards2:
         screen.blit(d3, (1000,50))
         screen.blit(d4, (500,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Cards3:
@@ -609,8 +576,6 @@ class Cards3:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -620,7 +585,6 @@ class Cards3:
         screen.blit(u4, (500,395))
         screen.blit(u5, (750,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Cards4:
@@ -634,9 +598,6 @@ class Cards4:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
-        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -647,7 +608,6 @@ class Cards4:
         screen.blit(s5, (750,395))
         screen.blit(s6, (1000,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 #Card pages from game
@@ -661,10 +621,7 @@ class Cards1g:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -674,7 +631,6 @@ class Cards1g:
         screen.blit(o4, (500,395))
         screen.blit(o5, (750,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Cards2g:
@@ -689,8 +645,6 @@ class Cards2g:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -699,7 +653,6 @@ class Cards2g:
         screen.blit(d3, (1000,50))
         screen.blit(d4, (500,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Cards3g:
@@ -714,8 +667,6 @@ class Cards3g:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -725,7 +676,6 @@ class Cards3g:
         screen.blit(u4, (500,395))
         screen.blit(u5, (750,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 class Cards4g:
@@ -739,9 +689,6 @@ class Cards4g:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
-        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -752,7 +699,6 @@ class Cards4g:
         screen.blit(s5, (750,395))
         screen.blit(s6, (1000,395))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 
