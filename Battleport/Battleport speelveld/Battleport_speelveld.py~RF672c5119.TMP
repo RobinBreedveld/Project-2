@@ -3,10 +3,11 @@ from pygame.locals import*
 pygame.init()
 import pygame.gfxdraw
 import psycopg2
+
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    connection = psycopg2.connect("dbname=Battleport user=postgres password=0613100657")
     cursor = connection.cursor()
     
     # Execute the command
@@ -26,17 +27,21 @@ def interact_with_database(command):
     connection.close()
     
     return results
+
 def upload_score(wins,name,losses,ratio):
     interact_with_database("UPDATE highscore SET wins = {} WHERE name = '{}'"
 .format(name, wins,losses,ratio))
+
 def download_scores():
     return interact_with_database("SELECT * FROM highscore")
+
+
 #sounds
 click = pygame.mixer.Sound("click.ogg")
 ingamemusic = pygame.mixer.Sound("sea.ogg")
-pygame.mixer.music.load("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
 mainmenu_music.play(-1)
+save_load= pygame.mixer.Sound("save_load.ogg")
 #pictures
 turn_bg = pygame.image.load('turn_bg.png')
 turn_bg = pygame.transform.scale(turn_bg,(1370,800))
@@ -94,6 +99,7 @@ s3 = pygame.image.load('s3.png')
 s4 = pygame.image.load('s4.png')
 s5 = pygame.image.load('s5.png')
 s6 = pygame.image.load('s6.png')
+
 o1 = pygame.transform.scale(o1,(250,345))
 o2 = pygame.transform.scale(o2,(250,345))
 o3 = pygame.transform.scale(o3,(250,345)) 
@@ -114,34 +120,39 @@ s3 = pygame.transform.scale(s3,(250,345))
 s4 = pygame.transform.scale(s4,(250,345))
 s5 = pygame.transform.scale(s5,(250,345))
 s6 = pygame.transform.scale(s6,(250,345))
-mines3x3 = pygame.image.load('mines3x3.png')
-mines3x3= pygame.transform.scale(mines3x3,(95,95))
 
+mines3x3 = pygame.image.load('mines3x3.png')
+mines3x3 = pygame.transform.scale(mines3x3,(95,95))
+
+#boot2
+  #groen
 boot2groen = pygame.image.load('boot2groen.png')
 boot2groen90 = pygame.transform.rotate(boot2groen, 90)
 boot2groen180 = pygame.transform.rotate(boot2groen, 180)
 boot2groen270 = pygame.transform.rotate(boot2groen, 270)
-
+  #rood
 boot2rood = pygame.image.load('boot2rood.png')
 boot2rood90 = pygame.transform.rotate(boot2rood, 90)
 boot2rood180 = pygame.transform.rotate(boot2rood, 180)
 boot2rood270 = pygame.transform.rotate(boot2rood, 270)
-
+#boot3
+  #groen
 boot3groen = pygame.image.load('boot3groen.png')
 boot3groen90 = pygame.transform.rotate(boot3groen, 90)
 boot3groen180 = pygame.transform.rotate(boot3groen, 180)
 boot3groen270 = pygame.transform.rotate(boot3groen, 270)
-
+  #rood
 boot3rood = pygame.image.load('boot3rood.png')
 boot3rood90 = pygame.transform.rotate(boot3rood, 90)
 boot3rood180 = pygame.transform.rotate(boot3rood, 180)
 boot3rood270 = pygame.transform.rotate(boot3rood, 270)
-
+#boot4
+  #groen
 boot4groen = pygame.image.load('boot4groen.png')
-boot3groen90 = pygame.transform.rotate(boot4groen, 90)
-boot3groen180 = pygame.transform.rotate(boot4groen, 180)
-boot3groen270 = pygame.transform.rotate(boot4groen, 270)
-
+boot4groen90 = pygame.transform.rotate(boot4groen, 90)
+boot4groen180 = pygame.transform.rotate(boot4groen, 180)
+boot4groen270 = pygame.transform.rotate(boot4groen, 270)
+  #rood
 boot4rood = pygame.image.load('boot4rood.png')
 boot4rood90 = pygame.transform.rotate(boot4rood, 90)
 boot4rood180 = pygame.transform.rotate(boot4rood, 180)
@@ -299,6 +310,7 @@ class Help1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu regels pg2
 class Helpr1:
     def __init__(self):
         self.type = "helpr1"
@@ -321,6 +333,7 @@ class Helpr1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg1
 class Helpi1:
     def __init__(self):
         self.type = "helpi1"
@@ -343,6 +356,7 @@ class Helpi1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg2
 class Helpi2:
     def __init__(self):
         self.type = "helpi2"
@@ -365,6 +379,7 @@ class Helpi2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu extra instructions
 class Helpx1:
     def __init__(self):
         self.type = "helpx1"
@@ -387,6 +402,8 @@ class Helpx1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
+#Helpmenu vanaf game
 class Help2:
     def __init__(self):
         self.type = "help2"
@@ -410,6 +427,7 @@ class Help2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu regels pg2
 class Help2r1:
     def __init__(self):
         self.type = "help2r1"
@@ -432,6 +450,7 @@ class Help2r1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg1
 class Help2i1:
     def __init__(self):
         self.type = "help2i1"
@@ -454,6 +473,7 @@ class Help2i1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg2
 class Help2i2:
     def __init__(self):
         self.type = "help2i2"
@@ -477,6 +497,7 @@ class Help2i2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu extra instructions
 class Help2x1:
     def __init__(self):
         self.type = "help2x1"
@@ -499,6 +520,7 @@ class Help2x1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Card pages
 class Cards1:
     def __init__ (self):
         self.type = "cards1"
@@ -525,6 +547,7 @@ class Cards1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards2:
     def __init__ (self):
         self.type = "cards2"
@@ -535,7 +558,7 @@ class Cards2:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
@@ -550,6 +573,7 @@ class Cards2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards3:
     def __init__ (self):
         self.type = "cards3"
@@ -560,7 +584,7 @@ class Cards3:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
@@ -576,6 +600,7 @@ class Cards3:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards4:
     def __init__ (self):
         self.type = "cards4"
@@ -586,7 +611,7 @@ class Cards4:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
@@ -603,6 +628,7 @@ class Cards4:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Card pages from game
 class Cards1g:
     def __init__ (self):
         self.type = "cards1g"
@@ -629,6 +655,7 @@ class Cards1g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards2g:
     def __init__ (self):
         self.type = "cards2g"
@@ -639,7 +666,7 @@ class Cards2g:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
@@ -654,6 +681,7 @@ class Cards2g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards3g:
     def __init__ (self):
         self.type = "cards3g"
@@ -664,7 +692,7 @@ class Cards3g:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
@@ -680,6 +708,7 @@ class Cards3g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Cards4g:
     def __init__ (self):
         self.type = "cards4g"
@@ -690,7 +719,7 @@ class Cards4g:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
-        self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def texts(self):
         text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
@@ -707,6 +736,7 @@ class Cards4g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Highscores:
     def __init__(self):
         self.type = "highscores"
@@ -808,6 +838,22 @@ class Menu:
         self.texts()
         screen.blit(menu_header, (50,50))
         pygame.display.flip()
+class Turnscreen:
+    def __init__(self,turn):
+        self.type = "turnscreen"
+        self.returnbutton = None
+        if turn == "rood":
+            self.turn = "groen"
+        elif turn == "groen":
+            self.turn = "rood"
+    def buttons(self):
+        # returnbutton
+        self.conbutton = button("Continue", (w/2)-125, 650, 250, 50, grey, white, "continue")            
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(turn_bg, (0,0))
+        self.buttons()
+        pygame.display.flip()  
 class Ship:
     def __init__(self, length, x, y, color, rotation, name):
         self.Name = name
@@ -957,6 +1003,7 @@ class Ship:
         self.pos38a = False
         self.pos39a = False
         self.pos40a = False
+    
     def clickpicture(self):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -1563,6 +1610,7 @@ class Ship:
         elif self.pos40a_pressed:
             print(collisioncheck(self.pos40))
             self.pos40a_pressed = False
+
     def draw(self):
         if self.Length == 2:
             if self.Color == "rood":
@@ -1621,28 +1669,9 @@ class Ship:
                     screen.blit(boot4groen180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
                     screen.blit(boot4groen270, (self.Coordinate.Px, self.Coordinate.Py))
-class Minek3:
-    def __init__ (self, x,y):
-        self.Width = 96
-        self.Height = 96
-class Turnscreen:
-    def __init__(self,turn):
-        self.type = "turnscreen"
-        self.returnbutton = None
-        if turn == "rood":
-            self.turn = "groen"
-        elif turn == "groen":
-            self.turn = "rood"
-    def buttons(self):
-        # returnbutton
-        self.conbutton = button("Continue", (w/2)-125, 650, 250, 50, grey, white, "continue")            
-    def draw(self):
-        screen.fill((background_blue))
-        screen.blit(turn_bg, (0,0))
-        self.buttons()
-        pygame.display.flip()       
+
 class Battleport:
-    def __init__(self,turn, load=False):
+    def __init__(self, load=False):
         screen.fill(background_blue)
         self.type = "battleport"
         self.quitbutton = None
@@ -1674,12 +1703,16 @@ class Battleport:
         self.rotate_right_button_pressed = False
         self.attack_button_pressed = False
         self.nextturnbuttonpressed = False
-        self.Turn = turn
+        self.Turn = "rood"
     def buttons(self): 
+        # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
+        # pausebutton
         self.savebutton = button("||", 1190, 26, 80, 80, grey, white)
+        # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
-        self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white,True,"freesansbold.ttf", 20 )
+        # nextturnbutton
+        self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white, True, "freesansbold.ttf", 20)
     def update(self):
         if self.Turn == "rood":
             self.ship1rood.clickpicture()
@@ -2355,12 +2388,6 @@ class Battleport:
     def draw(self):
         screen.fill((background_blue))
         screen.blit(game_background, (0,0))
-        screen.blit(mines3x3,(80,352))
-        screen.blit(mines3x3,(272,352))
-        screen.blit(mines3x3,(464,352))
-        screen.blit(mines3x3,(176,320))
-        screen.blit(mines3x3,(368,320))
-        screen.blit(mines3x3,(560,320))
         self.buttons()
         self.update()
         if self.Turn == "groen":
@@ -2381,6 +2408,12 @@ class Battleport:
             if self.ship4groen.Stance == "attack":
                 self.ship4groen.drawrange()
         else:
+            screen.blit(mines3x3,(80,352))
+            screen.blit(mines3x3,(272,352))
+            screen.blit(mines3x3,(464,352))
+            screen.blit(mines3x3,(176,320))
+            screen.blit(mines3x3,(368,320))
+            screen.blit(mines3x3,(560,320))
             self.ship1groen.draw()
             self.ship2groen.draw()
             self.ship3groen.draw()
@@ -2405,7 +2438,7 @@ while not(process_events()):
             pygame.mixer.Sound.play(click)
             ingamemusic.play(-1)
             mainmenu_music.stop()
-            running = Battleport("rood")
+            running = Battleport()
         elif running.exitbutton == "exit":
             pygame.mixer.Sound.play(click)
             pygame.quit()
@@ -2424,7 +2457,6 @@ while not(process_events()):
             running = Help1()
     elif running.type == "battleport":
         if running.quitbutton == "quit":
-            pygame.mixer_music.stop()
             ingamemusic.stop()
             mainmenu_music.play(-1)
             pygame.mixer.Sound.play(click)    
@@ -2439,7 +2471,6 @@ while not(process_events()):
             ship2groen = running.ship2groen
             ship3groen = running.ship3groen
             ship4groen = running.ship4groen
-            turn = running.Turn
             running = Help2()
 
         elif running.turnbutton:
@@ -2463,7 +2494,6 @@ while not(process_events()):
            turn = running.turn
 
            running = Battleport(turn,True)
-
 
     elif running.type == "options":
         if running.quitbutton == "quit":
@@ -2586,10 +2616,11 @@ while not(process_events()):
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
             running = Cards1()
+
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.instructionbutton == "instructions1":
             pygame.mixer.Sound.play(click)
             running = Help2i1()
@@ -2605,7 +2636,7 @@ while not(process_events()):
     elif running.type == "help2r1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2620,11 +2651,11 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "help2i1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2645,11 +2676,11 @@ while not(process_events()):
             running = Help2()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "help2i2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Help2i1()
@@ -2664,11 +2695,11 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "help2x1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2680,7 +2711,8 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
+    #cards menu (offensive) cards1
     elif running.type == "cards1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2700,6 +2732,7 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Cards2()
+    #cards menu (defensive) cards2
     elif running.type == "cards2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2744,6 +2777,7 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards2()
+
     elif running.type == "cards4":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2763,10 +2797,12 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards3()
+
+    #cards menu (in game)
     elif running.type == "cards1g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2782,10 +2818,11 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Cards2g()
+    #cards menu (in game)
     elif running.type == "cards2g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2804,10 +2841,12 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards1g()
+
+            # cards menu (in game)
     elif running.type == "cards3g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2826,10 +2865,11 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards2g()
+        #cards menu in game
     elif running.type == "cards4g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
-            running = Battleport(turn,True)
+            running = Battleport(True)
         elif running.rulesbutton == "rules1":
             pygame.mixer.Sound.play(click)
             running = Help2()
@@ -2845,4 +2885,5 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards3g()
+
     running.draw()
