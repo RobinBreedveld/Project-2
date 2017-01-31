@@ -6,7 +6,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    connection = psycopg2.connect("dbname=Battleport user=postgres password=rmb143BL")
     cursor = connection.cursor()
     
     # Execute the command
@@ -26,9 +26,9 @@ def interact_with_database(command):
     connection.close()
     
     return results
-def upload_score(wins,name,losses,ratio):
-    interact_with_database("UPDATE highscore SET wins = {} WHERE name = '{}'"
-.format(name, wins,losses,ratio))
+def upload_score(name, wins,losses,ratio):
+    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+.format(wins,losses,ratio, name))
 def download_scores():
     return interact_with_database("SELECT * FROM highscore")
 #sounds
@@ -37,6 +37,7 @@ ingamemusic = pygame.mixer.Sound("sea.ogg")
 pygame.mixer.music.load("sea.ogg")
 mainmenu_music = pygame.mixer.Sound("warmusic.ogg")
 mainmenu_music.play(-1)
+save_load = pygame.mixer.Sound("save_load.ogg")
 #pictures
 turn_bg = pygame.image.load('turn_bg.png')
 turn_bg = pygame.transform.scale(turn_bg,(1370,800))
@@ -2411,7 +2412,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            upload_score("Ogie",2,0,1)
+            upload_score("Robin",28,53,0.8)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
