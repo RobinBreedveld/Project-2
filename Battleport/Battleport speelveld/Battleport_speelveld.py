@@ -3,10 +3,11 @@ from pygame.locals import*
 pygame.init()
 import pygame.gfxdraw
 import psycopg2
+
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=Battleport user=postgres password=rmb143BL")
+    connection = psycopg2.connect("dbname=battleport user=postgres password=<wachtwoord hier>")
     cursor = connection.cursor()
     
     # Execute the command
@@ -26,11 +27,15 @@ def interact_with_database(command):
     connection.close()
     
     return results
+
 def upload_score(name, wins,losses,ratio):
     interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
 .format(wins,losses,ratio, name))
+
 def download_scores():
     return interact_with_database("SELECT * FROM highscore")
+
+
 #sounds
 click = pygame.mixer.Sound("click.ogg")
 ingamemusic = pygame.mixer.Sound("sea.ogg")
@@ -95,6 +100,7 @@ s3 = pygame.image.load('s3.png')
 s4 = pygame.image.load('s4.png')
 s5 = pygame.image.load('s5.png')
 s6 = pygame.image.load('s6.png')
+
 o1 = pygame.transform.scale(o1,(250,345))
 o2 = pygame.transform.scale(o2,(250,345))
 o3 = pygame.transform.scale(o3,(250,345)) 
@@ -115,38 +121,58 @@ s3 = pygame.transform.scale(s3,(250,345))
 s4 = pygame.transform.scale(s4,(250,345))
 s5 = pygame.transform.scale(s5,(250,345))
 s6 = pygame.transform.scale(s6,(250,345))
-mines3x3 = pygame.image.load('mines3x3.png')
-mines3x3= pygame.transform.scale(mines3x3,(95,95))
 
+mines3x3 = pygame.image.load('mines3x3.png')
+mines3x3 = pygame.transform.scale(mines3x3,(95,95))
+
+#boot2
+  #groen
 boot2groen = pygame.image.load('boot2groen.png')
 boot2groen90 = pygame.transform.rotate(boot2groen, 90)
 boot2groen180 = pygame.transform.rotate(boot2groen, 180)
 boot2groen270 = pygame.transform.rotate(boot2groen, 270)
-
+  #rood
 boot2rood = pygame.image.load('boot2rood.png')
 boot2rood90 = pygame.transform.rotate(boot2rood, 90)
 boot2rood180 = pygame.transform.rotate(boot2rood, 180)
 boot2rood270 = pygame.transform.rotate(boot2rood, 270)
-
+  #kapot
+boot2kapot = pygame.image.load('boot2kapot.png')
+boot2kapot90 = pygame.transform.rotate(boot2kapot, 90)
+boot2kapot180 = pygame.transform.rotate(boot2kapot, 180)
+boot2kapot270 = pygame.transform.rotate(boot2kapot, 270)
+#boot3
+  #groen
 boot3groen = pygame.image.load('boot3groen.png')
 boot3groen90 = pygame.transform.rotate(boot3groen, 90)
 boot3groen180 = pygame.transform.rotate(boot3groen, 180)
 boot3groen270 = pygame.transform.rotate(boot3groen, 270)
-
+  #rood
 boot3rood = pygame.image.load('boot3rood.png')
 boot3rood90 = pygame.transform.rotate(boot3rood, 90)
 boot3rood180 = pygame.transform.rotate(boot3rood, 180)
 boot3rood270 = pygame.transform.rotate(boot3rood, 270)
-
+  #kapot
+boot3kapot = pygame.image.load('boot3kapot.png')
+boot3kapot90 = pygame.transform.rotate(boot3kapot, 90)
+boot3kapot180 = pygame.transform.rotate(boot3kapot, 180)
+boot3kapot270 = pygame.transform.rotate(boot3kapot, 270)
+#boot4
+  #groen
 boot4groen = pygame.image.load('boot4groen.png')
-boot3groen90 = pygame.transform.rotate(boot4groen, 90)
-boot3groen180 = pygame.transform.rotate(boot4groen, 180)
-boot3groen270 = pygame.transform.rotate(boot4groen, 270)
-
+boot4groen90 = pygame.transform.rotate(boot4groen, 90)
+boot4groen180 = pygame.transform.rotate(boot4groen, 180)
+boot4groen270 = pygame.transform.rotate(boot4groen, 270)
+  #rood
 boot4rood = pygame.image.load('boot4rood.png')
 boot4rood90 = pygame.transform.rotate(boot4rood, 90)
 boot4rood180 = pygame.transform.rotate(boot4rood, 180)
 boot4rood270 = pygame.transform.rotate(boot4rood, 270)
+  #kapot
+boot4kapot = pygame.image.load('boot4kapot.png')
+boot4kapot90 = pygame.transform.rotate(boot4kapot, 90)
+boot4kapot180 = pygame.transform.rotate(boot4kapot, 180)
+boot4kapot270 = pygame.transform.rotate(boot4kapot, 270)
 
 pygame.font.get_fonts()
 pygame.font.init()
@@ -193,11 +219,10 @@ def clickable_picture(x, y, w, h, picture_active, picture_inactive, action = Tru
 def text_object(text, font, color):
     textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
-def text(msg, font, x, y, w, h, color):
-     font = font
-     textSurf, textRect = text_object(msg, font, color)
-     textRect.center = ((x + (w/2)), (y + (h/2)))
-     screen.blit(textSurf, textRect)
+def text_draw(text, size, x, y, color=black):
+    font = pygame.font.SysFont(None, size)
+    screen_text = font.render(text, True, color)
+    screen.blit(screen_text, [x,y])
 def collision(pos):
     if running.Turn == "rood":
         if running.ship1groen.Stance == "normal" or running.ship1groen.Stance == "attack":
@@ -225,7 +250,7 @@ def collision(pos):
         #elif running.ship3rood.Stance == "defend":
         if running.ship4rood.Stance == "normal" or running.ship4rood.Stance == "attack":
             ship4roodcollision = (pos.X == running.ship4rood.Coordinate.X and pos.Y == running.ship4rood.Coordinate.Y) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 1)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 2)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 3))
-        collision = ship1groencollision or ship2groencollision or ship3groencollision or ship4groencollision
+        collision = ship1roodcollision or ship2roodcollision or ship3roodcollision or ship4roodcollision
         return collision
 def collisioncheck(pos):
     if running.Turn == "rood":
@@ -290,16 +315,14 @@ class Help1:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,None)
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(tekst1, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu regels pg2
 class Helpr1:
     def __init__(self):
         self.type = "helpr1"
@@ -312,16 +335,14 @@ class Helpr1:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(tekst2, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg1
 class Helpi1:
     def __init__(self):
         self.type = "helpi1"
@@ -344,6 +365,7 @@ class Helpi1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg2
 class Helpi2:
     def __init__(self):
         self.type = "helpi2"
@@ -366,6 +388,7 @@ class Helpi2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu extra instructions
 class Helpx1:
     def __init__(self):
         self.type = "helpx1"
@@ -388,6 +411,8 @@ class Helpx1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
+#Helpmenu vanaf game
 class Help2:
     def __init__(self):
         self.type = "help2"
@@ -401,16 +426,14 @@ class Help2:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         #self.prevbutton = button("<",839, 650,50,50,grey,white,None)
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(tekst1, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu regels pg2
 class Help2r1:
     def __init__(self):
         self.type = "help2r1"
@@ -433,6 +456,7 @@ class Help2r1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg1
 class Help2i1:
     def __init__(self):
         self.type = "help2i1"
@@ -455,6 +479,7 @@ class Help2i1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg2
 class Help2i2:
     def __init__(self):
         self.type = "help2i2"
@@ -478,6 +503,7 @@ class Help2i2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu extra instructions
 class Help2x1:
     def __init__(self):
         self.type = "help2x1"
@@ -500,6 +526,7 @@ class Help2x1:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Card pages
 class Cards1:
     def __init__ (self):
         self.type = "cards1"
@@ -604,6 +631,7 @@ class Cards4:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Card pages from game
 class Cards1g:
     def __init__ (self):
         self.type = "cards1g"
@@ -708,6 +736,7 @@ class Cards4g:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+
 class Highscores:
     def __init__(self):
         self.type = "highscores"
@@ -717,13 +746,10 @@ class Highscores:
     def buttons(self):
         #quitbutton
         self.quitbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "quit")
-    def texts(self):
-        text("Highscores", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(highscores_background, (0,0))
         self.buttons()
-        self.texts()
         screen.blit(highscore_header, (50,50))
         self.score_text = self.font.render((str(self.highscore)), 1, (255, 255, 255))
         screen.blit(self.score_text, (400, 300))
@@ -767,14 +793,11 @@ class Options:
         self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
         # exitbutton
         self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
-    def texts(self):
-        text("Main Menu", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(menu_background, (0,0))
         screen.blit(logo1,((w * 0.33),(h * 0.2)))
         self.buttons()
-        self.texts()
         screen.blit(menu_header, (50,50))
         pygame.display.flip()
 class Menu:
@@ -799,14 +822,11 @@ class Menu:
         self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
         # exitbutton
         self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
-    def texts(self):
-        text("Main Menu", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(menu_background, (0,0))
         screen.blit(logo1,((w * 0.33),(h * 0.2)))
         self.buttons()
-        self.texts()
         screen.blit(menu_header, (50,50))
         pygame.display.flip()
 class Ship:
@@ -832,6 +852,8 @@ class Ship:
         self.Range = self.Length
         self.Range_increase = 0
         self.HP = self.Length
+        self.damage = 1
+        self.extradamage = 0
         #linkerkant
         self.pos1 = Coordinate((x - 4), y)
         self.pos2 = Coordinate((x - 3), y)
@@ -1328,300 +1350,1293 @@ class Ship:
             self.pos1a_pressed = True
             self.pos1a = False
         elif self.pos1a_pressed:
-            print(collisioncheck(self.pos1))
+            self.boot = collisioncheck(self.pos1)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos1a_pressed = False
         if self.pos2a:
             self.pos2a_pressed = True
             self.pos2a = False
         elif self.pos2a_pressed:
-            print(collisioncheck(self.pos2))
+            self.boot = collisioncheck(self.pos2)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos2a_pressed = False
         if self.pos3a:
             self.pos3a_pressed = True
             self.pos3a = False
         elif self.pos3a_pressed:
-            print(collisioncheck(self.pos3))
+            self.boot = collisioncheck(self.pos3)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos3a_pressed = False
         if self.pos4a:
             self.pos4a_pressed = True
             self.pos4a = False
         elif self.pos4a_pressed:
-            print(collisioncheck(self.pos4))
+            self.boot = collisioncheck(self.pos4)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos4a_pressed = False
         if self.pos5a:
             self.pos5a_pressed = True
             self.pos5a = False
         elif self.pos5a_pressed:
-            print(collisioncheck(self.pos5))
+            self.boot = collisioncheck(self.pos5)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos5a_pressed = False
         if self.pos6a:
             self.pos6a_pressed = True
             self.pos6a = False
         elif self.pos6a_pressed:
-            print(collisioncheck(self.pos6))
+            self.boot = collisioncheck(self.pos6)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
+            print(running.ship1groen.HP)
+            print(running.ship2groen.HP)
+            print(running.ship3groen.HP)
+            print(running.ship4groen.HP)
             self.pos6a_pressed = False
         if self.pos7a:
             self.pos7a_pressed = True
             self.pos7a = False
         elif self.pos7a_pressed:
-            print(collisioncheck(self.pos7))
+            self.boot = collisioncheck(self.pos7)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos7a_pressed = False
         if self.pos8a:
             self.pos8a_pressed = True
             self.pos8a = False
         elif self.pos8a_pressed:
-            print(collisioncheck(self.pos8))
+            self.boot = collisioncheck(self.pos8)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos8a_pressed = False
         if self.pos9a:
             self.pos9a_pressed = True
             self.pos9a = False
         elif self.pos9a_pressed:
-            print(collisioncheck(self.pos9))
+            self.boot = collisioncheck(self.pos9)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos9a_pressed = False
         if self.pos10a:
             self.pos10a_pressed = True
             self.pos10a = False
         elif self.pos10a_pressed:
-            print(collisioncheck(self.pos10))
+            self.boot = collisioncheck(self.pos10)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos10a_pressed = False
         if self.pos11a:
             self.pos11a_pressed = True
             self.pos11a = False
         elif self.pos11a_pressed:
-            print(collisioncheck(self.pos11))
+            self.boot = collisioncheck(self.pos11)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos11a_pressed = False
         if self.pos12a:
             self.pos12a_pressed = True
             self.pos12a = False
         elif self.pos12a_pressed:
-            print(collisioncheck(self.pos12))
+            self.boot = collisioncheck(self.pos12)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos12a_pressed = False
         if self.pos13a:
             self.pos13a_pressed = True
             self.pos13a = False
         elif self.pos13a_pressed:
-            print(collisioncheck(self.pos13))
+            self.boot = collisioncheck(self.pos13)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos13a_pressed = False
         if self.pos14a:
             self.pos14a_pressed = True
             self.pos14a = False
         elif self.pos14a_pressed:
-            print(collisioncheck(self.pos14))
+            self.boot = collisioncheck(self.pos14)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos14a_pressed = False
         if self.pos15a:
             self.pos15a_pressed = True
             self.pos15a = False
         elif self.pos15a_pressed:
-            print(collisioncheck(self.pos15))
+            self.boot = collisioncheck(self.pos15)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos15a_pressed = False
         if self.pos16a:
             self.pos16a_pressed = True
             self.pos16a = False
         elif self.pos16a_pressed:
-            print(collisioncheck(self.pos16))
+            self.boot = collisioncheck(self.pos16)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos16a_pressed = False
         if self.pos17a:
             self.pos17a_pressed = True
             self.pos17a = False
         elif self.pos17a_pressed:
-            print(collisioncheck(self.pos17))
+            self.boot = collisioncheck(self.pos17)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos17a_pressed = False
         if self.pos18a:
             self.pos18a_pressed = True
             self.pos18a = False
         elif self.pos18a_pressed:
-            print(collisioncheck(self.pos18))
+            self.boot = collisioncheck(self.pos18)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos18a_pressed = False
         if self.pos19a:
             self.pos19a_pressed = True
             self.pos19a = False
         elif self.pos19a_pressed:
-            print(collisioncheck(self.pos19))
+            self.boot = collisioncheck(self.pos19)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos19a_pressed = False
         if self.pos20a:
             self.pos20a_pressed = True
             self.pos20a = False
         elif self.pos20a_pressed:
-            print(collisioncheck(self.pos20))
+            self.boot = collisioncheck(self.pos20)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos20a_pressed = False
         if self.pos21a:
             self.pos21a_pressed = True
             self.pos21a = False
         elif self.pos21a_pressed:
-            print(collisioncheck(self.pos21))
+            self.boot = collisioncheck(self.pos21)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos21a_pressed = False
         if self.pos22a:
             self.pos22a_pressed = True
             self.pos22a = False
         elif self.pos22a_pressed:
-            print(collisioncheck(self.pos22))
+            self.boot = collisioncheck(self.pos22)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos22a_pressed = False
         if self.pos23a:
             self.pos23a_pressed = True
             self.pos23a = False
         elif self.pos23a_pressed:
-            print(collisioncheck(self.pos23))
+            self.boot = collisioncheck(self.pos23)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos23a_pressed = False
         if self.pos24a:
             self.pos24a_pressed = True
             self.pos24a = False
         elif self.pos24a_pressed:
-            print(collisioncheck(self.pos24))
+            self.boot = collisioncheck(self.pos24)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos2a_pressed = False
         if self.pos25a:
             self.pos25a_pressed = True
             self.pos25a = False
         elif self.pos25a_pressed:
-            print(collisioncheck(self.pos25))
+            self.boot = collisioncheck(self.pos25)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos25a_pressed = False
         if self.pos26a:
             self.pos26a_pressed = True
             self.pos26a = False
         elif self.pos26a_pressed:
-            print(collisioncheck(self.pos26))
+            self.boot = collisioncheck(self.pos26)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos26a_pressed = False
         if self.pos27a:
             self.pos27a_pressed = True
             self.pos27a = False
         elif self.pos27a_pressed:
-            print(collisioncheck(self.pos27))
+            self.boot = collisioncheck(self.pos27)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos27a_pressed = False
         if self.pos28a:
             self.pos28a_pressed = True
             self.pos28a = False
         elif self.pos28a_pressed:
-            print(collisioncheck(self.pos28))
+            self.boot = collisioncheck(self.pos28)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos28a_pressed = False
         if self.pos29a:
             self.pos29a_pressed = True
             self.pos29a = False
         elif self.pos29a_pressed:
-            print(collisioncheck(self.pos29))
+            self.boot = collisioncheck(self.pos29)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos2a_pressed = False
         if self.pos30a:
             self.pos30a_pressed = True
             self.pos30a = False
         elif self.pos30a_pressed:
-            print(collisioncheck(self.pos30))
+            self.boot = collisioncheck(self.pos30)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos30a_pressed = False
         if self.pos31a:
             self.pos31a_pressed = True
             self.pos31a = False
         elif self.pos31a_pressed:
-            print(collisioncheck(self.pos31))
+            self.boot = collisioncheck(self.pos31)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos31a_pressed = False
         if self.pos32a:
             self.pos32a_pressed = True
             self.pos32a = False
         elif self.pos32a_pressed:
-            print(collisioncheck(self.pos32))
+            self.boot = collisioncheck(self.pos32)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos32a_pressed = False
         if self.pos33a:
             self.pos33a_pressed = True
             self.pos33a = False
         elif self.pos33a_pressed:
-            print(collisioncheck(self.pos33))
+            self.boot = collisioncheck(self.pos33)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos33a_pressed = False
         if self.pos34a:
             self.pos34a_pressed = True
             self.pos34a = False
         elif self.pos34a_pressed:
-            print(collisioncheck(self.pos34))
+            self.boot = collisioncheck(self.pos34)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos34a_pressed = False
         if self.pos35a:
             self.pos35a_pressed = True
             self.pos35a = False
         elif self.pos35a_pressed:
-            print(collisioncheck(self.pos35))
+            self.boot = collisioncheck(self.pos35)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos35a_pressed = False
         if self.pos36a:
             self.pos36a_pressed = True
             self.pos36a = False
         elif self.pos36a_pressed:
-            print(collisioncheck(self.pos36))
+            self.boot = collisioncheck(self.pos36)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos36a_pressed = False
         if self.pos37a:
             self.pos37a_pressed = True
             self.pos37a = False
         elif self.pos37a_pressed:
-            print(collisioncheck(self.pos37))
+            self.boot = collisioncheck(self.pos37)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos37a_pressed = False
         if self.pos38a:
             self.pos38a_pressed = True
             self.pos38a = False
         elif self.pos38a_pressed:
-            print(collisioncheck(self.pos38))
+            self.boot = collisioncheck(self.pos38)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos38a_pressed = False
         if self.pos39a:
             self.pos39a_pressed = True
             self.pos39a = False
         elif self.pos39a_pressed:
-            print(collisioncheck(self.pos39))
+            self.boot = collisioncheck(self.pos39)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos39a_pressed = False
         if self.pos40a:
             self.pos40a_pressed = True
             self.pos40a = False
         elif self.pos40a_pressed:
-            print(collisioncheck(self.pos40))
+            self.boot = collisioncheck(self.pos40)
+            if self.boot == "ship1groen":
+                self.damage += self.extradamage
+                running.ship1groen.HP -= self.damage
+            elif self.boot == "ship2groen":
+                self.damage += self.extradamage
+                running.ship2groen.HP -= self.damage
+            elif self.boot == "ship3groen":
+                self.damage += self.extradamage
+                running.ship3groen.HP -= self.damage
+            elif self.boot == "ship4groen":
+                self.damage += self.extradamage
+                running.ship4groen.HP -= self.damage
+            if self.boot == "ship1rood":
+                self.damage += self.extradamage
+                running.ship1rood.HP -= self.damage
+            elif self.boot == "ship2rood":
+                self.damage += self.extradamage
+                running.ship2rood.HP -= self.damage
+            elif self.boot == "ship3rood":
+                self.damage += self.extradamage
+                running.ship3rood.HP -= self.damage
+            elif self.boot == "ship4rood":
+                self.damage += self.extradamage
+                running.ship4rood.HP -= self.damage
             self.pos40a_pressed = False
     def draw(self):
-        if self.Length == 2:
-            if self.Color == "rood":
-                if self.Rotation == 0:
-                    screen.blit(boot2rood, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 90:
-                    screen.blit(boot2rood90, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 180:
-                    screen.blit(boot2rood180, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 270:
-                    screen.blit(boot2rood270, (self.Coordinate.Px, self.Coordinate.Py))
+        if self.HP > 0:
+            if self.Length == 2:
+                if self.Color == "rood":
+                    if self.Rotation == 0:
+                        screen.blit(boot2rood, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 90:
+                        screen.blit(boot2rood90, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 180:
+                        screen.blit(boot2rood180, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 270:
+                        screen.blit(boot2rood270, (self.Coordinate.Px, self.Coordinate.Py))
+                else:
+                    if self.Rotation == 0:
+                        screen.blit(boot2groen, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 90:
+                        screen.blit(boot2groen90, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 180:
+                        screen.blit(boot2groen180, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 270:
+                        screen.blit(boot2groen270, (self.Coordinate.Px, self.Coordinate.Py))
+            elif self.Length == 3:
+                if self.Color == "rood":
+                    if self.Rotation == 0:
+                        screen.blit(boot3rood, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 90:
+                        screen.blit(boot3rood90, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 180:
+                        screen.blit(boot3rood180, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 270:
+                        screen.blit(boot3rood270, (self.Coordinate.Px, self.Coordinate.Py))
+                else:
+                    if self.Rotation == 0:
+                        screen.blit(boot3groen, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 90:
+                        screen.blit(boot3groen90, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 180:
+                        screen.blit(boot3groen180, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 270:
+                        screen.blit(boot3groen270, (self.Coordinate.Px, self.Coordinate.Py))
             else:
-                if self.Rotation == 0:
-                    screen.blit(boot2groen, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 90:
-                    screen.blit(boot2groen90, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 180:
-                    screen.blit(boot2groen180, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 270:
-                    screen.blit(boot2groen270, (self.Coordinate.Px, self.Coordinate.Py))
-        elif self.Length == 3:
-            if self.Color == "rood":
-                if self.Rotation == 0:
-                    screen.blit(boot3rood, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 90:
-                    screen.blit(boot3rood90, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 180:
-                    screen.blit(boot3rood180, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 270:
-                    screen.blit(boot3rood270, (self.Coordinate.Px, self.Coordinate.Py))
-            else:
-                if self.Rotation == 0:
-                    screen.blit(boot3groen, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 90:
-                    screen.blit(boot3groen90, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 180:
-                    screen.blit(boot3groen180, (self.Coordinate.Px, self.Coordinate.Py))
-                elif self.Rotation == 270:
-                    screen.blit(boot3groen270, (self.Coordinate.Px, self.Coordinate.Py))
+                if self.Color == "rood":
+                    if self.Rotation == 0:
+                        screen.blit(boot4rood, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 90:
+                        screen.blit(boot4rood90, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 180:
+                        screen.blit(boot4rood180, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 270:
+                        screen.blit(boot4rood270, (self.Coordinate.Px, self.Coordinate.Py))
+                else:
+                    if self.Rotation == 0:
+                        screen.blit(boot4groen, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 90:
+                        screen.blit(boot4groen90, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 180:
+                        screen.blit(boot4groen180, (self.Coordinate.Px, self.Coordinate.Py))
+                    elif self.Rotation == 270:
+                        screen.blit(boot4groen270, (self.Coordinate.Px, self.Coordinate.Py))
         else:
-            if self.Color == "rood":
+            if self.Length == 2:
                 if self.Rotation == 0:
-                    screen.blit(boot4rood, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot2kapot, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot4rood90, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot2kapot90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot4rood180, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot2kapot180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot4rood270, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot2kapot270, (self.Coordinate.Px, self.Coordinate.Py))
+            elif self.Length == 3:
+                if self.Rotation == 0:
+                    screen.blit(boot3kapot, (self.Coordinate.Px, self.Coordinate.Py))
+                elif self.Rotation == 90:
+                    screen.blit(boot3kapot90, (self.Coordinate.Px, self.Coordinate.Py))
+                elif self.Rotation == 180:
+                    screen.blit(boot3kapot180, (self.Coordinate.Px, self.Coordinate.Py))
+                elif self.Rotation == 270:
+                    screen.blit(boot3kapot270, (self.Coordinate.Px, self.Coordinate.Py))
             else:
                 if self.Rotation == 0:
-                    screen.blit(boot4groen, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot4kapot, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 90:
-                    screen.blit(boot4groen90, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot4kapot90, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 180:
-                    screen.blit(boot4groen180, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot4kapot180, (self.Coordinate.Px, self.Coordinate.Py))
                 elif self.Rotation == 270:
-                    screen.blit(boot4groen270, (self.Coordinate.Px, self.Coordinate.Py))
+                    screen.blit(boot4kapot270, (self.Coordinate.Px, self.Coordinate.Py))
 class Minek3:
     def __init__ (self, x,y):
         self.Width = 96
@@ -1643,7 +2658,7 @@ class Turnscreen:
         self.buttons()
         pygame.display.flip()       
 class Battleport:
-    def __init__(self,turn, load=False):
+    def __init__(self, turn, load=False):
         screen.fill(background_blue)
         self.type = "battleport"
         self.quitbutton = None
@@ -1677,10 +2692,14 @@ class Battleport:
         self.nextturnbuttonpressed = False
         self.Turn = turn
     def buttons(self): 
+        # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
+        # pausebutton
         self.savebutton = button("||", 1190, 26, 80, 80, grey, white)
+        # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
-        self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white,True,"freesansbold.ttf", 20 )
+        # nextturnbutton
+        self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white,True,"freesansbold.ttf", 20)
     def update(self):
         if self.Turn == "rood":
             self.ship1rood.clickpicture()
@@ -1695,6 +2714,7 @@ class Battleport:
         if self.ship1rood.Active:
             self.ship1rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship1rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -1775,6 +2795,7 @@ class Battleport:
         if self.ship2rood.Active:
             self.ship2rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship2rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -1855,6 +2876,7 @@ class Battleport:
         if self.ship3rood.Active:
             self.ship3rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship3rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -1935,6 +2957,7 @@ class Battleport:
         if self.ship4rood.Active:
             self.ship4rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship4rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2015,6 +3038,7 @@ class Battleport:
         if self.ship1groen.Active:
             self.ship1groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship1groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2087,6 +3111,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship1groen.Stance = "attack"
                 self.ship1groen.prepare_attack()
+                self.ship1groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
@@ -2094,6 +3119,7 @@ class Battleport:
         if self.ship2groen.Active:
             self.ship2groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship2groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2166,6 +3192,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship2groen.Stance = "attack"
                 self.ship2groen.prepare_attack()
+                self.ship2groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
@@ -2173,6 +3200,7 @@ class Battleport:
         if self.ship3groen.Active:
             self.ship3groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship3groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2245,6 +3273,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship3groen.Stance = "attack"
                 self.ship3groen.prepare_attack()
+                self.ship3groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
@@ -2252,6 +3281,7 @@ class Battleport:
         if self.ship4groen.Active:
             self.ship4groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship4groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2324,6 +3354,7 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship4groen.Stance = "attack"
                 self.ship4groen.prepare_attack()
+                self.ship4groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
@@ -2412,7 +3443,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            upload_score("Robin",28,53,0.8)
+            upload_score("Ogie",2,0,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
@@ -2442,7 +3473,6 @@ while not(process_events()):
             ship4groen = running.ship4groen
             turn = running.Turn
             running = Help2()
-
         elif running.turnbutton:
             pygame.mixer.Sound.play(click)   
             ship1rood = running.ship1rood
@@ -2455,16 +3485,11 @@ while not(process_events()):
             ship4groen = running.ship4groen
             turn = running.Turn     
             running = Turnscreen(turn)
-
     elif running.type == "turnscreen":
-       if running.conbutton == "continue":
-           pygame.mixer.Sound.play(click)  
-
-
-           turn = running.turn
-
-           running = Battleport(turn,True)
-
+        if running.conbutton == "continue":
+            pygame.mixer.Sound.play(click)  
+            turn = running.turn
+            running = Battleport(turn,True)
 
     elif running.type == "options":
         if running.quitbutton == "quit":
@@ -2587,6 +3612,7 @@ while not(process_events()):
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
             running = Cards1()
+
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2682,6 +3708,7 @@ while not(process_events()):
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
             running = Cards1()
+    #cards menu (offensive) cards1
     elif running.type == "cards1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2701,6 +3728,7 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Cards2()
+    #cards menu (defensive) cards2
     elif running.type == "cards2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2745,6 +3773,7 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards2()
+
     elif running.type == "cards4":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2764,6 +3793,8 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards3()
+
+    #cards menu (in game)
     elif running.type == "cards1g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2783,6 +3814,7 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Cards2g()
+    #cards menu (in game)
     elif running.type == "cards2g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2805,6 +3837,8 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards1g()
+
+            # cards menu (in game)
     elif running.type == "cards3g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2827,6 +3861,7 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards2g()
+        #cards menu in game
     elif running.type == "cards4g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2846,4 +3881,5 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards3g()
+
     running.draw()
