@@ -2363,7 +2363,7 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "help2i1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2388,7 +2388,7 @@ while not(process_events()):
             running = Help2()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "help2i2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2407,7 +2407,7 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "help2x1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -2423,7 +2423,7 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     #cards menu (offensive) cards1
     elif running.type == "cards1":
         if running.returnbutton == "return":
