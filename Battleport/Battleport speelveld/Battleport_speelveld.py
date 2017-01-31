@@ -7,7 +7,7 @@ import psycopg2
 #database
 def interact_with_database(command):
     # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    connection = psycopg2.connect("dbname=Battleport user=postgres password=0613100657")
     cursor = connection.cursor()
     
     # Execute the command
@@ -936,6 +936,14 @@ class Ship:
         self.pos30a_pressed = False
         self.pos31a_pressed = False
         self.pos32a_pressed = False
+        self.pos33a_pressed = False
+        self.pos34a_pressed = False
+        self.pos35a_pressed = False
+        self.pos36a_pressed = False
+        self.pos37a_pressed = False
+        self.pos38a_pressed = False
+        self.pos39a_pressed = False
+        self.pos40a_pressed = False
         self.pos1a = False
         self.pos2a = False
         self.pos3a = False
@@ -968,6 +976,16 @@ class Ship:
         self.pos30a = False
         self.pos31a = False
         self.pos32a = False
+        self.pos33a = False
+        self.pos33a = False
+        self.pos34a = False
+        self.pos35a = False
+        self.pos36a = False
+        self.pos37a = False
+        self.pos38a = False
+        self.pos39a = False
+        self.pos40a = False
+    
     def clickpicture(self):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -1346,6 +1364,235 @@ class Ship:
         elif self.pos2a_pressed:
             print(collisioncheck(self.pos2))
             self.pos2a_pressed = False
+        if self.pos3a:
+            self.pos3a_pressed = True
+            self.pos3a = False
+        elif self.pos3a_pressed:
+            print(collisioncheck(self.pos3))
+            self.pos3a_pressed = False
+        if self.pos4a:
+            self.pos4a_pressed = True
+            self.pos4a = False
+        elif self.pos4a_pressed:
+            print(collisioncheck(self.pos4))
+            self.pos4a_pressed = False
+        if self.pos5a:
+            self.pos5a_pressed = True
+            self.pos5a = False
+        elif self.pos5a_pressed:
+            print(collisioncheck(self.pos5))
+            self.pos5a_pressed = False
+        if self.pos6a:
+            self.pos6a_pressed = True
+            self.pos6a = False
+        elif self.pos6a_pressed:
+            print(collisioncheck(self.pos6))
+            self.pos6a_pressed = False
+        if self.pos7a:
+            self.pos7a_pressed = True
+            self.pos7a = False
+        elif self.pos7a_pressed:
+            print(collisioncheck(self.pos7))
+            self.pos7a_pressed = False
+        if self.pos8a:
+            self.pos8a_pressed = True
+            self.pos8a = False
+        elif self.pos8a_pressed:
+            print(collisioncheck(self.pos8))
+            self.pos8a_pressed = False
+        if self.pos9a:
+            self.pos9a_pressed = True
+            self.pos9a = False
+        elif self.pos9a_pressed:
+            print(collisioncheck(self.pos9))
+            self.pos9a_pressed = False
+        if self.pos10a:
+            self.pos10a_pressed = True
+            self.pos10a = False
+        elif self.pos10a_pressed:
+            print(collisioncheck(self.pos10))
+            self.pos10a_pressed = False
+        if self.pos11a:
+            self.pos11a_pressed = True
+            self.pos11a = False
+        elif self.pos11a_pressed:
+            print(collisioncheck(self.pos11))
+            self.pos11a_pressed = False
+        if self.pos12a:
+            self.pos12a_pressed = True
+            self.pos12a = False
+        elif self.pos12a_pressed:
+            print(collisioncheck(self.pos12))
+            self.pos12a_pressed = False
+        if self.pos13a:
+            self.pos13a_pressed = True
+            self.pos13a = False
+        elif self.pos13a_pressed:
+            print(collisioncheck(self.pos13))
+            self.pos13a_pressed = False
+        if self.pos14a:
+            self.pos14a_pressed = True
+            self.pos14a = False
+        elif self.pos14a_pressed:
+            print(collisioncheck(self.pos14))
+            self.pos14a_pressed = False
+        if self.pos15a:
+            self.pos15a_pressed = True
+            self.pos15a = False
+        elif self.pos15a_pressed:
+            print(collisioncheck(self.pos15))
+            self.pos15a_pressed = False
+        if self.pos16a:
+            self.pos16a_pressed = True
+            self.pos16a = False
+        elif self.pos16a_pressed:
+            print(collisioncheck(self.pos16))
+            self.pos16a_pressed = False
+        if self.pos17a:
+            self.pos17a_pressed = True
+            self.pos17a = False
+        elif self.pos17a_pressed:
+            print(collisioncheck(self.pos17))
+            self.pos17a_pressed = False
+        if self.pos18a:
+            self.pos18a_pressed = True
+            self.pos18a = False
+        elif self.pos18a_pressed:
+            print(collisioncheck(self.pos18))
+            self.pos18a_pressed = False
+        if self.pos19a:
+            self.pos19a_pressed = True
+            self.pos19a = False
+        elif self.pos19a_pressed:
+            print(collisioncheck(self.pos19))
+            self.pos19a_pressed = False
+        if self.pos20a:
+            self.pos20a_pressed = True
+            self.pos20a = False
+        elif self.pos20a_pressed:
+            print(collisioncheck(self.pos20))
+            self.pos20a_pressed = False
+        if self.pos21a:
+            self.pos21a_pressed = True
+            self.pos21a = False
+        elif self.pos21a_pressed:
+            print(collisioncheck(self.pos21))
+            self.pos21a_pressed = False
+        if self.pos22a:
+            self.pos22a_pressed = True
+            self.pos22a = False
+        elif self.pos22a_pressed:
+            print(collisioncheck(self.pos22))
+            self.pos22a_pressed = False
+        if self.pos23a:
+            self.pos23a_pressed = True
+            self.pos23a = False
+        elif self.pos23a_pressed:
+            print(collisioncheck(self.pos23))
+            self.pos23a_pressed = False
+        if self.pos24a:
+            self.pos24a_pressed = True
+            self.pos24a = False
+        elif self.pos24a_pressed:
+            print(collisioncheck(self.pos24))
+            self.pos2a_pressed = False
+        if self.pos25a:
+            self.pos25a_pressed = True
+            self.pos25a = False
+        elif self.pos25a_pressed:
+            print(collisioncheck(self.pos25))
+            self.pos25a_pressed = False
+        if self.pos26a:
+            self.pos26a_pressed = True
+            self.pos26a = False
+        elif self.pos26a_pressed:
+            print(collisioncheck(self.pos26))
+            self.pos26a_pressed = False
+        if self.pos27a:
+            self.pos27a_pressed = True
+            self.pos27a = False
+        elif self.pos27a_pressed:
+            print(collisioncheck(self.pos27))
+            self.pos27a_pressed = False
+        if self.pos28a:
+            self.pos28a_pressed = True
+            self.pos28a = False
+        elif self.pos28a_pressed:
+            print(collisioncheck(self.pos28))
+            self.pos28a_pressed = False
+        if self.pos29a:
+            self.pos29a_pressed = True
+            self.pos29a = False
+        elif self.pos29a_pressed:
+            print(collisioncheck(self.pos29))
+            self.pos2a_pressed = False
+        if self.pos30a:
+            self.pos30a_pressed = True
+            self.pos30a = False
+        elif self.pos30a_pressed:
+            print(collisioncheck(self.pos30))
+            self.pos30a_pressed = False
+        if self.pos31a:
+            self.pos31a_pressed = True
+            self.pos31a = False
+        elif self.pos31a_pressed:
+            print(collisioncheck(self.pos31))
+            self.pos31a_pressed = False
+        if self.pos32a:
+            self.pos32a_pressed = True
+            self.pos32a = False
+        elif self.pos32a_pressed:
+            print(collisioncheck(self.pos32))
+            self.pos32a_pressed = False
+        if self.pos33a:
+            self.pos33a_pressed = True
+            self.pos33a = False
+        elif self.pos33a_pressed:
+            print(collisioncheck(self.pos33))
+            self.pos33a_pressed = False
+        if self.pos34a:
+            self.pos34a_pressed = True
+            self.pos34a = False
+        elif self.pos34a_pressed:
+            print(collisioncheck(self.pos34))
+            self.pos34a_pressed = False
+        if self.pos35a:
+            self.pos35a_pressed = True
+            self.pos35a = False
+        elif self.pos35a_pressed:
+            print(collisioncheck(self.pos35))
+            self.pos35a_pressed = False
+        if self.pos36a:
+            self.pos36a_pressed = True
+            self.pos36a = False
+        elif self.pos36a_pressed:
+            print(collisioncheck(self.pos36))
+            self.pos36a_pressed = False
+        if self.pos37a:
+            self.pos37a_pressed = True
+            self.pos37a = False
+        elif self.pos37a_pressed:
+            print(collisioncheck(self.pos37))
+            self.pos37a_pressed = False
+        if self.pos38a:
+            self.pos38a_pressed = True
+            self.pos38a = False
+        elif self.pos38a_pressed:
+            print(collisioncheck(self.pos38))
+            self.pos38a_pressed = False
+        if self.pos39a:
+            self.pos39a_pressed = True
+            self.pos39a = False
+        elif self.pos39a_pressed:
+            print(collisioncheck(self.pos39))
+            self.pos39a_pressed = False
+        if self.pos40a:
+            self.pos40a_pressed = True
+            self.pos40a = False
+        elif self.pos40a_pressed:
+            print(collisioncheck(self.pos40))
+            self.pos40a_pressed = False
+
     def draw(self):
         if self.Length == 2:
             if self.Color == "rood":
@@ -2191,7 +2438,7 @@ while not(process_events()):
             running = Help1()
     elif running.type == "battleport":
         if running.quitbutton == "quit":
-            pygame.mixer_music.stop()
+            ingamemusic.stop()
             mainmenu_music.play(-1)
             pygame.mixer.Sound.play(click)    
             running = Menu()
