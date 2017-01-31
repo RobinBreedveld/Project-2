@@ -2259,7 +2259,7 @@ class Battleport:
             self.rotate_left_button = clickable_picture(709, 60, 50, 50, rotateLeftActive, rotateLeftInactive, True)
             self.rotate_right_button = clickable_picture(829, 60, 50, 50, rotateRightActive, rotateRightInactive, True)
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
-            if self.cancel_button == "cancel":
+            if self.cancel_button:
                 self.ship4groen.Active = False
                 if self.ship4groen.Stance == "attack":
                     self.ship4groen.Stance = "normal"
