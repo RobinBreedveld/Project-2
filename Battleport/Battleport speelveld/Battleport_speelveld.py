@@ -2681,6 +2681,7 @@ class Battleport:
         if self.ship1rood.Active:
             self.ship1rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship1rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2761,6 +2762,7 @@ class Battleport:
         if self.ship2rood.Active:
             self.ship2rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship2rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2841,6 +2843,7 @@ class Battleport:
         if self.ship3rood.Active:
             self.ship3rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship3rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -2921,6 +2924,7 @@ class Battleport:
         if self.ship4rood.Active:
             self.ship4rood.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship4rood.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
@@ -3002,12 +3006,14 @@ class Battleport:
         if self.ship1groen.Active:
             self.ship1groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship1groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
             self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+            if self.ship1groen.Rotation == 0:
+                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship1groen.Active = False
@@ -3080,12 +3086,14 @@ class Battleport:
         if self.ship2groen.Active:
             self.ship2groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship2groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
             self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+            if self.ship2groen.Rotation == 0:
+                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2groen.Active = False
@@ -3158,12 +3166,14 @@ class Battleport:
         if self.ship3groen.Active:
             self.ship3groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship3groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
             self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+            if self.ship3groen.Rotation == 0:
+                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3groen.Active = False
@@ -3236,14 +3246,16 @@ class Battleport:
         if self.ship4groen.Active:
             self.ship4groen.move()
             screen.blit(ship_stats,(889, 58))
+            text_draw(str(self.ship4groen.HP), 25, 969, 113)
             self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
             self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
             self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
             self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+            if self.ship4groen.Rotation == 0:
+                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
             self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
-            if self.cancel_button == "cancel":
+            if self.cancel_button:
                 self.ship4groen.Active = False
                 if self.ship4groen.Stance == "attack":
                     self.ship4groen.Stance = "normal"
