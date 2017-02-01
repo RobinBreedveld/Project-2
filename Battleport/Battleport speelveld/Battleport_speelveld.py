@@ -3619,15 +3619,7 @@ while not(process_events()):
 
     elif running.type == "options2":
         if running.quitbutton == "quit":
-            pygame.mixer.Sound.play(click)
-            ship1rood = running.ship1rood
-            ship2rood = running.ship2rood
-            ship3rood = running.ship3rood
-            ship4rood = running.ship4rood
-            ship1groen = running.ship1groen
-            ship2groen = running.ship2groen
-            ship3groen = running.ship3groen
-            ship4groen = running.ship4groen  
+            pygame.mixer.Sound.play(click)  
             turn = running.turn
             running = Battleport(turn,True)
 
