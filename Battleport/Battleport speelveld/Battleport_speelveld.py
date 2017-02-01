@@ -433,6 +433,7 @@ class Help2:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
+
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -728,45 +729,46 @@ class Options:
         self.quitbutton = None
     def buttons(self):
         # quitbutton
-        self.quitbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "quit")
+        self.quitbutton = button("Back", 50, 650, 400, 50, grey, white, "quit")
+        self.Musiconbutton = button("Music On",(w/2)-125, 450, 250, 50, grey, white, True)
+        self.Musicoffbutton = button("Music Off",(w/2)-125, 650, 250, 50, grey, white, True)
+        if self.Musicoffbutton:
+            mainmenu_music.stop()
+        elif self.Musiconbutton:
+            mainmenu_music.play()
     def texts(self):
         text("Options", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(options_background, (0,0))
         self.buttons()
-        self.texts()
+        #self.texts()
         screen.blit(options_header, (50,50))
         pygame.display.flip()
     
-    def __init__(self):
-        self.type = "menu"
-        self.startbutton = None
-        self.exitbutton = None
-        self.optionsbutton = None
-        self.highscoresbutton = None
-        self.helpbutton = None
-        self.loadbutton = None
+class Options2:
+    def __init__(self,turn):
+        self.type = "options2"
+        self.quitbutton = None
+        self.turn = turn
     def buttons(self):
-        # startbutton
-        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
-        # loadbutton
-        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
-        # highscoresbutton
-        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
-        # optionsbutton
-        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
-        # helpbutton
-        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
-        # exitbutton
-        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
+        # quitbutton
+        self.quitbutton = button("Back", 50, 650, 400, 50, grey, white, "quit")
+        self.Musiconbutton = button("Sound On",(w/2)-125, 450, 250, 50, grey, white, True)
+        self.Musicoffbutton = button("Sound Off",(w/2)-125, 650, 250, 50, grey, white, True)
+        if self.Musicoffbutton:
+            ingamemusic.stop()
+        elif self.Musiconbutton:
+            ingamemusic.play()
+    def texts(self):
+        text("Options", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
-        screen.blit(menu_background, (0,0))
-        screen.blit(logo1,((w * 0.33),(h * 0.2)))
+        screen.blit(options_background, (0,0))
         self.buttons()
-        screen.blit(menu_header, (50,50))
-        pygame.display.flip()
+        #self.texts()
+        screen.blit(options_header, (50,50))
+        pygame.display.flip()   
 class Menu:
     def __init__(self):
         self.type = "menu"
@@ -2663,7 +2665,7 @@ class Battleport:
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
         # settingsbutton
-        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, True)
+        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, "options2")
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
         # nextturnbutton
@@ -3424,7 +3426,7 @@ while not(process_events()):
         if running.quitbutton == "quit":
             pygame.mixer_music.stop()
             ingamemusic.stop()
-            mainmenu_music.play(-1)
+            #mainmenu_music.play(-1)
             pygame.mixer.Sound.play(click)    
             running = Menu()
         elif running.helpbutton == "help":
@@ -3451,6 +3453,25 @@ while not(process_events()):
             ship4groen = running.ship4groen
             turn = running.Turn     
             running = Turnscreen(turn)
+        elif running.settings_button == "options2":
+            pygame.mixer.Sound.play(click)
+            ship1rood = running.ship1rood
+            ship2rood = running.ship2rood
+            ship3rood = running.ship3rood
+            ship4rood = running.ship4rood
+            ship1groen = running.ship1groen
+            ship2groen = running.ship2groen
+            ship3groen = running.ship3groen
+            ship4groen = running.ship4groen
+            turn = running.Turn
+            running = Options2(turn)
+
+    elif running.type == "options2":
+        if running.quitbutton == "quit":
+            pygame.mixer.Sound.play(click)  
+            turn = running.turn
+            running = Battleport(turn,True)
+
     elif running.type == "turnscreen":
         if running.conbutton == "continue":
             pygame.mixer.Sound.play(click)  
@@ -3460,8 +3481,8 @@ while not(process_events()):
     elif running.type == "options":
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
-            pygame.mixer.music.stop()
-            mainmenu_music.play(-1)
+            #pygame.mixer.music.stop()
+            #mainmenu_music.play(-1)
             running = Menu()
     elif running.type == "highscores":
         if running.quitbutton == "quit":
