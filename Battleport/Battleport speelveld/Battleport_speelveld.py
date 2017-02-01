@@ -420,7 +420,6 @@ class Helpx1:
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 
-#Helpmenu vanaf game
 class Help2:
     def __init__(self):
         self.type = "help2"
@@ -441,7 +440,6 @@ class Help2:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-#Helpmenu regels pg2
 class Help2r1:
     def __init__(self):
         self.type = "help2r1"
@@ -460,7 +458,6 @@ class Help2r1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-#Helpmenu instructions pg1
 class Help2i1:
     def __init__(self):
         self.type = "help2i1"
@@ -480,7 +477,6 @@ class Help2i1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-#Helpmenu instructions pg2
 class Help2i2:
     def __init__(self):
         self.type = "help2i2"
@@ -504,7 +500,6 @@ class Help2i2:
         self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-#Helpmenu extra instructions
 class Help2x1:
     def __init__(self):
         self.type = "help2x1"
@@ -522,7 +517,6 @@ class Help2x1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-#Card pages
 class Cards1:
     def __init__ (self):
         self.type = "cards1"
@@ -613,7 +607,6 @@ class Cards4:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-#Card pages from game
 class Cards1g:
     def __init__ (self):
         self.type = "cards1g"
@@ -704,7 +697,6 @@ class Cards4g:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-
 class Highscores:
     def __init__(self):
         self.type = "highscores"
@@ -730,22 +722,23 @@ class Options:
     def buttons(self):
         # quitbutton
         self.quitbutton = button("Back", 50, 650, 400, 50, grey, white, "quit")
-        self.Musiconbutton = button("Music On",(w/2)-125, 450, 250, 50, grey, white, True)
-        self.Musicoffbutton = button("Music Off",(w/2)-125, 650, 250, 50, grey, white, True)
+        self.Musiconbutton = button("On",(w/2)-500, 240, 50, 50, grey, white, True)
+        self.Musicoffbutton = button("Off",(w/2)-449, 240, 50, 50, grey, white, True)
         if self.Musicoffbutton:
             mainmenu_music.stop()
+            click.stop()
         elif self.Musiconbutton:
             mainmenu_music.play()
     def texts(self):
-        text("Options", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+        #text("Options", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+        text_draw("Music: ", 50 , 50,250,white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(options_background, (0,0))
         self.buttons()
-        #self.texts()
+        self.texts()
         screen.blit(options_header, (50,50))
-        pygame.display.flip()
-    
+        pygame.display.flip()    
 class Options2:
     def __init__(self,turn):
         self.type = "options2"
@@ -754,19 +747,19 @@ class Options2:
     def buttons(self):
         # quitbutton
         self.quitbutton = button("Back", 50, 650, 400, 50, grey, white, "quit")
-        self.Musiconbutton = button("Sound On",(w/2)-125, 450, 250, 50, grey, white, True)
-        self.Musicoffbutton = button("Sound Off",(w/2)-125, 650, 250, 50, grey, white, True)
+        self.Musiconbutton = button("On",(w/2)-500, 240, 50, 50, grey, white, True)
+        self.Musicoffbutton = button("Off",(w/2)-449, 240, 50, 50, grey, white, True)
         if self.Musicoffbutton:
             ingamemusic.stop()
         elif self.Musiconbutton:
             ingamemusic.play()
     def texts(self):
-        text("Options", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
+        text_draw("Sound: ", 50 , 50,250,white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(options_background, (0,0))
         self.buttons()
-        #self.texts()
+        self.texts()
         screen.blit(options_header, (50,50))
         pygame.display.flip()   
 class Menu:
