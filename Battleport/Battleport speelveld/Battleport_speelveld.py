@@ -2806,6 +2806,7 @@ class Battleport:
         self.rotate_left_button_pressed = False
         self.rotate_right_button_pressed = False
         self.attack_button_pressed = False
+        self.rotate_left_button = False
         self.nextturnbuttonpressed = False
         self.Turn = turn
         self.rotateleft = False
