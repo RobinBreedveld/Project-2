@@ -83,8 +83,8 @@ defend_buttonActive = pygame.image.load('defend_button_greyed.bmp')
 defend_buttonInactive = pygame.image.load('defend_button.bmp')
 stopdefend_buttonActive = pygame.image.load('stopdefend_button_greyed.bmp')
 stopdefend_buttonInactive = pygame.image.load('stopdefend_button.bmp')
-save_buttonActive = pygame.image.load('save_button.bmp')
-save_buttonInactive = pygame.image.load('save_button_greyed.bmp')
+settings_buttonActive = pygame.image.load('settings_button.bmp')
+settings_buttonInactive = pygame.image.load('settings_button_greyed.bmp')
 range_indicator = pygame.image.load('range_indicator.png')
 attack_indicator = pygame.image.load('attack_indicator.png')
 ship_stats = pygame.image.load('ship_stats.bmp')
@@ -2662,8 +2662,8 @@ class Battleport:
     def buttons(self): 
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
-        # pausebutton
-        self.savebutton = button("||", 1190, 26, 80, 80, grey, white)
+        # settingsbutton
+        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, True)
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
         # nextturnbutton
