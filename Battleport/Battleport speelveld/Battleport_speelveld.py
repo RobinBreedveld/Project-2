@@ -8,20 +8,15 @@ import sqlite3
 from tkinter import *
 import tkinter.simpledialog
 import tkinter.messagebox
-
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 #database
 conn = sqlite3.connect('BP.db')
 c = conn.cursor()
-
-
-
 def create_table():
     c.execute('CREATE TABLE IF NOT EXISTS BP(Name TEXT, Wins REAL, Losses REAL, Ratio REAL)')
-
 def dynamic_data_entry():
     Name = input("Insert username ")
-    Wins = 60
+    Wins = 44
     Losses = 3
     Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
@@ -34,29 +29,22 @@ def read_data():
     for row in rows:
         print(row)
     return row
-
 def read_data1():
     c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 1')
     rows = c.fetchall()
     for row in rows:
         print(row)
     return row
-
 def read_data2():
     c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 2')
     rows = c.fetchall()
     for row in rows:
         print(row)
     return row
-
-
-     
-
-
 def uploadp1():
     Name = name1=tkinter.simpledialog.askstring("Player 1", "Set a username")
-    Wins = 60
-    Losses = 3
+    Wins = 0
+    Losses = 0
     if Losses == 0:
         Ratio = 0
     else:
@@ -73,10 +61,8 @@ def uploadp2():
         Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
     conn.commit()
-
-
-
-
+    c.close()
+    conn.close()
 def Create_players():
     root = Tk()
     root.geometry("200x200+500+500")
@@ -85,25 +71,28 @@ def Create_players():
     uploadp1()
     uploadp2()
     root.destroy()
-
-
-
-
-
-
-
-
-
-
-
-
-
-##database
-#def interact_with_database(command):
-#    # Connect and set up cursor
-#    connection = psycopg2.connect("dbname=battleport user=postgres password=DionKlein98")
-#    cursor = connection.cursor()
+def interact_with_database(command):
+    # Connect and set up cursor
+    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    cursor = connection.cursor()
     
+    # Execute the command
+    cursor.execute(command)
+    connection.commit()
+
+    # Save results
+    results = None
+    try:
+        results = cursor.fetchall()
+    except psycopg2.ProgrammingError:
+        # Nothing to fetch
+        pass
+
+    # Close connection
+    cursor.close()
+    connection.close()
+    
+    return results
 #    # Execute the command
 #    cursor.execute(command)
 #    connection.commit()
@@ -119,16 +108,13 @@ def Create_players():
 #    # Close connection
 #    cursor.close()
 #    connection.close()
-    
-#    return results
+create_table()
+def upload_score(name, wins,losses,ratio):
+    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+.format(wins,losses,ratio, name))
 
-#def upload_score(name, wins,losses,ratio):
-#    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
-#.format(wins,losses,ratio, name))
-
-#def download_scores():
-#    return interact_with_database("SELECT * FROM highscore")
-
+def download_scores():
+    return interact_with_database("SELECT * FROM highscore")
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
@@ -145,6 +131,7 @@ menu_background = pygame.image.load('menu_background.bmp')
 options_background = pygame.image.load('options_background.bmp')
 highscores_background = pygame.image.load('highscores_background.bmp')
 help_background = pygame.image.load('help_background.bmp')
+winscreen_background = pygame.image.load('winscreen_background.bmp')
 logo1 = pygame.image.load('logo1.bmp')
 instructions_pg1 = pygame.image.load('Instructions_pg1.bmp')
 instructions_pg2 = pygame.image.load('Instructions_pg2.bmp')
@@ -204,7 +191,7 @@ s6 = pygame.image.load('s6.png')
 o1 = pygame.transform.scale(o1,(250,345))
 o1_onboard = pygame.transform.scale(o1,(121,186))
 o2 = pygame.transform.scale(o2,(250,345))
-o3 = pygame.transform.scale(o3,(250,345)) 
+o3 = pygame.transform.scale(o3,(250,345))
 o3_onboard = pygame.transform.scale(o3,(121,186))
 o4 = pygame.transform.scale(o4,(250,345))
 o5 = pygame.transform.scale(o5,(250,345))
@@ -468,6 +455,7 @@ class Helpi1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
@@ -488,6 +476,7 @@ class Helpi2:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -506,6 +495,8 @@ class Helpx1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -514,6 +505,7 @@ class Helpx1:
         screen.blit(help_header, (50,50))
         pygame.display.flip()
 
+#Helpmenu vanaf game
 class Help2:
     def __init__(self):
         self.type = "help2"
@@ -525,8 +517,8 @@ class Help2:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,None)
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -534,6 +526,7 @@ class Help2:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu regels pg2
 class Help2r1:
     def __init__(self):
         self.type = "help2r1"
@@ -545,6 +538,7 @@ class Help2r1:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -552,6 +546,7 @@ class Help2r1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg1
 class Help2i1:
     def __init__(self):
         self.type = "help2i1"
@@ -571,6 +566,7 @@ class Help2i1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu instructions pg2
 class Help2i2:
     def __init__(self):
         self.type = "help2i2"
@@ -584,16 +580,14 @@ class Help2i2:
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
-    def texts(self):
-        text("HELP", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
         screen.blit(instructions_pg2, (864,50))
         self.buttons()
-        self.texts()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Helpmenu extra instructions
 class Help2x1:
     def __init__(self):
         self.type = "help2x1"
@@ -604,6 +598,8 @@ class Help2x1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -611,6 +607,7 @@ class Help2x1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Card pages
 class Cards1:
     def __init__ (self):
         self.type = "cards1"
@@ -621,6 +618,7 @@ class Cards1:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
@@ -689,6 +687,7 @@ class Cards4:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -701,6 +700,7 @@ class Cards4:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
+#Card pages from game
 class Cards1g:
     def __init__ (self):
         self.type = "cards1g"
@@ -711,6 +711,7 @@ class Cards1g:
         self.instructionbutton = button("Instructions",50,300,400,50,grey,white,"instructions1")
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
+        #self.prevbutton = button("<",839, 650,50,50,grey,white,"help")
         self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
@@ -779,6 +780,7 @@ class Cards4g:
         self.extrabutton = button("Extra",50, 380,400,50,grey,white,"extra")
         self.cardbutton = button("Cards",50, 460,400,50,grey,white,"cards1")
         self.prevbutton = button("<",1239, 650,50,50,grey,white,"help")
+        #self.nextbutton = button(">",1289, 650,50,50,grey,white,"next")
     def draw(self):
         screen.fill((background_blue))
         screen.blit(help_background, (0,0))
@@ -795,7 +797,6 @@ class Highscores:
     def __init__(self):
         self.type = "highscores"
         self.quitbutton = None
-
         self.displayname = "Name"
         self.displaywin = "Wins"
         self.displayloss = "Losses"
@@ -825,7 +826,6 @@ class Highscores:
         screen.fill((background_blue))
         screen.blit(highscores_background, (0,0))
         self.buttons()
-
         screen.blit(highscore_header, (50,50))
         self.score_text = self.font.render((str(self.highscoreName1)), 1, (255, 255, 255))
         screen.blit(self.score_text, (50, 300))
@@ -866,16 +866,14 @@ class Highscores:
 
         self.score_text6 = self.font.render((str(self.displayratio)), 1, (255, 255, 255))
         screen.blit(self.score_text6, (950, 200))
-
-
-
         pygame.display.flip()
 class Options:
     def __init__(self):
         self.type = "options"
         self.quitbutton = None
+    def texts(self):
+        text_draw("Music: ", 50 , 50,250,white)
     def buttons(self):
-        # quitbutton
         self.quitbutton = button("Back", 50, 650, 400, 50, grey, white, "quit")
         self.Musiconbutton = button("On",(w/2)-500, 240, 50, 50, grey, white, True)
         self.Musicoffbutton = button("Off",(w/2)-449, 240, 50, 50, grey, white, True)
@@ -884,21 +882,46 @@ class Options:
             click.stop()
         elif self.Musiconbutton:
             mainmenu_music.play()
-    def texts(self):
-        #text("Options", pygame.font.Font("freesansbold.ttf", 50), 50, 50, 300, 75, white)
-        text_draw("Music: ", 50 , 50,250,white)
     def draw(self):
         screen.fill((background_blue))
         screen.blit(options_background, (0,0))
         self.buttons()
-        self.texts()
+        self.texts
         screen.blit(options_header, (50,50))
-        pygame.display.flip()    
+        pygame.display.flip()
+    
+    def __init__(self):
+        self.type = "menu"
+        self.startbutton = None
+        self.exitbutton = None
+        self.optionsbutton = None
+        self.highscoresbutton = None
+        self.helpbutton = None
+        self.loadbutton = None
+    def buttons(self):
+        # startbutton
+        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
+        # loadbutton
+        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
+        # highscoresbutton
+        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
+        # optionsbutton
+        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
+        # helpbutton
+        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
+        # exitbutton
+        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(menu_background, (0,0))
+        screen.blit(logo1,((w * 0.33),(h * 0.2)))
+        self.buttons()
+        screen.blit(menu_header, (50,50))
+        pygame.display.flip()
 class Options2:
-    def __init__(self,turn):
+    def __init__(self):
         self.type = "options2"
         self.quitbutton = None
-        self.turn = turn
     def buttons(self):
         # quitbutton
         self.quitbutton = button("Back", 50, 650, 400, 50, grey, white, "quit")
@@ -971,7 +994,7 @@ class Ship:
         self.HP = self.Length
         self.damage = 1
         self.extradamage = 0
-        #linkerkant
+        #linkerkant attack
         self.pos1 = Coordinate((x - 4), y)
         self.pos2 = Coordinate((x - 3), y)
         self.pos3 = Coordinate((x - 2), y)
@@ -988,7 +1011,7 @@ class Ship:
         self.pos14 = Coordinate((x - 3), y + 3)
         self.pos15 = Coordinate((x - 2), y + 3)
         self.pos16 = Coordinate((x - 1), y + 3)
-        #rechterkant
+        #rechterkant attack
         self.pos17 = Coordinate((x + 4), y)
         self.pos18 = Coordinate((x + 3), y)
         self.pos19 = Coordinate((x + 2), y)
@@ -1005,16 +1028,22 @@ class Ship:
         self.pos30 = Coordinate((x + 3), y + 3)
         self.pos31 = Coordinate((x + 2), y + 3)
         self.pos32 = Coordinate((x + 1), y + 3)
-        #onderkant
+        #onderkant attack
         self.pos33 = Coordinate(x, y + self.Length)
         self.pos34 = Coordinate(x, y + self.Length + 1)
         self.pos35 = Coordinate(x, y + self.Length + 2)
         self.pos36 = Coordinate(x, y + self.Length + 3)
-        #bovenkant
+        #bovenkant attack
         self.pos37 = Coordinate(x, y - self.Length)
         self.pos38 = Coordinate(x, y - self.Length - 1)
         self.pos39 = Coordinate(x, y - self.Length - 2)
         self.pos40 = Coordinate(x, y - self.Length - 3)
+        #onderkant defend
+        self.pos101 = Coordinate(x, y + 5)
+        self.pos102 = Coordinate(x, y + 4)
+        self.pos103 = Coordinate(x, y + 3)
+        self.pos104 = Coordinate(x, y + 2)
+        self.pos105 = Coordinate(x, y + 1)
 
         self.pos1a_pressed = False
         self.pos2a_pressed = False
@@ -1108,7 +1137,7 @@ class Ship:
         if self.selected == 1:
             self.Active = True
     def move(self):
-        self.Steps = self.Movement
+            self.Steps = self.Movement
     def rotate(self, amount):
         self.Rotation += amount
         self.Steps -= 1
@@ -2781,6 +2810,12 @@ class Battleport:
         self.quitbutton = None
         self.helpbutton = None
         self.nextturnbutton = False
+        self.move_up_button = False
+        self.move_down_button = False
+        self.move_left_button = False
+        self.move_right_button = False
+        self.attack_button = False
+        self.rotate_left_button = False
         if load:
             self.ship1rood = ship1rood
             self.ship2rood = ship2rood
@@ -2809,20 +2844,22 @@ class Battleport:
         self.rotate_left_button = False
         self.nextturnbuttonpressed = False
         self.Turn = turn
-        self.rotateleft = False
     def buttons(self): 
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
         # settingsbutton
-        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, "options2")
+        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, True)
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
         # nextturnbutton
-        self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white,True,"freesansbold.ttf", 20)
+        self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white, True, "freesansbold.ttf", 20)
+		# card use button
+		#self.usecardbutton = button("Use", 1200, 210, 121, 60, grey, white, True, "freesansbold.ttf", 20)
     def update(self):
         self.card_o1 = clickable_picture(898, 307, 121, 186, o1, o1_onboard, True, "card")
         self.card_o3 = clickable_picture(1048, 307, 121, 186, o3, o3_onboard, True, "card")
         self.card_d1 = clickable_picture(1197, 307, 121, 186, d1, d1_onboard, True, "card")
+        #if self.card_01:  
         if self.Turn == "rood":
             self.ship1rood.clickpicture()
             self.ship2rood.clickpicture()
@@ -2837,343 +2874,371 @@ class Battleport:
             self.ship1rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship1rood.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship1rood.Rotation == 180:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
-                self.ship1rood.Active = False
-                if self.ship1rood.Stance == "attack":
-                    self.ship1rood.Stance = "normal"
-            if self.move_up_button:
-                self.move_up_button_pressed = True
-                self.move_up_button = False
-            elif self.move_up_button_pressed:
-                self.ship1rood.Coordinate.Y -= 1
-                self.ship1rood.Steps -= 1
-                self.move_up_button_pressed = False
-            if self.move_down_button:
-                self.move_down_button_pressed = True
-                self.move_down_button = False
-            elif self.move_down_button_pressed:
-                self.ship1rood.Coordinate.Y += 1
-                self.ship1rood.Steps -= 1
-                self.move_down_button_pressed = False
-            if self.move_left_button:
-                self.move_left_button_pressed = True
-                self.move_left_button = False
-            elif self.move_left_button_pressed:
-                self.ship1rood.Coordinate.X -= 1
-                self.ship1rood.Steps -= 1
-                self.move_left_button_pressed = False
-            if self.move_right_button:
-                self.move_right_button_pressed = True
-                self.move_right_button = False
-            elif self.move_right_button_pressed:
-                self.ship1rood.Coordinate.X += 1
-                self.ship1rood.Steps -= 1
-                self.move_right_button_pressed = False
-            if self.rotate_left_button:
-                self.rotate_left_button_pressed = True
-                self.rotateleft = True
-                self.rotate_left_button = False
-            elif self.rotate_left_button_pressed:
-                self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
-                if self.rotateleft:
-                    self.ship1rood.rotate(90)
-                    self.rotateleft = False
-                    if self.ship1rood.Rotation == 270:
-                        self.ship1rood.Coordinate.X -= 1
-                        self.ship1rood.Coordinate.Y += 1
-                    if self.ship1rood.Rotation == 0:
-                        self.ship1rood.Coordinate.X += 1
-                    if self.ship1rood.Rotation == 180:
-                        self.ship1rood.Coordinate.Y -= 1
-                if self.rotate_right_button:
-                    self.ship1rood.rotate(-90)
-                    self.rotate_left_button_pressed = False
-                    if self.ship1rood.Rotation == 90:
-                        self.ship1rood.Coordinate.Y += 1
-                    if self.ship1rood.Rotation == 270:
-                        self.ship1rood.Coordinate.X -= 1
-                    if self.ship1rood.Rotation == 180:
-                        self.ship1rood.Coordinate.X += 1
-                        self.ship1rood.Coordinate.Y -= 1
-            if self.attack_button:
-                self.attack_button_pressed = True
-                self.attack_button = False
-            elif self.attack_button_pressed:
-                self.ship1rood.Stance = "attack"
-                self.ship1rood.prepare_attack()
-                self.ship1rood.attack()
-                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
-                if self.stop_attack_button:
-                    self.attack_button_pressed = False
-                    self.ship1rood.Stance = "normal"
+                    self.ship1rood.Active = False
+                    if self.ship1rood.Stance == "attack":
+                        self.ship1rood.Stance = "normal"
+            if self.ship1rood.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship1rood.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
+                if self.move_up_button:
+                    self.move_up_button_pressed = True
+                    self.move_up_button = False
+                elif self.move_up_button_pressed:
+                    self.ship1rood.Coordinate.Y -= 1
+                    self.ship1rood.Steps -= 1
+                    self.move_up_button_pressed = False
+                if self.move_down_button:
+                    self.move_down_button_pressed = True
+                    self.move_down_button = False
+                elif self.move_down_button_pressed:
+                    self.ship1rood.Coordinate.Y += 1
+                    self.ship1rood.Steps -= 1
+                    self.move_down_button_pressed = False
+                if self.move_left_button:
+                    self.move_left_button_pressed = True
+                    self.move_left_button = False
+                elif self.move_left_button_pressed:
+                    self.ship1rood.Coordinate.X -= 1
+                    self.ship1rood.Steps -= 1
+                    self.move_left_button_pressed = False
+                if self.move_right_button:
+                    self.move_right_button_pressed = True
+                    self.move_right_button = False
+                elif self.move_right_button_pressed:
+                    self.ship1rood.Coordinate.X += 1
+                    self.ship1rood.Steps -= 1
+                    self.move_right_button_pressed = False
+                if self.rotate_left_button:
+                    self.rotate_left_button_pressed = True
+                    self.rotateleft = True  
+                    self.rotate_left_button = False
+                if self.rotate_left_button_pressed:
+                    self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
+                    if self.rotateleft:
+                        self.ship1rood.rotate(90)
+                        self.rotateleft = False
+                        if self.ship1rood.Rotation == 270:
+                            self.ship1rood.Coordinate.X -= 1
+                            self.ship1rood.Coordinate.Y += 1
+                        if self.ship1rood.Rotation == 0:
+                            self.ship1rood.Coordinate.X += 1
+                        if self.ship1rood.Rotation == 180:
+                            self.ship1rood.Coordinate.Y -= 1
+                    if self.rotate_right_button:
+                        self.ship1rood.rotate(-90)
+                        self.rotate_left_button_pressed = False
+                        if self.ship1rood.Rotation == 90:
+                            self.ship1rood.Coordinate.Y += 1
+                        if self.ship1rood.Rotation == 270:
+                            self.ship1rood.Coordinate.X -= 1
+                        if self.ship1rood.Rotation == 180:
+                            self.ship1rood.Coordinate.X += 1
+                            self.ship1rood.Coordinate.Y -= 1
+                if self.attack_button:
+                    self.attack_button_pressed = True
+                    self.attack_button = False
+                elif self.attack_button_pressed:
+                    if self.ship1rood.Stance == "defend":
+                        self.ship1rood.Stance = "attackdefend"
+                    elif self.ship4rood.Stance == "normal":
+                        self.ship1rood.Stance = "attack"
+                    self.ship1rood.prepare_attack()
+                    self.ship1rood.attack()
+                    self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                    if self.stop_attack_button:
+                        self.attack_button_pressed = False
+                        if self.ship1rood.Stance == "attack":
+                            self.ship1rood.Stance = "normal"
+                        elif self.ship1rood.Stance == "attackdefend":
+                            self.ship1rood.Stance = "defend"
         if self.ship2rood.Active:
             self.ship2rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship2rood.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship2rood.Rotation == 180:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2rood.Active = False
                 if self.ship2rood.Stance == "attack":
                     self.ship2rood.Stance = "normal"
-            if self.move_up_button:
-                self.move_up_button_pressed = True
-                self.move_up_button = False
-            elif self.move_up_button_pressed:
-                self.ship2rood.Coordinate.Y -= 1
-                self.ship2rood.Steps -= 1
-                self.move_up_button_pressed = False
-            if self.move_down_button:
-                self.move_down_button_pressed = True
-                self.move_down_button = False
-            elif self.move_down_button_pressed:
-                self.ship2rood.Coordinate.Y += 1
-                self.ship2rood.Steps -= 1
-                self.move_down_button_pressed = False
-            if self.move_left_button:
-                self.move_left_button_pressed = True
-                self.move_left_button = False
-            elif self.move_left_button_pressed:
-                self.ship2rood.Coordinate.X -= 1
-                self.ship2rood.Steps -= 1
-                self.move_left_button_pressed = False
-            if self.move_right_button:
-                self.move_right_button_pressed = True
-                self.move_right_button = False
-            elif self.move_right_button_pressed:
-                self.ship2rood.Coordinate.X += 1
-                self.ship2rood.Steps -= 1
-                self.move_right_button_pressed = False
-            if self.rotate_left_button:
-                self.rotate_left_button_pressed = True
-                self.rotateleft = True
-                self.rotate_left_button = False
-            elif self.rotate_left_button_pressed:
-                self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
-                if self.rotateleft:
-                    self.ship2rood.rotate(90)
-                    self.rotateleft = False
-                    if self.ship2rood.Rotation == 270:
-                        self.ship2rood.Coordinate.X -= 2
-                        self.ship2rood.Coordinate.Y += 2
-                    if self.ship2rood.Rotation == 0:
-                        self.ship2rood.Coordinate.X += 2
-                    if self.ship2rood.Rotation == 180:
-                        self.ship2rood.Coordinate.Y -= 2
-                if self.rotate_right_button:
-                    self.ship2rood.rotate(-90)
-                    self.rotate_left_button_pressed = False
-                    if self.ship2rood.Rotation == 90:
-                        self.ship2rood.Coordinate.Y += 2
-                    if self.ship2rood.Rotation == 270:
-                        self.ship2rood.Coordinate.X -= 2
-                    if self.ship2rood.Rotation == 180:
-                        self.ship2rood.Coordinate.X += 2
-                        self.ship2rood.Coordinate.Y -= 2
-            if self.attack_button:
-                self.attack_button_pressed = True
-                self.attack_button = False
-            elif self.attack_button_pressed:
-                self.ship2rood.Stance = "attack"
-                self.ship2rood.prepare_attack()
-                self.ship2rood.attack()
-                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
-                if self.stop_attack_button:
-                    self.attack_button_pressed = False
-                    self.ship2rood.Stance = "normal"
+            if self.ship2rood.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship2rood.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
+                if self.move_up_button:
+                    self.move_up_button_pressed = True
+                    self.move_up_button = False
+                elif self.move_up_button_pressed:
+                    self.ship2rood.Coordinate.Y -= 1
+                    self.ship2rood.Steps -= 1
+                    self.move_up_button_pressed = False
+                if self.move_down_button:
+                    self.move_down_button_pressed = True
+                    self.move_down_button = False
+                elif self.move_down_button_pressed:
+                    self.ship2rood.Coordinate.Y += 1
+                    self.ship2rood.Steps -= 1
+                    self.move_down_button_pressed = False
+                if self.move_left_button:
+                    self.move_left_button_pressed = True
+                    self.move_left_button = False
+                elif self.move_left_button_pressed:
+                    self.ship2rood.Coordinate.X -= 1
+                    self.ship2rood.Steps -= 1
+                    self.move_left_button_pressed = False
+                if self.move_right_button:
+                    self.move_right_button_pressed = True
+                    self.move_right_button = False
+                elif self.move_right_button_pressed:
+                    self.ship2rood.Coordinate.X += 1
+                    self.ship2rood.Steps -= 1
+                    self.move_right_button_pressed = False
+                if self.rotate_left_button:
+                    self.rotate_left_button_pressed = True
+                    self.rotateleft = True
+                    self.rotate_left_button = False
+                if self.rotate_left_button_pressed:
+                    self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
+                    if self.rotateleft:
+                        self.ship2rood.rotate(90)
+                        self.rotateleft = False
+                        if self.ship2rood.Rotation == 270:
+                            self.ship2rood.Coordinate.X -= 2
+                            self.ship2rood.Coordinate.Y += 2
+                        if self.ship2rood.Rotation == 0:
+                            self.ship2rood.Coordinate.X += 2
+                        if self.ship2rood.Rotation == 180:
+                            self.ship2rood.Coordinate.Y -= 2
+                    if self.rotate_right_button:
+                        self.ship2rood.rotate(-90)
+                        self.rotate_left_button_pressed = False
+                        if self.ship2rood.Rotation == 90:
+                            self.ship2rood.Coordinate.Y += 2
+                        if self.ship2rood.Rotation == 270:
+                            self.ship2rood.Coordinate.X -= 2
+                        if self.ship2rood.Rotation == 180:
+                            self.ship2rood.Coordinate.X += 2
+                            self.ship2rood.Coordinate.Y -= 2
+                if self.attack_button:
+                    self.attack_button_pressed = True
+                    self.attack_button = False
+                elif self.attack_button_pressed:
+                    if self.ship2rood.Stance == "defend":
+                        self.ship2rood.Stance = "attackdefend"
+                    elif self.ship4rood.Stance == "normal":
+                        self.ship2rood.Stance = "attack"
+                    self.ship2rood.prepare_attack()
+                    self.ship2rood.attack()
+                    self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                    if self.stop_attack_button:
+                        self.attack_button_pressed = False
+                        if self.ship2rood.Stance == "attack":
+                            self.ship2rood.Stance = "normal"
+                        elif self.ship2rood.Stance == "attackdefend":
+                            self.ship2rood.Stance = "defend"
         if self.ship3rood.Active:
             self.ship3rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship3rood.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship3rood.Rotation == 180:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3rood.Active = False
                 if self.ship3rood.Stance == "attack":
                     self.ship3rood.Stance = "normal"
-            if self.move_up_button:
-                self.move_up_button_pressed = True
-                self.move_up_button = False
-            elif self.move_up_button_pressed:
-                self.ship3rood.Coordinate.Y -= 1
-                self.ship3rood.Steps -= 1
-                self.move_up_button_pressed = False
-            if self.move_down_button:
-                self.move_down_button_pressed = True
-                self.move_down_button = False
-            elif self.move_down_button_pressed:
-                self.ship3rood.Coordinate.Y += 1
-                self.ship3rood.Steps -= 1
-                self.move_down_button_pressed = False
-            if self.move_left_button:
-                self.move_left_button_pressed = True
-                self.move_left_button = False
-            elif self.move_left_button_pressed:
-                self.ship3rood.Coordinate.X -= 1
-                self.ship3rood.Steps -= 1
-                self.move_left_button_pressed = False
-            if self.move_right_button:
-                self.move_right_button_pressed = True
-                self.move_right_button = False
-            elif self.move_right_button_pressed:
-                self.ship3rood.Coordinate.X += 1
-                self.ship3rood.Steps -= 1
-                self.move_right_button_pressed = False
-            if self.rotate_left_button:
-                self.rotate_left_button_pressed = True
-                self.rotateleft = True
-                self.rotate_left_button = False
-            elif self.rotate_left_button_pressed:
-                self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
-                if self.rotateleft:
-                    self.ship3rood.rotate(90)
-                    self.rotateleft = False
-                    if self.ship3rood.Rotation == 270:
-                        self.ship3rood.Coordinate.X -= 2
-                        self.ship3rood.Coordinate.Y += 2
-                    if self.ship3rood.Rotation == 0:
-                        self.ship3rood.Coordinate.X += 2
-                    if self.ship3rood.Rotation == 180:
-                        self.ship3rood.Coordinate.Y -= 2
-                if self.rotate_right_button:
-                    self.ship3rood.rotate(-90)
-                    self.rotate_left_button_pressed = False
-                    if self.ship3rood.Rotation == 90:
-                        self.ship3rood.Coordinate.Y += 2
-                    if self.ship3rood.Rotation == 270:
-                        self.ship3rood.Coordinate.X -= 2
-                    if self.ship3rood.Rotation == 180:
-                        self.ship3rood.Coordinate.X += 2
-                        self.ship3rood.Coordinate.Y -= 2
-            if self.attack_button:
-                self.attack_button_pressed = True
-                self.attack_button = False
-            elif self.attack_button_pressed:
-                self.ship3rood.Stance = "attack"
-                self.ship3rood.prepare_attack()
-                self.ship3rood.attack()
-                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
-                if self.stop_attack_button:
-                    self.attack_button_pressed = False
-                    self.ship3rood.Stance = "normal"
+            if self.ship3rood.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)    
+                if self.ship3rood.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
+                if self.move_up_button:
+                    self.move_up_button_pressed = True
+                    self.move_up_button = False
+                elif self.move_up_button_pressed:
+                    self.ship3rood.Coordinate.Y -= 1
+                    self.ship3rood.Steps -= 1
+                    self.move_up_button_pressed = False
+                if self.move_down_button:
+                    self.move_down_button_pressed = True
+                    self.move_down_button = False
+                elif self.move_down_button_pressed:
+                    self.ship3rood.Coordinate.Y += 1
+                    self.ship3rood.Steps -= 1
+                    self.move_down_button_pressed = False
+                if self.move_left_button:
+                    self.move_left_button_pressed = True
+                    self.move_left_button = False
+                elif self.move_left_button_pressed:
+                    self.ship3rood.Coordinate.X -= 1
+                    self.ship3rood.Steps -= 1
+                    self.move_left_button_pressed = False
+                if self.move_right_button:
+                    self.move_right_button_pressed = True
+                    self.move_right_button = False
+                elif self.move_right_button_pressed:
+                    self.ship3rood.Coordinate.X += 1
+                    self.ship3rood.Steps -= 1
+                    self.move_right_button_pressed = False
+                if self.rotate_left_button:
+                    self.rotate_left_button_pressed = True
+                    self.rotateleft = True
+                    self.rotate_left_button = False
+                if self.rotate_left_button_pressed:
+                    self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
+                    if self.rotateleft:
+                        self.ship3rood.rotate(90)
+                        self.rotateleft = False
+                        if self.ship3rood.Rotation == 270:
+                            self.ship3rood.Coordinate.X -= 2
+                            self.ship3rood.Coordinate.Y += 2
+                        if self.ship3rood.Rotation == 0:
+                            self.ship3rood.Coordinate.X += 2
+                        if self.ship3rood.Rotation == 180:
+                            self.ship3rood.Coordinate.Y -= 2
+                    if self.rotate_right_button:
+                        self.ship3rood.rotate(-90)
+                        self.rotate_left_button_pressed = False
+                        if self.ship3rood.Rotation == 90:
+                            self.ship3rood.Coordinate.Y += 2
+                        if self.ship3rood.Rotation == 270:
+                            self.ship3rood.Coordinate.X -= 2
+                        if self.ship3rood.Rotation == 180:
+                            self.ship3rood.Coordinate.X += 2
+                            self.ship3rood.Coordinate.Y -= 2
+                if self.attack_button:
+                    self.attack_button_pressed = True
+                    self.attack_button = False
+                elif self.attack_button_pressed:
+                    if self.ship3rood.Stance == "defend":
+                        self.ship3rood.Stance = "attackdefend"
+                    elif self.ship3rood.Stance == "normal":
+                        self.ship3rood.Stance = "attack"
+                    self.ship3rood.prepare_attack()
+                    self.ship3rood.attack()
+                    self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                    if self.stop_attack_button:
+                        self.attack_button_pressed = False
+                        if self.ship3rood.Stance == "attack":
+                            self.ship3rood.Stance = "normal"
+                        elif self.ship3rood.Stance == "attackdefend":
+                            self.ship3rood.Stance = "defend"
         if self.ship4rood.Active:
             self.ship4rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship4rood.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-			### RENS EDIT
-            if self.ship4rood.Rotation == 180:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship4rood.Active = False
                 if self.ship4rood.Stance == "attack":
                     self.ship4rood.Stance = "normal"
-            if self.move_up_button:
-                self.move_up_button_pressed = True
-                self.move_up_button = False
-            elif self.move_up_button_pressed:
-                self.ship4rood.Coordinate.Y -= 1
-                self.ship4rood.Steps -= 1
-                self.move_up_button_pressed = False
-            if self.move_down_button:
-                self.move_down_button_pressed = True
-                self.move_down_button = False
-            elif self.move_down_button_pressed:
-                self.ship4rood.Coordinate.Y += 1
-                self.ship4rood.Steps -= 1
-                self.move_down_button_pressed = False
-            if self.move_left_button:
-                self.move_left_button_pressed = True
-                self.move_left_button = False
-            elif self.move_left_button_pressed:
-                self.ship4rood.Coordinate.X -= 1
-                self.ship4rood.Steps -= 1
-                self.move_left_button_pressed = False
-            if self.move_right_button:
-                self.move_right_button_pressed = True
-                self.move_right_button = False
-            elif self.move_right_button_pressed:
-                self.ship4rood.Coordinate.X += 1
-                self.ship4rood.Steps -= 1
-                self.move_right_button_pressed = False
-            if self.rotate_left_button:
-                self.rotate_left_button_pressed = True
-                self.rotateleft = True
-                self.rotate_left_button = False
-            elif self.rotate_left_button_pressed:
-                self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
-                if self.rotateleft:
-                    self.ship4rood.rotate(90)
-                    self.rotateleft = False
-                    if self.ship4rood.Rotation == 270:
-                        self.ship4rood.Coordinate.X -= 3
-                        self.ship4rood.Coordinate.Y += 3
-                    if self.ship4rood.Rotation == 0:
-                        self.ship4rood.Coordinate.X += 3
-                    if self.ship4rood.Rotation == 180:
-                        self.ship4rood.Coordinate.Y -= 3
-                if self.rotate_right_button:
-                    self.ship4rood.rotate(-90)
-                    self.rotate_left_button_pressed = False
-                    if self.ship4rood.Rotation == 90:
-                        self.ship4rood.Coordinate.Y += 3
-                    if self.ship4rood.Rotation == 270:
-                        self.ship4rood.Coordinate.X -= 3
-                    if self.ship4rood.Rotation == 180:
-                        self.ship4rood.Coordinate.X += 3
-                        self.ship4rood.Coordinate.Y -= 3
-            if self.attack_button:
-                self.attack_button_pressed = True
-                self.attack_button = False
-            elif self.attack_button_pressed:
-                self.ship4rood.Stance = "attack"
-                self.ship4rood.prepare_attack()
-                self.ship4rood.attack()
-                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
-                if self.stop_attack_button:
-                    self.attack_button_pressed = False
-                    self.ship4rood.Stance = "normal"
+            if self.ship4rood.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship4rood.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
+                if self.move_up_button:
+                    self.move_up_button_pressed = True
+                    self.move_up_button = False
+                elif self.move_up_button_pressed:
+                    self.ship4rood.Coordinate.Y -= 1
+                    self.ship4rood.Steps -= 1
+                    self.move_up_button_pressed = False
+                if self.move_down_button:
+                    self.move_down_button_pressed = True
+                    self.move_down_button = False
+                elif self.move_down_button_pressed:
+                    self.ship4rood.Coordinate.Y += 1
+                    self.ship4rood.Steps -= 1
+                    self.move_down_button_pressed = False
+                if self.move_left_button:
+                    self.move_left_button_pressed = True
+                    self.move_left_button = False
+                elif self.move_left_button_pressed:
+                    self.ship4rood.Coordinate.X -= 1
+                    self.ship4rood.Steps -= 1
+                    self.move_left_button_pressed = False
+                if self.move_right_button:
+                    self.move_right_button_pressed = True
+                    self.move_right_button = False
+                elif self.move_right_button_pressed:
+                    self.ship4rood.Coordinate.X += 1
+                    self.ship4rood.Steps -= 1
+                    self.move_right_button_pressed = False
+                if self.rotate_left_button:
+                    self.rotate_left_button_pressed = True
+                    self.rotateleft = True
+                    self.rotate_left_button = False
+                if self.rotate_left_button_pressed:
+                    self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
+                    if self.rotateleft:
+                        self.ship4rood.rotate(90)
+                        self.rotateleft = False
+                        if self.ship4rood.Rotation == 270:
+                            self.ship4rood.Coordinate.X -= 3
+                            self.ship4rood.Coordinate.Y += 3
+                        if self.ship4rood.Rotation == 0:
+                            self.ship4rood.Coordinate.X += 3
+                        if self.ship4rood.Rotation == 180:
+                            self.ship4rood.Coordinate.Y -= 3
+                    if self.rotate_right_button:
+                        self.ship4rood.rotate(-90)
+                        self.rotate_left_button_pressed = False
+                        if self.ship4rood.Rotation == 90:
+                            self.ship4rood.Coordinate.Y += 3
+                        if self.ship4rood.Rotation == 270:
+                            self.ship4rood.Coordinate.X -= 3
+                        if self.ship4rood.Rotation == 180:
+                            self.ship4rood.Coordinate.X += 3
+                            self.ship4rood.Coordinate.Y -= 3
+                if self.attack_button:
+                    self.attack_button_pressed = True
+                    self.attack_button = False
+                elif self.attack_button_pressed:
+                    if self.ship4rood.Stance == "defend":
+                        self.ship4rood.Stance = "attackdefend"
+                    elif self.ship4rood.Stance == "normal":
+                        self.ship4rood.Stance = "attack"
+                    self.ship4rood.prepare_attack()
+                    self.ship4rood.attack()
+                    self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                    if self.stop_attack_button:
+                        self.attack_button_pressed = False
+                        if self.ship4rood.Stance == "attack":
+                            self.ship4rood.Stance = "normal"
+                        elif self.ship4rood.Stance == "attackdefend":
+                            self.ship4rood.Stance = "defend"
         if self.ship1groen.Active:
             self.ship1groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship1groen.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship1groen.Rotation == 0:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship1groen.Active = False
                 if self.ship1groen.Stance == "attack":
                     self.ship1groen.Stance = "normal"
+            if self.ship1groen.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship1groen.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -3232,28 +3297,36 @@ class Battleport:
                 self.attack_button_pressed = True
                 self.attack_button = False
             elif self.attack_button_pressed:
-                self.ship1groen.Stance = "attack"
+                if self.ship1groen.Stance == "defend":
+                    self.ship1groen.Stance = "attackdefend"
+                elif self.ship1groen.Stance == "normal":
+                    self.ship1groen.Stance = "attack"
                 self.ship1groen.prepare_attack()
+                self.ship1groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
-                    self.ship1groen.Stance = "normal"
+                    if self.ship1groen.Stance == "attack":
+                        self.ship1groen.Stance = "normal"
+                    elif self.ship1groen.Stance == "attackdefend":
+                            self.ship1groen.Stance = "defend"
         if self.ship2groen.Active:
             self.ship2groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship2groen.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship2groen.Rotation == 0:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship2groen.Active = False
                 if self.ship2groen.Stance == "attack":
                     self.ship2groen.Stance = "normal"
+            if self.ship2groen.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship2groen.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -3314,26 +3387,40 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship2groen.Stance = "attack"
                 self.ship2groen.prepare_attack()
+                self.ship2groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
-                    self.ship2groen.Stance = "normal"
+                    if self.ship2groen.Stance == "defend":
+                        self.ship2groen.Stance = "attackdefend"
+                    elif self.ship2groen.Stance == "normal":
+                        self.ship2groen.Stance = "attack"
+                    self.ship2groen.prepare_attack()
+                    self.ship2groen.attack()
+                    self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                    if self.stop_attack_button:
+                        self.attack_button_pressed = False
+                        if self.ship2groen.Stance == "attack":
+                            self.ship2groen.Stance = "normal"
+                        elif self.ship2groen.Stance == "attackdefend":
+                            self.ship2groen.Stance = "defend"
         if self.ship3groen.Active:
             self.ship3groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship3groen.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship3groen.Rotation == 0:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship3groen.Active = False
                 if self.ship3groen.Stance == "attack":
                     self.ship3groen.Stance = "normal"
+            if self.ship3groen.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship3groen.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -3394,26 +3481,40 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship3groen.Stance = "attack"
                 self.ship3groen.prepare_attack()
+                self.ship3groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
-                    self.ship3groen.Stance = "normal"
+                    if self.ship3groen.Stance == "defend":
+                        self.ship3groen.Stance = "attackdefend"
+                    elif self.ship3groen.Stance == "normal":
+                        self.ship3groen.Stance = "attack"
+                self.ship3groen.prepare_attack()
+                self.ship3groen.attack()
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                if self.stop_attack_button:
+                    self.attack_button_pressed = False
+                    if self.ship3groen.Stance == "attack":
+                        self.ship3groen.Stance = "normal"
+                    elif self.ship3groen.Stance == "attackdefend":
+                            self.ship3groen.Stance = "defend"
         if self.ship4groen.Active:
             self.ship4groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship4groen.HP), 25, 969, 113)
-            self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-            self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-            self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-            self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
-            if self.ship4groen.Rotation == 0:
-                self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
-            self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.cancel_button:
                 self.ship4groen.Active = False
                 if self.ship4groen.Stance == "attack":
                     self.ship4groen.Stance = "normal"
+            if self.ship4groen.HP > 0:
+                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                if self.ship4groen.Rotation == 180:
+                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
                 self.move_up_button = False
@@ -3474,10 +3575,23 @@ class Battleport:
             elif self.attack_button_pressed:
                 self.ship4groen.Stance = "attack"
                 self.ship4groen.prepare_attack()
+                self.ship4groen.attack()
                 self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
                 if self.stop_attack_button:
                     self.attack_button_pressed = False
-                    self.ship4groen.Stance = "normal"
+                    if self.ship4groen.Stance == "defend":
+                        self.ship4groen.Stance = "attackdefend"
+                    elif self.ship4groen.Stance == "normal":
+                        self.ship4groen.Stance = "attack"
+                self.ship4groen.prepare_attack()
+                self.ship4groen.attack()
+                self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
+                if self.stop_attack_button:
+                    self.attack_button_pressed = False
+                    if self.ship4groen.Stance == "attack":
+                        self.ship4groen.Stance = "normal"
+                    elif self.ship4groen.Stance == "attackdefend":
+                        self.ship4groen.Stance = "defend"
         if self.nextturnbutton:
             self.nextturnbuttonpressed = True
             self.nextturnbutton = False
@@ -3549,8 +3663,26 @@ class Battleport:
             if self.ship4rood.Stance == "attack":
                 self.ship4rood.drawrange()
         pygame.display.flip()
+class Winscreen:
+    def __init__(self, winnaar):
+        self.type = "winscreen"
+        self.Winnaar = winnaar
+        self.displaytext = "Congratulations, Player " + self.Winnaar
+        self.returnbutton = False
+    def buttons(self):
+        self.returnbutton = button("Return to main menu", 50, 500, 150, 50, grey, white, True)
+    def draw(self):
+        screen.fill(background_blue)
+        screen.blit(winscreen_background, (0,0))
+        self.buttons()
+        text_draw(self.displaytext, 60, 50, 50, black)
 running = Menu()
 while not(process_events()):
+    if running.type == "battleport":
+        if running.ship1groen.HP <= 0 and running.ship2groen.HP <= 0 and running.ship3groen.HP <= 0 and running.ship4groen.HP <= 0:
+            running = Winscreen("rood")
+        elif running.ship1rood.HP <= 0 and running.ship2rood.HP <= 0 and running.ship3rood.HP <= 0 and running.ship4rood.HP <= 0:
+            running = Winscreen("groen")
     if running.type == "menu":
         if running.startbutton == "start":
             pygame.mixer.Sound.play(click)
@@ -3606,7 +3738,7 @@ while not(process_events()):
             turn = running.Turn     
             running = Turnscreen(turn)
         elif running.settings_button == "options2":
-            pygame.mixer.Sound.play(click)
+            pygame.mixer.Sound.play(click)   
             ship1rood = running.ship1rood
             ship2rood = running.ship2rood
             ship3rood = running.ship3rood
@@ -3616,26 +3748,27 @@ while not(process_events()):
             ship3groen = running.ship3groen
             ship4groen = running.ship4groen
             turn = running.Turn
-            running = Options2(turn)
-
-    elif running.type == "options2":
-        if running.quitbutton == "quit":
-            pygame.mixer.Sound.play(click)  
-            turn = running.turn
-            running = Battleport(turn,True)
-
+            running = Options2()
+    elif running.type == "winscreen":
+        if running.returnbutton:
+            running = Menu()
     elif running.type == "turnscreen":
         if running.conbutton == "continue":
             pygame.mixer.Sound.play(click)  
             turn = running.turn
             running = Battleport(turn,True)
-
     elif running.type == "options":
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
-            #pygame.mixer.music.stop()
-            #mainmenu_music.play(-1)
+            pygame.mixer.music.stop()
+            mainmenu_music.play(-1)
             running = Menu()
+    elif running.type == "options2":
+        if running.quitbutton == "quit":
+            pygame.mixer.Sound.play(click)
+            pygame.mixer.music.stop()
+            mainmenu_music.play(-1)
+            running = Battleport(turn, True)
     elif running.type == "highscores":
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
@@ -3751,7 +3884,6 @@ while not(process_events()):
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
             running = Cards1()
-
     elif running.type == "help2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -3846,8 +3978,7 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1g()
-    #cards menu (offensive) cards1
+            running = Cards1()
     elif running.type == "cards1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -3867,7 +3998,6 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Cards2()
-    #cards menu (defensive) cards2
     elif running.type == "cards2":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -3912,7 +4042,6 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards2()
-
     elif running.type == "cards4":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -3932,8 +4061,6 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards3()
-
-    #cards menu (in game)
     elif running.type == "cards1g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -3953,7 +4080,6 @@ while not(process_events()):
         elif running.nextbutton == "next":
             pygame.mixer.Sound.play(click)
             running = Cards2g()
-    #cards menu (in game)
     elif running.type == "cards2g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -3976,8 +4102,6 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards1g()
-
-            # cards menu (in game)
     elif running.type == "cards3g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -4000,7 +4124,6 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards2g()
-        #cards menu in game
     elif running.type == "cards4g":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
@@ -4020,5 +4143,4 @@ while not(process_events()):
         elif running.prevbutton == "help":
             pygame.mixer.Sound.play(click)
             running = Cards3g()
-
     running.draw()
