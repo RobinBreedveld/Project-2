@@ -21,7 +21,7 @@ def create_table():
 
 def dynamic_data_entry():
     Name = input("Insert username ")
-    Wins = 44
+    Wins = 60
     Losses = 3
     Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
@@ -29,13 +29,34 @@ def dynamic_data_entry():
     c.close()
     conn.close()
 def read_data():
-    c.execute('SELECT * FROM BP order by Ratio DESC')
-    for row in c.fetchall():
+    c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 0')
+    rows = c.fetchall()
+    for row in rows:
         print(row)
+    return row
+
+def read_data1():
+    c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 1')
+    rows = c.fetchall()
+    for row in rows:
+        print(row)
+    return row
+
+def read_data2():
+    c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 2')
+    rows = c.fetchall()
+    for row in rows:
+        print(row)
+    return row
+
+
+     
+
+
 def uploadp1():
     Name = name1=tkinter.simpledialog.askstring("Player 1", "Set a username")
-    Wins = 0
-    Losses = 0
+    Wins = 60
+    Losses = 3
     if Losses == 0:
         Ratio = 0
     else:
@@ -52,8 +73,7 @@ def uploadp2():
         Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
     conn.commit()
-    c.close()
-    conn.close()
+
 
 
 
@@ -775,7 +795,9 @@ class Highscores:
     def __init__(self):
         self.type = "highscores"
         self.quitbutton = None
-        self.highscore = download_scores()
+        self.highscore = read_data()
+        self.highscore1 = read_data1()
+        self.highscore2 = read_data2()
         self.font = pygame.font.Font(None, 100)
     def buttons(self):
         #quitbutton
@@ -786,8 +808,11 @@ class Highscores:
         self.buttons()
         screen.blit(highscore_header, (50,50))
         self.score_text = self.font.render((str(self.highscore)), 1, (255, 255, 255))
+        self.score_text1 = self.font.render((str(self.highscore1)), 1, (255, 255, 255))
+        self.score_text2 = self.font.render((str(self.highscore2)), 1, (255, 255, 255))
         screen.blit(self.score_text, (400, 300))
-
+        screen.blit(self.score_text1, (400, 400))
+        screen.blit(self.score_text2, (400, 500))
         pygame.display.flip()
 class Options:
     def __init__(self):
