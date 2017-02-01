@@ -4,38 +4,110 @@ pygame.init()
 import pygame.gfxdraw
 import psycopg2
 import os
+import sqlite3
+from tkinter import *
+import tkinter.simpledialog
+import tkinter.messagebox
+
 os.environ['SDL_VIDEO_CENTERED'] = "1"
-
 #database
-def interact_with_database(command):
-    # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=DionKlein98")
-    cursor = connection.cursor()
+conn = sqlite3.connect('BP.db')
+c = conn.cursor()
+
+
+
+def create_table():
+    c.execute('CREATE TABLE IF NOT EXISTS BP(Name TEXT, Wins REAL, Losses REAL, Ratio REAL)')
+
+def dynamic_data_entry():
+    Name = input("Insert username ")
+    Wins = 44
+    Losses = 3
+    Ratio = round(Wins/Losses)
+    c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
+    conn.commit()
+    c.close()
+    conn.close()
+def read_data():
+    c.execute('SELECT * FROM BP order by Ratio DESC')
+    for row in c.fetchall():
+        print(row)
+def uploadp1():
+    Name = name1=tkinter.simpledialog.askstring("Player 1", "Set a username")
+    Wins = 0
+    Losses = 0
+    if Losses == 0:
+        Ratio = 0
+    else:
+        Ratio = round(Wins/Losses)
+    c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
+    conn.commit()
+def uploadp2():
+    Name = name2=tkinter.simpledialog.askstring("Player 2", "Set a username")
+    Wins = 0
+    Losses = 0
+    if Losses == 0:
+        Ratio = 0
+    else:
+        Ratio = round(Wins/Losses)
+    c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
+    conn.commit()
+    c.close()
+    conn.close()
+
+
+
+def Create_players():
+    root = Tk()
+    root.geometry("200x200+500+500")
+    root.wm_title("Battleport")
+    root.attributes("-toolwindow", 1)
+    uploadp1()
+    uploadp2()
+    root.destroy()
+
+
+
+
+
+
+
+
+
+
+
+
+
+##database
+#def interact_with_database(command):
+#    # Connect and set up cursor
+#    connection = psycopg2.connect("dbname=battleport user=postgres password=DionKlein98")
+#    cursor = connection.cursor()
     
-    # Execute the command
-    cursor.execute(command)
-    connection.commit()
+#    # Execute the command
+#    cursor.execute(command)
+#    connection.commit()
 
-    # Save results
-    results = None
-    try:
-        results = cursor.fetchall()
-    except psycopg2.ProgrammingError:
-        # Nothing to fetch
-        pass
+#    # Save results
+#    results = None
+#    try:
+#        results = cursor.fetchall()
+#    except psycopg2.ProgrammingError:
+#        # Nothing to fetch
+#        pass
 
-    # Close connection
-    cursor.close()
-    connection.close()
+#    # Close connection
+#    cursor.close()
+#    connection.close()
     
-    return results
+#    return results
 
-def upload_score(name, wins,losses,ratio):
-    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
-.format(wins,losses,ratio, name))
+#def upload_score(name, wins,losses,ratio):
+#    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+#.format(wins,losses,ratio, name))
 
-def download_scores():
-    return interact_with_database("SELECT * FROM highscore")
+#def download_scores():
+#    return interact_with_database("SELECT * FROM highscore")
 
 
 #sounds
@@ -775,7 +847,7 @@ class Menu:
         self.loadbutton = None
     def buttons(self):
         # startbutton
-        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
+        self.startbutton = button("New Game", 950, 150, 300, 70, grey, white, "start")
         # loadbutton
         self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
         # highscoresbutton
@@ -3400,6 +3472,7 @@ while not(process_events()):
     if running.type == "menu":
         if running.startbutton == "start":
             pygame.mixer.Sound.play(click)
+            Create_players()
             ingamemusic.play(-1)
             mainmenu_music.stop()
             running = Battleport("rood")
