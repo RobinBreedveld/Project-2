@@ -3419,7 +3419,7 @@ while not(process_events()):
         if running.quitbutton == "quit":
             pygame.mixer_music.stop()
             ingamemusic.stop()
-            #mainmenu_music.play(-1)
+            mainmenu_music.play(-1)
             pygame.mixer.Sound.play(click)    
             running = Menu()
         elif running.helpbutton == "help":
