@@ -3,6 +3,8 @@ from pygame.locals import*
 pygame.init()
 import pygame.gfxdraw
 import psycopg2
+import os
+os.environ['SDL_VIDEO_CENTERED'] = "1"
 
 #database
 def interact_with_database(command):
