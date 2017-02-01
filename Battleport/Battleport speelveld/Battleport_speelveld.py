@@ -795,10 +795,29 @@ class Highscores:
     def __init__(self):
         self.type = "highscores"
         self.quitbutton = None
-        self.highscore = read_data()
-        self.highscore1 = read_data1()
-        self.highscore2 = read_data2()
-        self.font = pygame.font.Font(None, 100)
+
+        self.displayname = "Name"
+        self.displaywin = "Wins"
+        self.displayloss = "Losses"
+        self.displayratio = "Ratio"
+
+        self.highscoreName1 = read_data()[0]
+        self.highscoreWin1 = read_data()[1]
+        self.highscoreLoss1 = read_data()[2]
+        self.highscoreRatio1= read_data()[3]
+
+        self.highscoreName2 = read_data1()[0]
+        self.highscoreWin2 = read_data1()[1]
+        self.highscoreLoss2 = read_data1()[2]
+        self.highscoreRatio2 = read_data1()[3]
+
+        
+        self.highscoreName3 = read_data2()[0]
+        self.highscoreWin3 = read_data2()[1]
+        self.highscoreLoss3 = read_data2()[2]
+        self.highscoreRatio3 = read_data2()[3]
+
+        self.font = pygame.font.Font(None, 80)
     def buttons(self):
         #quitbutton
         self.quitbutton = button("Back to main menu", 50, 650, 400, 50, grey, white, "quit")
@@ -806,13 +825,50 @@ class Highscores:
         screen.fill((background_blue))
         screen.blit(highscores_background, (0,0))
         self.buttons()
+
         screen.blit(highscore_header, (50,50))
-        self.score_text = self.font.render((str(self.highscore)), 1, (255, 255, 255))
-        self.score_text1 = self.font.render((str(self.highscore1)), 1, (255, 255, 255))
-        self.score_text2 = self.font.render((str(self.highscore2)), 1, (255, 255, 255))
-        screen.blit(self.score_text, (400, 300))
-        screen.blit(self.score_text1, (400, 400))
-        screen.blit(self.score_text2, (400, 500))
+        self.score_text = self.font.render((str(self.highscoreName1)), 1, (255, 255, 255))
+        screen.blit(self.score_text, (50, 300))
+        self.score_text = self.font.render((str(self.highscoreWin1)), 1, (255, 255, 255))
+        screen.blit(self.score_text, (500, 300))
+        self.score_text = self.font.render((str(self.highscoreLoss1)), 1, (255, 255, 255))
+        screen.blit(self.score_text, (700, 300))
+        self.score_text = self.font.render((str(self.highscoreRatio1)), 1, (255, 255, 255))
+        screen.blit(self.score_text, (950, 300))
+
+        self.score_text1 = self.font.render((str(self.highscoreName2)), 1, (255, 255, 255))
+        screen.blit(self.score_text1, (50, 400))
+        self.score_text1 = self.font.render((str(self.highscoreWin2)), 1, (255, 255, 255))
+        screen.blit(self.score_text1, (500, 400))
+        self.score_text1 = self.font.render((str(self.highscoreLoss2)), 1, (255, 255, 255))
+        screen.blit(self.score_text1, (700, 400))
+        self.score_text1 = self.font.render((str(self.highscoreRatio2)), 1, (255, 255, 255))
+        screen.blit(self.score_text1, (950, 400))
+
+
+        self.score_text2 = self.font.render((str(self.highscoreName3)), 1, (255, 255, 255))
+        screen.blit(self.score_text2, (50, 500))
+        self.score_text2 = self.font.render((str(self.highscoreWin3)), 1, (255, 255, 255))
+        screen.blit(self.score_text2, (500, 500))
+        self.score_text2 = self.font.render((str(self.highscoreLoss3)), 1, (255, 255, 255))
+        screen.blit(self.score_text2, (700, 500))
+        self.score_text2 = self.font.render((str(self.highscoreRatio3)), 1, (255, 255, 255))
+        screen.blit(self.score_text2, (950, 500))
+
+        self.score_text3 = self.font.render((str(self.displayname)), 1, (255, 255, 255))
+        screen.blit(self.score_text3, (50, 200))
+
+        self.score_text4 = self.font.render((str(self.displaywin)), 1, (255, 255, 255))
+        screen.blit(self.score_text4, (500, 200))
+
+        self.score_text5 = self.font.render((str(self.displayloss)), 1, (255, 255, 255))
+        screen.blit(self.score_text5, (700, 200))
+
+        self.score_text6 = self.font.render((str(self.displayratio)), 1, (255, 255, 255))
+        screen.blit(self.score_text6, (950, 200))
+
+
+
         pygame.display.flip()
 class Options:
     def __init__(self):
