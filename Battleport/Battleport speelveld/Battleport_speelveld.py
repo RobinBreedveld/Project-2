@@ -67,28 +67,11 @@ def Create_players():
     uploadp1()
     uploadp2()
     root.destroy()
-def interact_with_database(command):
-    # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
-    cursor = connection.cursor()
+#def interact_with_database(command):
+#    # Connect and set up cursor
+#    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+#    cursor = connection.cursor()
     
-    # Execute the command
-    cursor.execute(command)
-    connection.commit()
-
-    # Save results
-    results = None
-    try:
-        results = cursor.fetchall()
-    except psycopg2.ProgrammingError:
-        # Nothing to fetch
-        pass
-
-    # Close connection
-    cursor.close()
-    connection.close()
-    
-    return results
 #    # Execute the command
 #    cursor.execute(command)
 #    connection.commit()
@@ -104,13 +87,30 @@ def interact_with_database(command):
 #    # Close connection
 #    cursor.close()
 #    connection.close()
-create_table()
-def upload_score(name, wins,losses,ratio):
-    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
-.format(wins,losses,ratio, name))
+    
+#    return results
+##    # Execute the command
+##    cursor.execute(command)
+##    connection.commit()
 
-def download_scores():
-    return interact_with_database("SELECT * FROM highscore")
+##    # Save results
+##    results = None
+##    try:
+##        results = cursor.fetchall()
+##    except psycopg2.ProgrammingError:
+##        # Nothing to fetch
+##        pass
+
+##    # Close connection
+##    cursor.close()
+##    connection.close()
+#create_table()
+#def upload_score(name, wins,losses,ratio):
+#    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+#.format(wins,losses,ratio, name))
+
+#def download_scores():
+#    return interact_with_database("SELECT * FROM highscore")
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
@@ -885,34 +885,7 @@ class Options:
         screen.blit(options_header, (50,50))
         pygame.display.flip()
     
-    def __init__(self):
-        self.type = "menu"
-        self.startbutton = None
-        self.exitbutton = None
-        self.optionsbutton = None
-        self.highscoresbutton = None
-        self.helpbutton = None
-        self.loadbutton = None
-    def buttons(self):
-        # startbutton
-        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
-        # loadbutton
-        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
-        # highscoresbutton
-        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
-        # optionsbutton
-        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
-        # helpbutton
-        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
-        # exitbutton
-        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
-    def draw(self):
-        screen.fill((background_blue))
-        screen.blit(menu_background, (0,0))
-        screen.blit(logo1,((w * 0.33),(h * 0.2)))
-        self.buttons()
-        screen.blit(menu_header, (50,50))
-        pygame.display.flip()
+   
 class mOptions2:
     def __init__(self):
         self.type = "moptions2"
@@ -4034,7 +4007,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            upload_score("Ogie",2,0,1)
+            #upload_score("Ogie",2,0,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
@@ -4317,7 +4290,7 @@ while not(process_events()):
             running = Help2x1()
         elif running.cardbutton == "cards1":
             pygame.mixer.Sound.play(click)
-            running = Cards1()
+            running = Cards1g()
     elif running.type == "cards1":
         if running.returnbutton == "return":
             pygame.mixer.Sound.play(click)
