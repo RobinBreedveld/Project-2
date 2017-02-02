@@ -67,11 +67,28 @@ def Create_players():
     uploadp1()
     uploadp2()
     root.destroy()
-#def interact_with_database(command):
-#    # Connect and set up cursor
-#    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
-#    cursor = connection.cursor()
+def interact_with_database(command):
+    # Connect and set up cursor
+    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    cursor = connection.cursor()
     
+    # Execute the command
+    cursor.execute(command)
+    connection.commit()
+
+    # Save results
+    results = None
+    try:
+        results = cursor.fetchall()
+    except psycopg2.ProgrammingError:
+        # Nothing to fetch
+        pass
+
+    # Close connection
+    cursor.close()
+    connection.close()
+    
+    return results
 #    # Execute the command
 #    cursor.execute(command)
 #    connection.commit()
@@ -87,30 +104,13 @@ def Create_players():
 #    # Close connection
 #    cursor.close()
 #    connection.close()
-    
-#    return results
-##    # Execute the command
-##    cursor.execute(command)
-##    connection.commit()
+create_table()
+def upload_score(name, wins,losses,ratio):
+    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+.format(wins,losses,ratio, name))
 
-##    # Save results
-##    results = None
-##    try:
-##        results = cursor.fetchall()
-##    except psycopg2.ProgrammingError:
-##        # Nothing to fetch
-##        pass
-
-##    # Close connection
-##    cursor.close()
-##    connection.close()
-#create_table()
-#def upload_score(name, wins,losses,ratio):
-#    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
-#.format(wins,losses,ratio, name))
-
-#def download_scores():
-#    return interact_with_database("SELECT * FROM highscore")
+def download_scores():
+    return interact_with_database("SELECT * FROM highscore")
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
@@ -885,7 +885,34 @@ class Options:
         screen.blit(options_header, (50,50))
         pygame.display.flip()
     
-    
+    def __init__(self):
+        self.type = "menu"
+        self.startbutton = None
+        self.exitbutton = None
+        self.optionsbutton = None
+        self.highscoresbutton = None
+        self.helpbutton = None
+        self.loadbutton = None
+    def buttons(self):
+        # startbutton
+        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
+        # loadbutton
+        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
+        # highscoresbutton
+        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
+        # optionsbutton
+        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
+        # helpbutton
+        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
+        # exitbutton
+        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(menu_background, (0,0))
+        screen.blit(logo1,((w * 0.33),(h * 0.2)))
+        self.buttons()
+        screen.blit(menu_header, (50,50))
+        pygame.display.flip()
 class mOptions2:
     def __init__(self):
         self.type = "moptions2"
@@ -1486,7 +1513,6 @@ class Ship:
             self.pos138.Update()
             self.pos139.Update()
             self.pos140.Update()
-
     def drawrange(self):
         if self.Stance == "attack":
             if self.Length > 3:
@@ -1596,7 +1622,7 @@ class Ship:
                     screen.blit(range_indicator, (self.pos39.Px, self.pos39.Py))
 
                 
-            if self.Length > 1:
+            if self.Range > 1:
                 if self.Length > 3:
                     #pos15
                     if collision(self.pos15):
@@ -1641,65 +1667,65 @@ class Ship:
                         screen.blit(range_indicator, (self.pos28.Px, self.pos28.Py))
 
                 #pos3
-                    if collision(self.pos3):
-                        self.pos3a = clickable_picture(self.pos3.Px, self.pos3.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos3.Px, self.pos3.Py))
+                if collision(self.pos3):
+                    self.pos3a = clickable_picture(self.pos3.Px, self.pos3.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos3.Px, self.pos3.Py))
                 #pos4
-                    if collision(self.pos4):
-                        self.pos4a = clickable_picture(self.pos4.Px, self.pos4.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos4.Px, self.pos4.Py))
+                if collision(self.pos4):
+                    self.pos4a = clickable_picture(self.pos4.Px, self.pos4.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos4.Px, self.pos4.Py))
                 #pos7
-                    if collision(self.pos7):
-                        self.pos7a = clickable_picture(self.pos7.Px, self.pos7.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos7.Px, self.pos7.Py))
+                if collision(self.pos7):
+                    self.pos7a = clickable_picture(self.pos7.Px, self.pos7.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos7.Px, self.pos7.Py))
                 #pos8
-                    if collision(self.pos8):
-                        self.pos8a = clickable_picture(self.pos8.Px, self.pos8.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos8.Px, self.pos8.Py))
+                if collision(self.pos8):
+                    self.pos8a = clickable_picture(self.pos8.Px, self.pos8.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos8.Px, self.pos8.Py))
                 #pos19
-                    if collision(self.pos19):
-                        self.pos19a = clickable_picture(self.pos19.Px, self.pos19.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos19.Px, self.pos19.Py))
+                if collision(self.pos19):
+                    self.pos19a = clickable_picture(self.pos19.Px, self.pos19.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos19.Px, self.pos19.Py))
                 #pos20
-                    if collision(self.pos20):
-                        self.pos20a = clickable_picture(self.pos20.Px, self.pos20.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos20.Px, self.pos20.Py))  
+                if collision(self.pos20):
+                    self.pos20a = clickable_picture(self.pos20.Px, self.pos20.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos20.Px, self.pos20.Py))  
                 #pos23
-                    if collision(self.pos23):
-                        self.pos23a = clickable_picture(self.pos23.Px, self.pos23.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos23.Px, self.pos23.Py))
-                 #pos24
-                    if collision(self.pos24):
-                        self.pos24a = clickable_picture(self.pos24.Px, self.pos24.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos24.Px, self.pos24.Py))  
+                if collision(self.pos23):
+                    self.pos23a = clickable_picture(self.pos23.Px, self.pos23.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos23.Px, self.pos23.Py))
+                #pos24
+                if collision(self.pos24):
+                    self.pos24a = clickable_picture(self.pos24.Px, self.pos24.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos24.Px, self.pos24.Py))  
                 #pos33
-                    if collision(self.pos33):
-                        self.pos33a = clickable_picture(self.pos33.Px, self.pos33.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos33.Px, self.pos33.Py))
+                if collision(self.pos33):
+                    self.pos33a = clickable_picture(self.pos33.Px, self.pos33.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos33.Px, self.pos33.Py))
                 #pos34
-                    if collision(self.pos34):
-                        self.pos34a = clickable_picture(self.pos34.Px, self.pos34.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos34.Px, self.pos34.Py))
+                if collision(self.pos34):
+                    self.pos34a = clickable_picture(self.pos34.Px, self.pos34.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos34.Px, self.pos34.Py))
                 #pos37
-                    if collision(self.pos37):
-                        self.pos37a = clickable_picture(self.pos37.Px, self.pos37.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos37.Px, self.pos37.Py))       
+                if collision(self.pos37):
+                    self.pos37a = clickable_picture(self.pos37.Px, self.pos37.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos37.Px, self.pos37.Py))       
                 #pos38
-                    if collision(self.pos38):
-                        self.pos38a = clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
-                    else:
-                        screen.blit(range_indicator, (self.pos38.Px, self.pos38.Py))
+                if collision(self.pos38):
+                    self.pos38a = clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
+                else:
+                    screen.blit(range_indicator, (self.pos38.Px, self.pos38.Py))
         elif self.Stance == "attackdefend":
             self.Range = self.Length + 1
             if self.Range > 4:
@@ -3541,7 +3567,7 @@ class Battleport:
                     self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
                     self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
                     self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                    if self.ship1groen.Rotation == 180:
+                    if self.ship1groen.Rotation == 0:
                         self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
@@ -3631,7 +3657,7 @@ class Battleport:
                     self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
                     self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
                     self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                    if self.ship2groen.Rotation == 180:
+                    if self.ship2groen.Rotation == 0:
                         self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
@@ -3727,7 +3753,7 @@ class Battleport:
                     self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
                     self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
                     self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                    if self.ship3groen.Rotation == 180:
+                    if self.ship3groen.Rotation == 0:
                         self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
@@ -3823,7 +3849,7 @@ class Battleport:
                     self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
                     self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
                     self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                    if self.ship4groen.Rotation == 180:
+                    if self.ship4groen.Rotation == 0:
                         self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
@@ -4008,7 +4034,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            #upload_score("Ogie",2,0,1)
+            upload_score("Ogie",2,0,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
