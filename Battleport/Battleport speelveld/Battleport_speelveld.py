@@ -21,8 +21,6 @@ def dynamic_data_entry():
     Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
     conn.commit()
-
-
 def read_data():
     c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 0')
     rows = c.fetchall()
@@ -61,8 +59,6 @@ def uploadp2():
         Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
     conn.commit()
-
-
 def Create_players():
     root = Tk()
     root.geometry("200x200+500+500")
@@ -71,11 +67,28 @@ def Create_players():
     uploadp1()
     uploadp2()
     root.destroy()
-#def interact_with_database(command):
-#    # Connect and set up cursor
-#    ##connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
-#    cursor = connection.cursor()
+def interact_with_database(command):
+    # Connect and set up cursor
+    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+    cursor = connection.cursor()
     
+    # Execute the command
+    cursor.execute(command)
+    connection.commit()
+
+    # Save results
+    results = None
+    try:
+        results = cursor.fetchall()
+    except psycopg2.ProgrammingError:
+        # Nothing to fetch
+        pass
+
+    # Close connection
+    cursor.close()
+    connection.close()
+    
+    return results
 #    # Execute the command
 #    cursor.execute(command)
 #    connection.commit()
@@ -91,30 +104,13 @@ def Create_players():
 #    # Close connection
 #    cursor.close()
 #    connection.close()
-    
-#    return results
-##    # Execute the command
-##    cursor.execute(command)
-##    connection.commit()
+create_table()
+def upload_score(name, wins,losses,ratio):
+    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+.format(wins,losses,ratio, name))
 
-##    # Save results
-##    results = None
-##    try:
-##        results = cursor.fetchall()
-##    except psycopg2.ProgrammingError:
-##        # Nothing to fetch
-##        pass
-
-##    # Close connection
-##    cursor.close()
-##    connection.close()
-#create_table()
-#def upload_score(name, wins,losses,ratio):
-#    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
-#.format(wins,losses,ratio, name))
-
-#def download_scores():
-#    return interact_with_database("SELECT * FROM highscore")
+def download_scores():
+    return interact_with_database("SELECT * FROM highscore")
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
@@ -341,17 +337,17 @@ def collision(pos):
         collision = ship1groencollision or ship2groencollision or ship3groencollision or ship4groencollision
         return collision
     if running.Turn == "groen":
-        if running.ship1rood.Stance == "normal" or running.ship1rood.Stance == "attack":
-            ship1roodcollision = (pos.X == running.ship1rood.Coordinate.X and pos.Y == running.ship1rood.Coordinate.Y) or (pos.X == running.ship1rood.Coordinate.X and pos.Y == (running.ship1rood.Coordinate.Y + 1))
+        #if running.ship1rood.Stance == "normal" or running.ship1rood.Stance == "attack":
+        ship1roodcollision = (pos.X == running.ship1rood.Coordinate.X and pos.Y == running.ship1rood.Coordinate.Y) or (pos.X == running.ship1rood.Coordinate.X and pos.Y == (running.ship1rood.Coordinate.Y + 1))
         #elif running.ship1rood.Stance == "defend":
-        if running.ship2rood.Stance == "normal" or running.ship2rood.Stance == "attack":
-            ship2roodcollision = (pos.X == running.ship2rood.Coordinate.X and pos.Y == running.ship2rood.Coordinate.Y) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 1)) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 2))
+        #if running.ship2rood.Stance == "normal" or running.ship2rood.Stance == "attack":
+        ship2roodcollision = (pos.X == running.ship2rood.Coordinate.X and pos.Y == running.ship2rood.Coordinate.Y) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 1)) or (pos.X == running.ship2rood.Coordinate.X and pos.Y == (running.ship2rood.Coordinate.Y + 2))
         #elif running.ship2rood.Stance == "defend":
-        if running.ship3rood.Stance == "normal" or running.ship3groen.Stance == "attack":
-            ship3roodcollision = (pos.X == running.ship3rood.Coordinate.X and pos.Y == running.ship3rood.Coordinate.Y) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 1)) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 2))
+        #if running.ship3rood.Stance == "normal" or running.ship3groen.Stance == "attack":
+        ship3roodcollision = (pos.X == running.ship3rood.Coordinate.X and pos.Y == running.ship3rood.Coordinate.Y) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 1)) or (pos.X == running.ship3rood.Coordinate.X and pos.Y == (running.ship3rood.Coordinate.Y + 2))
         #elif running.ship3rood.Stance == "defend":
-        if running.ship4rood.Stance == "normal" or running.ship4rood.Stance == "attack":
-            ship4roodcollision = (pos.X == running.ship4rood.Coordinate.X and pos.Y == running.ship4rood.Coordinate.Y) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 1)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 2)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 3))
+        #if running.ship4rood.Stance == "normal" or running.ship4rood.Stance == "attack":
+        ship4roodcollision = (pos.X == running.ship4rood.Coordinate.X and pos.Y == running.ship4rood.Coordinate.Y) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 1)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 2)) or (pos.X == running.ship4rood.Coordinate.X and pos.Y == (running.ship4rood.Coordinate.Y + 3))
         collision = ship1roodcollision or ship2roodcollision or ship3roodcollision or ship4roodcollision
         return collision
 def collisioncheck(pos):
@@ -504,7 +500,6 @@ class Helpx1:
         self.buttons()
         screen.blit(help_header, (50,50))
         pygame.display.flip()
-
 #Helpmenu vanaf game
 class Help2:
     def __init__(self):
@@ -890,6 +885,34 @@ class Options:
         screen.blit(options_header, (50,50))
         pygame.display.flip()
     
+    def __init__(self):
+        self.type = "menu"
+        self.startbutton = None
+        self.exitbutton = None
+        self.optionsbutton = None
+        self.highscoresbutton = None
+        self.helpbutton = None
+        self.loadbutton = None
+    def buttons(self):
+        # startbutton
+        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
+        # loadbutton
+        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
+        # highscoresbutton
+        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
+        # optionsbutton
+        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
+        # helpbutton
+        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
+        # exitbutton
+        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
+    def draw(self):
+        screen.fill((background_blue))
+        screen.blit(menu_background, (0,0))
+        screen.blit(logo1,((w * 0.33),(h * 0.2)))
+        self.buttons()
+        screen.blit(menu_header, (50,50))
+        pygame.display.flip()
 class mOptions2:
     def __init__(self):
         self.type = "moptions2"
@@ -1016,6 +1039,42 @@ class Ship:
         self.pos103 = Coordinate(x, y + 3)
         self.pos104 = Coordinate(x, y + 2)
         self.pos105 = Coordinate(x, y + 1)
+        self.pos106 = Coordinate(x + 1, y + 5)
+        self.pos107 = Coordinate(x + 1, y + 4)
+        self.pos108 = Coordinate(x + 1, y + 3)
+        self.pos109 = Coordinate(x + 1, y + 2)
+        self.pos110 = Coordinate(x + 1, y + 1)
+        self.pos111 = Coordinate(x + 2, y + 5)
+        self.pos112 = Coordinate(x + 2, y + 4)
+        self.pos113 = Coordinate(x + 2, y + 3)
+        self.pos114 = Coordinate(x + 2, y + 2)
+        self.pos115 = Coordinate(x + 2, y + 1)
+        self.pos116 = Coordinate(x + 3, y + 5)
+        self.pos117 = Coordinate(x + 3, y + 4)
+        self.pos118 = Coordinate(x + 3, y + 3)
+        self.pos119 = Coordinate(x + 3, y + 2)
+        self.pos120 = Coordinate(x + 3, y + 1)
+        #bovenkant defend
+        self.pos121 = Coordinate(x, y + 5)
+        self.pos122 = Coordinate(x, y + 4)
+        self.pos123 = Coordinate(x, y + 3)
+        self.pos124 = Coordinate(x, y + 2)
+        self.pos125 = Coordinate(x, y + 1)
+        self.pos126 = Coordinate(x + 1, y + 5)
+        self.pos127 = Coordinate(x + 1, y + 4)
+        self.pos128 = Coordinate(x + 1, y + 3)
+        self.pos129 = Coordinate(x + 1, y + 2)
+        self.pos130 = Coordinate(x + 1, y + 1)
+        self.pos131 = Coordinate(x + 2, y + 5)
+        self.pos132 = Coordinate(x + 2, y + 4)
+        self.pos133 = Coordinate(x + 2, y + 3)
+        self.pos134 = Coordinate(x + 2, y + 2)
+        self.pos135 = Coordinate(x + 2, y + 1)
+        self.pos136 = Coordinate(x + 3, y + 5)
+        self.pos137 = Coordinate(x + 3, y + 4)
+        self.pos138 = Coordinate(x + 3, y + 3)
+        self.pos139 = Coordinate(x + 3, y + 2)
+        self.pos140 = Coordinate(x + 3, y + 1)
 
         self.pos1a_pressed = False
         self.pos2a_pressed = False
@@ -1098,8 +1157,7 @@ class Ship:
         self.pos38a = False
         self.pos39a = False
         self.pos40a = False
-
-        #pos 101 - 140 = defend
+        
         self.pos101a = False
         self.pos102a = False
         self.pos103a = False
@@ -1181,7 +1239,6 @@ class Ship:
         self.pos138a_pressed = False
         self.pos139a_pressed = False
         self.pos140a_pressed = False
-
     def clickpicture(self):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -1204,7 +1261,7 @@ class Ship:
     def prepare_attack(self):
         if self.Stance == "attack":
             self.Range = self.Length
-            #linkerkant
+            #linkerkant attack
             self.pos1.X = self.Coordinate.X - 4
             self.pos1.Y = self.Coordinate.Y
             self.pos2.X = self.Coordinate.X - 3
@@ -1237,7 +1294,7 @@ class Ship:
             self.pos15.Y = self.Coordinate.Y + 3
             self.pos16.X = self.Coordinate.X - 1
             self.pos16.Y = self.Coordinate.Y + 3
-            #rechterkant
+            #rechterkant attack
             self.pos17.X = self.Coordinate.X + 4
             self.pos17.Y = self.Coordinate.Y
             self.pos18.X = self.Coordinate.X + 3
@@ -1270,7 +1327,7 @@ class Ship:
             self.pos31.Y = self.Coordinate.Y + 3
             self.pos32.X = self.Coordinate.X + 1
             self.pos32.Y = self.Coordinate.Y + 3
-            #onderkant
+            #onderkant attack
             self.pos33.X = self.Coordinate.X
             self.pos33.Y = self.Coordinate.Y + self.Length
             self.pos34.X = self.Coordinate.X
@@ -1279,7 +1336,7 @@ class Ship:
             self.pos35.Y = self.Coordinate.Y + self.Length + 2
             self.pos36.X = self.Coordinate.X
             self.pos36.Y = self.Coordinate.Y + self.Length + 3
-            #bovenkant
+            #bovenkant attack
             self.pos37.X = self.Coordinate.X
             self.pos37.Y = self.Coordinate.Y - 1
             self.pos38.X = self.Coordinate.X
@@ -1288,7 +1345,89 @@ class Ship:
             self.pos39.Y = self.Coordinate.Y - 3
             self.pos40.X = self.Coordinate.X
             self.pos40.Y = self.Coordinate.Y - 4
-            #linkerkant
+            #onderkant defend
+            self.pos101.X = self.Coordinate.X - self.Length
+            self.pos101.Y = self.Coordinate.Y - 5
+            self.pos102.X = self.Coordinate.X - self.Length
+            self.pos102.Y = self.Coordinate.Y - 4
+            self.pos103.X = self.Coordinate.X - self.Length
+            self.pos103.Y = self.Coordinate.Y - 3
+            self.pos104.X = self.Coordinate.X - self.Length
+            self.pos104.Y = self.Coordinate.Y - 2
+            self.pos105.X = self.Coordinate.X - self.Length
+            self.pos105.Y = self.Coordinate.Y - 1
+            self.pos106.X = self.Coordinate.X + 1 - self.Length
+            self.pos106.Y = self.Coordinate.Y - 5
+            self.pos107.X = self.Coordinate.X + 1 - self.Length
+            self.pos107.Y = self.Coordinate.Y - 4
+            self.pos108.X = self.Coordinate.X + 1 - self.Length
+            self.pos108.Y = self.Coordinate.Y - 3
+            self.pos109.X = self.Coordinate.X + 1 - self.Length
+            self.pos109.Y = self.Coordinate.Y - 2
+            self.pos110.X = self.Coordinate.X + 1 - self.Length
+            self.pos110.Y = self.Coordinate.Y - 1
+            self.pos111.X = self.Coordinate.X + 2 - self.Length
+            self.pos111.Y = self.Coordinate.Y - 5
+            self.pos112.X = self.Coordinate.X + 2 - self.Length
+            self.pos112.Y = self.Coordinate.Y - 4
+            self.pos113.X = self.Coordinate.X + 2 - self.Length
+            self.pos113.Y = self.Coordinate.Y - 3
+            self.pos114.X = self.Coordinate.X + 2 - self.Length
+            self.pos114.Y = self.Coordinate.Y - 2
+            self.pos115.X = self.Coordinate.X + 2 - self.Length
+            self.pos115.Y = self.Coordinate.Y - 1
+            self.pos116.X = self.Coordinate.X + 3 - self.Length
+            self.pos116.Y = self.Coordinate.Y - 5
+            self.pos117.X = self.Coordinate.X + 3 - self.Length
+            self.pos117.Y = self.Coordinate.Y - 4
+            self.pos118.X = self.Coordinate.X + 3 - self.Length
+            self.pos118.Y = self.Coordinate.Y - 3
+            self.pos119.X = self.Coordinate.X + 3 - self.Length
+            self.pos119.Y = self.Coordinate.Y - 2
+            self.pos120.X = self.Coordinate.X + 3 - self.Length
+            self.pos120.Y = self.Coordinate.Y - 1
+            #bovenkant defend
+            self.pos121.X = self.Coordinate.X
+            self.pos121.Y = self.Coordinate.Y + 5
+            self.pos122.X = self.Coordinate.X
+            self.pos122.Y = self.Coordinate.Y + 4
+            self.pos123.X = self.Coordinate.X
+            self.pos123.Y = self.Coordinate.Y + 3
+            self.pos124.X = self.Coordinate.X
+            self.pos124.Y = self.Coordinate.Y + 2
+            self.pos125.X = self.Coordinate.X
+            self.pos125.Y = self.Coordinate.Y + 1
+            self.pos126.X = self.Coordinate.X + 1
+            self.pos126.Y = self.Coordinate.Y + 5
+            self.pos127.X = self.Coordinate.X + 1
+            self.pos127.Y = self.Coordinate.Y + 4
+            self.pos128.X = self.Coordinate.X + 1
+            self.pos128.Y = self.Coordinate.Y + 3
+            self.pos129.X = self.Coordinate.X + 1
+            self.pos129.Y = self.Coordinate.Y + 2
+            self.pos130.X = self.Coordinate.X + 1
+            self.pos130.Y = self.Coordinate.Y + 1
+            self.pos131.X = self.Coordinate.X + 2
+            self.pos131.Y = self.Coordinate.Y + 5
+            self.pos132.X = self.Coordinate.X + 2
+            self.pos132.Y = self.Coordinate.Y + 4
+            self.pos133.X = self.Coordinate.X + 2
+            self.pos133.Y = self.Coordinate.Y + 3
+            self.pos134.X = self.Coordinate.X + 2
+            self.pos134.Y = self.Coordinate.Y + 2
+            self.pos135.X = self.Coordinate.X + 2
+            self.pos135.Y = self.Coordinate.Y + 1
+            self.pos136.X = self.Coordinate.X + 3
+            self.pos136.Y = self.Coordinate.Y + 5
+            self.pos137.X = self.Coordinate.X + 3
+            self.pos137.Y = self.Coordinate.Y + 4
+            self.pos138.X = self.Coordinate.X + 3
+            self.pos138.Y = self.Coordinate.Y + 3
+            self.pos139.X = self.Coordinate.X + 3
+            self.pos139.Y = self.Coordinate.Y + 2
+            self.pos140.X = self.Coordinate.X + 3
+            self.pos140.Y = self.Coordinate.Y + 1
+            #linkerkant attack
             self.pos1.Update()
             self.pos2.Update()
             self.pos3.Update()
@@ -1305,7 +1444,7 @@ class Ship:
             self.pos14.Update()
             self.pos15.Update()
             self.pos16.Update()
-            #rechterkant
+            #rechterkant attack
             self.pos17.Update()
             self.pos18.Update()
             self.pos19.Update()
@@ -1322,16 +1461,59 @@ class Ship:
             self.pos30.Update()
             self.pos31.Update()
             self.pos32.Update()
-            #onderkant
+            #onderkant attack
             self.pos33.Update()
             self.pos34.Update()
             self.pos35.Update()
             self.pos36.Update()
-            #bovenkant
+            #bovenkant attack
             self.pos37.Update()
             self.pos38.Update()
             self.pos39.Update()
             self.pos40.Update()
+            #onderkant defend
+            self.pos101.Update()
+            self.pos102.Update()
+            self.pos103.Update()
+            self.pos104.Update()
+            self.pos105.Update()
+            self.pos106.Update()
+            self.pos107.Update()
+            self.pos108.Update()
+            self.pos109.Update()
+            self.pos110.Update()
+            self.pos111.Update()
+            self.pos112.Update()
+            self.pos113.Update()
+            self.pos114.Update()
+            self.pos115.Update()
+            self.pos116.Update()
+            self.pos117.Update()
+            self.pos118.Update()
+            self.pos119.Update()
+            self.pos120.Update()
+            #bovenkant defend
+            self.pos121.Update()
+            self.pos122.Update()
+            self.pos123.Update()
+            self.pos124.Update()
+            self.pos125.Update()
+            self.pos126.Update()
+            self.pos127.Update()
+            self.pos128.Update()
+            self.pos129.Update()
+            self.pos130.Update()
+            self.pos131.Update()
+            self.pos132.Update()
+            self.pos133.Update()
+            self.pos134.Update()
+            self.pos135.Update()
+            self.pos136.Update()
+            self.pos137.Update()
+            self.pos138.Update()
+            self.pos139.Update()
+            self.pos140.Update()
+
     def drawrange(self):
         if self.Stance == "attack":
             if self.Length > 3:
@@ -1545,8 +1727,83 @@ class Ship:
                         self.pos38a = clickable_picture(self.pos38.Px, self.pos38.Py, 32, 32, attack_indicator, attack_indicator, True)
                     else:
                         screen.blit(range_indicator, (self.pos38.Px, self.pos38.Py))
-        elif self.Stance == "defensive":
+        elif self.Stance == "attackdefend":
             self.Range = self.Length + 1
+            if self.Range > 4:
+                #if collision(self.pos101):
+                #self.pos101a = clickable_picture(self.pos101.Px, self.pos101.Py, 32, 32, attack_indicator, attack_indicator, True)
+                #else:
+                screen.blit(range_indicator, (self.pos101.Px, self.pos101.Py))
+                #106
+                screen.blit(range_indicator, (self.pos106.Px, self.pos106.Py))
+                #111
+                screen.blit(range_indicator, (self.pos111.Px, self.pos111.Py))
+                #121
+                screen.blit(range_indicator, (self.pos121.Px, self.pos121.Py))
+                #126
+                screen.blit(range_indicator, (self.pos126.Px, self.pos126.Py))
+                #131
+                screen.blit(range_indicator, (self.pos131.Px, self.pos131.Py))
+                if self.Length > 3:
+                    #116
+                    screen.blit(range_indicator, (self.pos116.Px, self.pos116.Py))
+                    #136
+                    screen.blit(range_indicator, (self.pos136.Px, self.pos136.Py))
+            if self.Range > 3:
+                #102
+                screen.blit(range_indicator, (self.pos102.Px, self.pos102.Py))
+                #107
+                screen.blit(range_indicator, (self.pos107.Px, self.pos107.Py))
+                #122
+                screen.blit(range_indicator, (self.pos122.Px, self.pos122.Py))
+                #127
+                screen.blit(range_indicator, (self.pos127.Px, self.pos127.Py))
+                if self.Length > 3:
+                    #117
+                    screen.blit(range_indicator, (self.pos117.Px, self.pos117.Py))
+                    #137
+                    screen.blit(range_indicator, (self.pos137.Px, self.pos137.Py))
+                if self.Length > 2:
+                    #112
+                    screen.blit(range_indicator, (self.pos112.Px, self.pos112.Py))
+                    #132
+                    screen.blit(range_indicator, (self.pos132.Px, self.pos132.Py))
+            #if self.Range > 2
+                #103
+                #104
+                #105
+                #108
+                #109
+                #110
+                #113
+                #114
+                #115
+                #118
+                #119
+                #120
+                #123
+                #124
+                #125
+                #128
+                #129
+                #130
+                #133
+                #134
+                #135
+                #138
+                #139
+                #140
+                #if self.Length > 3:
+                    #105
+                    #110
+                    #115
+                    #120
+                    #125
+                    #130
+                    #135
+                    #140
+                #if self.Length > 2:
+                    
     def attack(self):
         if self.pos1a:
             self.pos1a_pressed = True
@@ -2885,7 +3142,7 @@ class Battleport:
             self.ship1rood = Ship(2, 1, 0, "rood", 180, "rood1")
             self.ship2rood = Ship(3, 4, 0, "rood", 180, "rood2")
             self.ship3rood = Ship(3, 12, 0, "rood", 180, "rood3")
-            self.ship4rood = Ship(4, 15, 5, "rood", 180, "rood4")
+            self.ship4rood = Ship(4, 15, 0, "rood", 180, "rood4")
             self.ship1groen = Ship(2, 11, 18, "groen", 0, "groen1")
             self.ship2groen = Ship(3, 6, 17, "groen", 0, "groen2")
             self.ship3groen = Ship(3, 2, 17, "groen", 0, "groen3")
@@ -2909,8 +3166,6 @@ class Battleport:
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
         # nextturnbutton
         self.turnbutton = button("Next turn", 1200, 210, 121, 60, grey, white, True, "freesansbold.ttf", 20)
-		# card use button
-		#self.usecardbutton = button("Use", 1200, 210, 121, 60, grey, white, True, "freesansbold.ttf", 20)
     def update(self):
         self.card_o1 = clickable_picture(898, 307, 121, 186, o1, o1_onboard, True, "card")
         self.card_o3 = clickable_picture(1048, 307, 121, 186, o3, o3_onboard, True, "card")
@@ -2976,6 +3231,7 @@ class Battleport:
                     self.rotateleft = True  
                     self.rotate_left_button = False
                 if self.rotate_left_button_pressed:
+                    self.ship1rood.Stance = "defend"
                     self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                     if self.rotateleft:
                         self.ship1rood.rotate(90)
@@ -2989,6 +3245,7 @@ class Battleport:
                             self.ship1rood.Coordinate.Y -= 1
                     if self.rotate_right_button:
                         self.ship1rood.rotate(-90)
+                        self.ship1rood.Stance = "normal"
                         self.rotate_left_button_pressed = False
                         if self.ship1rood.Rotation == 90:
                             self.ship1rood.Coordinate.Y += 1
@@ -3000,11 +3257,11 @@ class Battleport:
                 if self.attack_button:
                     self.attack_button_pressed = True
                     self.attack_button = False
-                elif self.attack_button_pressed:
                     if self.ship1rood.Stance == "defend":
                         self.ship1rood.Stance = "attackdefend"
                     elif self.ship4rood.Stance == "normal":
                         self.ship1rood.Stance = "attack"
+                elif self.attack_button_pressed:
                     self.ship1rood.prepare_attack()
                     self.ship1rood.attack()
                     self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
@@ -3064,6 +3321,7 @@ class Battleport:
                     self.rotateleft = True
                     self.rotate_left_button = False
                 if self.rotate_left_button_pressed:
+                    self.ship2rood.Stance = "defend"
                     self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                     if self.rotateleft:
                         self.ship2rood.rotate(90)
@@ -3077,6 +3335,7 @@ class Battleport:
                             self.ship2rood.Coordinate.Y -= 2
                     if self.rotate_right_button:
                         self.ship2rood.rotate(-90)
+                        self.ship2rood.Stance = "normal"
                         self.rotate_left_button_pressed = False
                         if self.ship2rood.Rotation == 90:
                             self.ship2rood.Coordinate.Y += 2
@@ -3152,6 +3411,7 @@ class Battleport:
                     self.rotateleft = True
                     self.rotate_left_button = False
                 if self.rotate_left_button_pressed:
+                    self.ship3rood.Stance = "defend"
                     self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                     if self.rotateleft:
                         self.ship3rood.rotate(90)
@@ -3165,6 +3425,7 @@ class Battleport:
                             self.ship3rood.Coordinate.Y -= 2
                     if self.rotate_right_button:
                         self.ship3rood.rotate(-90)
+                        self.ship3rood.Stance = "normal"
                         self.rotate_left_button_pressed = False
                         if self.ship3rood.Rotation == 90:
                             self.ship3rood.Coordinate.Y += 2
@@ -3240,6 +3501,7 @@ class Battleport:
                     self.rotateleft = True
                     self.rotate_left_button = False
                 if self.rotate_left_button_pressed:
+                    self.ship4rood.Stance = "defend"
                     self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                     if self.rotateleft:
                         self.ship4rood.rotate(90)
@@ -3253,6 +3515,7 @@ class Battleport:
                             self.ship4rood.Coordinate.Y -= 3
                     if self.rotate_right_button:
                         self.ship4rood.rotate(-90)
+                        self.ship4rood.Stance = "normal"
                         self.rotate_left_button_pressed = False
                         if self.ship4rood.Rotation == 90:
                             self.ship4rood.Coordinate.Y += 3
@@ -3269,6 +3532,7 @@ class Battleport:
                         self.ship4rood.Stance = "attackdefend"
                     elif self.ship4rood.Stance == "normal":
                         self.ship4rood.Stance = "attack"
+                    print(self.ship4rood.Stance)
                     self.ship4rood.prepare_attack()
                     self.ship4rood.attack()
                     self.stop_attack_button = clickable_picture(829, 180, 50, 50, stopattack_buttonActive, stopattack_buttonInactive, True)
@@ -3328,6 +3592,7 @@ class Battleport:
                 self.rotateleft = True
                 self.rotate_left_button = False
             elif self.rotate_left_button_pressed:
+                self.ship1groen.Stance = "defend"
                 self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                 if self.rotateleft:
                     self.ship1groen.rotate(90)
@@ -3341,6 +3606,7 @@ class Battleport:
                         self.ship1groen.Coordinate.Y -= 1
                 if self.rotate_right_button:
                     self.ship1groen.rotate(-90)
+                    self.ship1groen.Stance = "normal"
                     self.rotate_left_button_pressed = False
                     if self.ship1groen.Rotation == 90:
                         self.ship1groen.Coordinate.Y += 1
@@ -3416,6 +3682,7 @@ class Battleport:
                 self.rotateleft = True
                 self.rotate_left_button = False
             elif self.rotate_left_button_pressed:
+                self.ship2groen.Stance = "defend"
                 self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                 if self.rotateleft:
                     self.ship2groen.rotate(90)
@@ -3429,6 +3696,7 @@ class Battleport:
                         self.ship2groen.Coordinate.Y -= 2
                 if self.rotate_right_button:
                     self.ship2groen.rotate(-90)
+                    self.ship2groen.Stance = "normal"
                     self.rotate_left_button_pressed = False
                     if self.ship2groen.Rotation == 90:
                         self.ship2groen.Coordinate.Y += 2
@@ -3510,6 +3778,7 @@ class Battleport:
                 self.rotateleft = True
                 self.rotate_left_button = False
             elif self.rotate_left_button_pressed:
+                self.ship3groen.Stance = "defend"
                 self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                 if self.rotateleft:
                     self.ship3groen.rotate(90)
@@ -3523,6 +3792,7 @@ class Battleport:
                         self.ship3groen.Coordinate.Y -= 2
                 if self.rotate_right_button:
                     self.ship3groen.rotate(-90)
+                    self.ship3groen.Stance = "normal"
                     self.rotate_left_button_pressed = False
                     if self.ship3groen.Rotation == 90:
                         self.ship3groen.Coordinate.Y += 2
@@ -3604,6 +3874,7 @@ class Battleport:
                 self.rotateleft = True
                 self.rotate_left_button = False
             elif self.rotate_left_button_pressed:
+                self.ship4groen.Stance = "defend"
                 self.rotate_right_button = clickable_picture(829, 60, 50, 50, stopdefend_buttonActive, stopdefend_buttonInactive, True)
                 if self.rotateleft:
                     self.ship4groen.rotate(90)
@@ -3617,6 +3888,7 @@ class Battleport:
                         self.ship4groen.Coordinate.Y -= 3
                 if self.rotate_right_button:
                     self.ship4groen.rotate(-90)
+                    self.ship4groen.Stance = "normal"
                     self.rotate_left_button_pressed = False
                     if self.ship4groen.Rotation == 90:
                         self.ship4groen.Coordinate.Y += 3
@@ -3693,13 +3965,13 @@ class Battleport:
             self.ship2groen.draw()
             self.ship3groen.draw()
             self.ship4groen.draw()
-            if self.ship1groen.Stance == "attack":
+            if self.ship1groen.Stance == "attack" or self.ship1groen.Stance == "attackdefend":
                 self.ship1groen.drawrange()
-            if self.ship2groen.Stance == "attack":
+            if self.ship2groen.Stance == "attack" or self.ship2groen.Stance == "attackdefend":
                 self.ship2groen.drawrange()
-            if self.ship3groen.Stance == "attack":
+            if self.ship3groen.Stance == "attack" or self.ship3groen.Stance == "attackdefend":
                 self.ship3groen.drawrange()
-            if self.ship4groen.Stance == "attack":
+            if self.ship4groen.Stance == "attack" or self.ship4groen.Stance == "attackdefend":
                 self.ship4groen.drawrange()
         else:
             self.ship1groen.draw()
@@ -3710,13 +3982,13 @@ class Battleport:
             self.ship2rood.draw()
             self.ship3rood.draw()
             self.ship4rood.draw()
-            if self.ship1rood.Stance == "attack":
+            if self.ship1rood.Stance == "attack" or self.ship1rood.Stance == "attackdefend":
                 self.ship1rood.drawrange()
-            if self.ship2rood.Stance == "attack":
+            if self.ship2rood.Stance == "attack" or self.ship2rood.Stance == "attackdefend":
                 self.ship2rood.drawrange()
-            if self.ship3rood.Stance == "attack":
+            if self.ship3rood.Stance == "attack" or self.ship3rood.Stance == "attackdefend":
                 self.ship3rood.drawrange()
-            if self.ship4rood.Stance == "attack":
+            if self.ship4rood.Stance == "attack" or self.ship4rood.Stance == "attackdefend":
                 self.ship4rood.drawrange()
         pygame.display.flip()
 class Winscreen:
@@ -3751,7 +4023,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            #upload_score("Ogie",2,0,1)
+            upload_score("Ogie",2,0,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
