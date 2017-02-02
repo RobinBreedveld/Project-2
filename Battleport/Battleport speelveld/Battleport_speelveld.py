@@ -3106,8 +3106,16 @@ class Turnscreen:
         self.returnbutton = None
         if turn == "rood":
             self.turn = "groen"
+            ship1groen.move()
+            ship2groen.move()
+            ship3groen.move()
+            ship4groen.move()
         elif turn == "groen":
             self.turn = "rood"
+            ship1rood.move()
+            ship2rood.move()
+            ship3rood.move()
+            ship4rood.move()
     def buttons(self):
         # returnbutton
         self.conbutton = button("Continue", (w/2)-125, 650, 250, 50, grey, white, "continue")            
@@ -3147,6 +3155,10 @@ class Battleport:
             self.ship2groen = Ship(3, 6, 17, "groen", 0, "groen2")
             self.ship3groen = Ship(3, 2, 17, "groen", 0, "groen3")
             self.ship4groen = Ship(4, 18, 16, "groen", 0, "groen4")
+            self.ship1rood.move()
+            self.ship2rood.move()
+            self.ship3rood.move()
+            self.ship4rood.move()
         self.move_up_button_pressed = False
         self.move_down_button_pressed = False
         self.move_left_button_pressed = False
@@ -3182,7 +3194,6 @@ class Battleport:
             self.ship3groen.clickpicture()
             self.ship4groen.clickpicture()
         if self.ship1rood.Active:
-            self.ship1rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship1rood.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3191,12 +3202,13 @@ class Battleport:
                     if self.ship1rood.Stance == "attack":
                         self.ship1rood.Stance = "normal"
             if self.ship1rood.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship1rood.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship1rood.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship1rood.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
                 if self.move_up_button:
                     self.move_up_button_pressed = True
@@ -3272,7 +3284,6 @@ class Battleport:
                         elif self.ship1rood.Stance == "attackdefend":
                             self.ship1rood.Stance = "defend"
         if self.ship2rood.Active:
-            self.ship2rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship2rood.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3281,12 +3292,13 @@ class Battleport:
                 if self.ship2rood.Stance == "attack":
                     self.ship2rood.Stance = "normal"
             if self.ship2rood.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship2rood.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship2rood.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship2rood.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
                 if self.move_up_button:
                     self.move_up_button_pressed = True
@@ -3362,7 +3374,6 @@ class Battleport:
                         elif self.ship2rood.Stance == "attackdefend":
                             self.ship2rood.Stance = "defend"
         if self.ship3rood.Active:
-            self.ship3rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship3rood.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3371,12 +3382,13 @@ class Battleport:
                 if self.ship3rood.Stance == "attack":
                     self.ship3rood.Stance = "normal"
             if self.ship3rood.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)    
-                if self.ship3rood.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship3rood.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)    
+                    if self.ship3rood.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
                 if self.move_up_button:
                     self.move_up_button_pressed = True
@@ -3452,7 +3464,6 @@ class Battleport:
                         elif self.ship3rood.Stance == "attackdefend":
                             self.ship3rood.Stance = "defend"
         if self.ship4rood.Active:
-            self.ship4rood.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship4rood.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3461,12 +3472,13 @@ class Battleport:
                 if self.ship4rood.Stance == "attack":
                     self.ship4rood.Stance = "normal"
             if self.ship4rood.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship4rood.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship4rood.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship4rood.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
                 if self.move_up_button:
                     self.move_up_button_pressed = True
@@ -3543,7 +3555,6 @@ class Battleport:
                         elif self.ship4rood.Stance == "attackdefend":
                             self.ship4rood.Stance = "defend"
         if self.ship1groen.Active:
-            self.ship1groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship1groen.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3552,12 +3563,13 @@ class Battleport:
                 if self.ship1groen.Stance == "attack":
                     self.ship1groen.Stance = "normal"
             if self.ship1groen.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship1groen.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship1groen.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship1groen.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
@@ -3633,7 +3645,6 @@ class Battleport:
                     elif self.ship1groen.Stance == "attackdefend":
                             self.ship1groen.Stance = "defend"
         if self.ship2groen.Active:
-            self.ship2groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship2groen.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3642,12 +3653,13 @@ class Battleport:
                 if self.ship2groen.Stance == "attack":
                     self.ship2groen.Stance = "normal"
             if self.ship2groen.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship2groen.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship2groen.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship2groen.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
@@ -3729,7 +3741,6 @@ class Battleport:
                         elif self.ship2groen.Stance == "attackdefend":
                             self.ship2groen.Stance = "defend"
         if self.ship3groen.Active:
-            self.ship3groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship3groen.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3738,12 +3749,13 @@ class Battleport:
                 if self.ship3groen.Stance == "attack":
                     self.ship3groen.Stance = "normal"
             if self.ship3groen.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship3groen.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship3groen.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship3groen.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
@@ -3825,7 +3837,6 @@ class Battleport:
                     elif self.ship3groen.Stance == "attackdefend":
                             self.ship3groen.Stance = "defend"
         if self.ship4groen.Active:
-            self.ship4groen.move()
             screen.blit(ship_stats,(889, 58))
             text_draw(str(self.ship4groen.HP), 25, 969, 113)
             self.cancel_button = button("X", 769, 120, 50, 50, grey, white, True)
@@ -3834,12 +3845,13 @@ class Battleport:
                 if self.ship4groen.Stance == "attack":
                     self.ship4groen.Stance = "normal"
             if self.ship4groen.HP > 0:
-                self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
-                self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
-                self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
-                self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
-                if self.ship4groen.Rotation == 180:
-                    self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
+                if self.ship4groen.Steps > 0:
+                    self.move_up_button = clickable_picture(769, 60, 50, 50, pijlUpActive, pijlUpInactive, True)
+                    self.move_down_button = clickable_picture(769, 180, 50, 50, pijlDownActive, pijlDownInactive, True)
+                    self.move_left_button = clickable_picture(709, 120, 50, 50, pijlLeftActive, pijlLeftInactive, True)
+                    self.move_right_button = clickable_picture(829, 120, 50, 50, pijlRightActive, pijlRightInactive, True)
+                    if self.ship4groen.Rotation == 180:
+                        self.rotate_left_button = clickable_picture(709, 60, 50, 50, defend_buttonActive, defend_buttonInactive, True)
                 self.attack_button = clickable_picture(709, 180, 50, 50, attack_buttonActive, attack_buttonInactive, True)
             if self.move_up_button:
                 self.move_up_button_pressed = True
