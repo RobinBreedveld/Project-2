@@ -21,8 +21,8 @@ def dynamic_data_entry():
     Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
     conn.commit()
-    c.close()
-    conn.close()
+
+
 def read_data():
     c.execute('SELECT * FROM BP order by Ratio DESC LIMIT 1 OFFSET 0')
     rows = c.fetchall()
@@ -61,8 +61,8 @@ def uploadp2():
         Ratio = round(Wins/Losses)
     c.execute('INSERT INTO BP (Name,Wins,Losses,Ratio) VALUES (?,?,?,?)',(Name,Wins,Losses,Ratio))
     conn.commit()
-    c.close()
-    conn.close()
+
+
 def Create_players():
     root = Tk()
     root.geometry("200x200+500+500")
@@ -886,41 +886,13 @@ class Options:
         screen.fill((background_blue))
         screen.blit(options_background, (0,0))
         self.buttons()
-        self.texts
+        self.texts()
         screen.blit(options_header, (50,50))
         pygame.display.flip()
     
+class mOptions2:
     def __init__(self):
-        self.type = "menu"
-        self.startbutton = None
-        self.exitbutton = None
-        self.optionsbutton = None
-        self.highscoresbutton = None
-        self.helpbutton = None
-        self.loadbutton = None
-    def buttons(self):
-        # startbutton
-        self.startbutton = button("Start Game", 950, 150, 300, 70, grey, white, "start")
-        # loadbutton
-        self.loadbutton = button("Load Game", 950, 250, 300, 70, grey, white, "load")
-        # highscoresbutton
-        self.highscoresbutton = button("Highscores", 950, 350, 300, 70, grey, white, "highscores")
-        # optionsbutton
-        self.optionsbutton = button("Options", 950, 450, 300, 70, grey, white, "options")
-        # helpbutton
-        self.helpbutton = button("Help", 950, 550, 300, 70, grey, white, "help")
-        # exitbutton
-        self.exitbutton = button("Exit Game", 950, 650, 300, 70, grey, white, "exit")
-    def draw(self):
-        screen.fill((background_blue))
-        screen.blit(menu_background, (0,0))
-        screen.blit(logo1,((w * 0.33),(h * 0.2)))
-        self.buttons()
-        screen.blit(menu_header, (50,50))
-        pygame.display.flip()
-class Options2:
-    def __init__(self):
-        self.type = "options2"
+        self.type = "moptions2"
         self.quitbutton = None
     def buttons(self):
         # quitbutton
@@ -2932,7 +2904,7 @@ class Battleport:
         # helpbutton ingame
         self.helpbutton = button("?", 1100, 26, 80, 80, grey, white, "help")
         # settingsbutton
-        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, True)
+        self.settings_button = clickable_picture(1190, 26, 80, 80, settings_buttonInactive, settings_buttonActive, "moptions2")
         # quitbutton
         self.quitbutton = button("X", 1280, 26, 80, 80, grey, white, "quit")
         # nextturnbutton
@@ -3821,7 +3793,7 @@ while not(process_events()):
             ship4groen = running.ship4groen
             turn = running.Turn     
             running = Turnscreen(turn)
-        elif running.settings_button == "options2":
+        elif running.settings_button == "moptions2":
             pygame.mixer.Sound.play(click)   
             ship1rood = running.ship1rood
             ship2rood = running.ship2rood
@@ -3832,7 +3804,7 @@ while not(process_events()):
             ship3groen = running.ship3groen
             ship4groen = running.ship4groen
             turn = running.Turn
-            running = Options2()
+            running = mOptions2()
     elif running.type == "winscreen":
         if running.returnbutton:
             running = Menu()
@@ -3847,7 +3819,7 @@ while not(process_events()):
             pygame.mixer.music.stop()
             mainmenu_music.play(-1)
             running = Menu()
-    elif running.type == "options2":
+    elif running.type == "moptions2":
         if running.quitbutton == "quit":
             pygame.mixer.Sound.play(click)
             pygame.mixer.music.stop()
