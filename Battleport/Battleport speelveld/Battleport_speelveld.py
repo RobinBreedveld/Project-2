@@ -71,28 +71,11 @@ def Create_players():
     uploadp1()
     uploadp2()
     root.destroy()
-def interact_with_database(command):
-    # Connect and set up cursor
-    connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
-    cursor = connection.cursor()
+#def interact_with_database(command):
+#    # Connect and set up cursor
+#    ##connection = psycopg2.connect("dbname=battleport user=postgres password=Iceage3!")
+#    cursor = connection.cursor()
     
-    # Execute the command
-    cursor.execute(command)
-    connection.commit()
-
-    # Save results
-    results = None
-    try:
-        results = cursor.fetchall()
-    except psycopg2.ProgrammingError:
-        # Nothing to fetch
-        pass
-
-    # Close connection
-    cursor.close()
-    connection.close()
-    
-    return results
 #    # Execute the command
 #    cursor.execute(command)
 #    connection.commit()
@@ -108,13 +91,30 @@ def interact_with_database(command):
 #    # Close connection
 #    cursor.close()
 #    connection.close()
-create_table()
-def upload_score(name, wins,losses,ratio):
-    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
-.format(wins,losses,ratio, name))
+    
+#    return results
+##    # Execute the command
+##    cursor.execute(command)
+##    connection.commit()
 
-def download_scores():
-    return interact_with_database("SELECT * FROM highscore")
+##    # Save results
+##    results = None
+##    try:
+##        results = cursor.fetchall()
+##    except psycopg2.ProgrammingError:
+##        # Nothing to fetch
+##        pass
+
+##    # Close connection
+##    cursor.close()
+##    connection.close()
+#create_table()
+#def upload_score(name, wins,losses,ratio):
+#    interact_with_database("UPDATE highscore SET wins = {}, losses = {}, ratio = {} WHERE name = '{}'"
+#.format(wins,losses,ratio, name))
+
+#def download_scores():
+#    return interact_with_database("SELECT * FROM highscore")
 
 #sounds
 click = pygame.mixer.Sound("click.ogg")
@@ -3695,7 +3695,7 @@ while not(process_events()):
             pygame.quit()
             quit()
         elif running.loadbutton == "load":
-            upload_score("Ogie",2,0,1)
+            #upload_score("Ogie",2,0,1)
             save_load.play()
         elif running.optionsbutton == "options":
             pygame.mixer.Sound.play(click)
